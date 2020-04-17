@@ -31,6 +31,7 @@ if test "x$ZF_force" = "x1" ; then
     rm -f "~/.vimrc" >/dev/null 2>&1
     rm -f "~/_vimrc" >/dev/null 2>&1
     rm -f "~/.vim" >/dev/null 2>&1
+    rm -f "~/.vim_cache" >/dev/null 2>&1
     rm -f "~/.config/nvim/init.vim" >/dev/null 2>&1
 fi
 
