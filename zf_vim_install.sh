@@ -109,10 +109,14 @@ fi
 git config --global core.autocrlf false
 
 echo "updating zf_vimrc..."
-_tmpdir="_zf_vimrc_tmp_"
-git clone --depth=1 https://github.com/ZSaberLv0/zf_vimrc.vim.git "$_tmpdir"
-cp "$_tmpdir/zf_vimrc.vim" "zf_vimrc.vim"
-rm -rf "$_tmpdir" >/dev/null 2>&1
+if test -e "~/.zf_vimrc.vim/zf_vimrc.vim" ; then
+    cp "~/.zf_vimrc.vim/zf_vimrc.vim" "zf_vimrc.vim"
+else
+    _tmpdir="_zf_vimrc_tmp_"
+    git clone --depth=1 https://github.com/ZSaberLv0/zf_vimrc.vim.git "$_tmpdir"
+    cp "$_tmpdir/zf_vimrc.vim" "zf_vimrc.vim"
+    rm -rf "$_tmpdir" >/dev/null 2>&1
+fi
 
 cd "$_old_dir"
 
