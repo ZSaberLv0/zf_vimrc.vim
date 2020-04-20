@@ -138,14 +138,14 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         let moreSaved = &more
         set nomore
         let tmpfile = g:zf_vim_cache_path . '/ZFModuleInstall.log'
-        enew
-        execute 'edit ' . tmpfile
+        silent! call delete(tmpfile)
 
         execute 'redir > ' . tmpfile
         call s:ZF_ModuleInstallAction()
         redir END
 
-        edit
+        enew
+        execute 'edit ' . tmpfile
         let &more = moreSaved
         let @/ = '.*\(zfvimrc!\|error\|fail\|unable\|exception\|not found\|ambiguous\).*'
         call feedkeys('ggn', 't')
