@@ -198,7 +198,13 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         return ''
     endfunction
     function! ZF_ModuleGetGithubRelease(userName, repoName)
-        let list = system('curl -s https://api.github.com/repos/' . a:userName . '/' . a:repoName . '/releases/latest | grep "browser_"')
+        if executable('curl')
+            let list = system('curl -s https://api.github.com/repos/' . a:userName . '/' . a:repoName . '/releases/latest | grep "browser_"')
+        elseif executable('wget')
+            let list = system('wget -qO- https://api.github.com/repos/' . a:userName . '/' . a:repoName . '/releases/latest | grep "browser_"')
+        else
+            return []
+        endif
         if match(list, 'browser_') < 0
             return []
         endif
