@@ -158,14 +158,14 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         if executable('apt-get')
             return 'apt-get install %s'
         endif
-        if executable('apt')
-            return 'apt install %s'
-        endif
         if executable('yum')
             return 'yum install -y %s'
         endif
         if executable('brew')
             return 'brew install %s'
+        endif
+        if executable('apt')
+            return 'apt install %s'
         endif
         if executable('sh') " Cygwin or other special
             let apt = system('sh -c "apt-get --version"')
