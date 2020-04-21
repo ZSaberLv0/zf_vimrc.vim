@@ -223,6 +223,25 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         let cmd = printf(a:cmd, a:module)
         call ZF_ModuleExecShell(cmd)
     endfunction
+    function! ZF_ModuleDownloadFile(to, url)
+        let tmp = tempname()
+        let to = substitute(a:to, '\\', '/', 'g')
+        if executable('curl')
+            let ret = system('curl -o "' . tmp . '" -L "' . a:url . '"')
+            if v:shell_error != 0
+                return ret
+            endif
+        elseif executable('wget')
+            let ret = system('wget -P "' . tmp . '" "' . a:url . '"')
+            if v:shell_error != 0
+                return ret
+            endif
+        else
+            return 'no curl or wget available'
+        endif
+        call writefile(readfile(tmp, 'b'), to, 'b')
+        return ''
+    endfunction
 
     for f in sort(split(globpath(g:zf_vim_data_path . '/ZFVimModule', '*.vim'), "\n"))
         execute 'source ' . fnameescape(f)
