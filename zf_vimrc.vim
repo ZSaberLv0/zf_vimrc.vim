@@ -1122,11 +1122,16 @@ if !g:zf_no_plugin
             endfunction
             function! ZF_Plugin_agit_diffMap(localMode)
                 let tabCount = tabpagenr('$')
+
+                let wildignore = &wildignore
+                set wildignore=
                 if a:localMode
                     execute "normal \<Plug>(agit-diff-with-local)"
                 else
                     execute "normal \<Plug>(agit-diff)"
                 endif
+                let &wildignore = wildignore
+
                 if tabpagenr('$') <= tabCount
                     return
                 endif
