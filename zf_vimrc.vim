@@ -1245,6 +1245,7 @@ if !g:zf_no_plugin
             ZFPlug 'ap/vim-buftabline'
             let g:buftabline_numbers = 1
             let g:buftabline_indicators = 1
+            let g:buftabline_plug_max = 0
             function! ZF_Plugin_buftabline_colorscheme()
                 if get(g:, 'ZF_colorscheme_override', 1) && get(g:, 'ZF_colorscheme_override_buftabline', 1)
                     highlight BufTabLineCurrent gui=bold guibg=LightGreen guifg=Black
