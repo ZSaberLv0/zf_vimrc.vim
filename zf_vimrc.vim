@@ -1380,7 +1380,7 @@ if !g:zf_no_plugin
             function! ZF_Plugin_easygrep_pcregrep(expr)
                 try
                     if match(system('pcregrep --version'), '[0-9]\+\.[0-9]\+') < 0
-                        echo 'pcregrep not installed'
+                        redraw | echo 'pcregrep not installed'
                         return
                     endif
                 endtry
@@ -1394,7 +1394,14 @@ if !g:zf_no_plugin
                 endif
 
                 let excludeFile = tempname()
-                call writefile(split(g:EasyGrepFilesToExclude, ','), excludeFile)
+                let excludeList = []
+                for item in split(g:EasyGrepFilesToExclude, ',')
+                    let item = ZFIgnorePatternToRegexp(item)
+                    if !empty(item)
+                        call add(excludeList, item)
+                    endif
+                endfor
+                call writefile(excludeList, excludeFile)
                 let cmd .= ' --exclude-from="' . excludeFile . '"'
 
                 let cmd .= ' "' . expr . '" *'
@@ -1420,7 +1427,7 @@ if !g:zf_no_plugin
                     execute ':silent! M/' . a:expr
                     copen
                 else
-                    echo 'no matches for: ' . a:expr
+                    redraw | echo 'no matches for: ' . a:expr
                 endif
             endfunction
             command! -nargs=+ ZFGrepExt :call ZF_Plugin_easygrep_pcregrep(<q-args>)
