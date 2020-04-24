@@ -1373,6 +1373,10 @@ if !g:zf_no_plugin
             nnoremap <leader>vgr :ZFReplace //<left>
             nmap <leader>vgo <plug>EgMapGrepOptions
 
+            function! ZF_Plugin_easygrep_pcregrep_install()
+                call ZF_ModuleExec(ZF_ModuleGetApt(), 'pcregrep')
+            endfunction
+            call ZF_ModuleInstaller('ZF_Plugin_easygrep_pcregrep', 'call ZF_Plugin_easygrep_pcregrep_install()')
             function! ZF_Plugin_easygrep_pcregrep(expr)
                 try
                     if match(system('pcregrep --version'), '[0-9]\+\.[0-9]\+') < 0
@@ -1388,16 +1392,12 @@ if !g:zf_no_plugin
                 if match(expr, '\C[A-Z]') < 0
                     let cmd .= ' -i'
                 endif
-                let ignoreList = split(g:EasyGrepFilesToExclude, ',')
-                for ignore in ignoreList
-                    let ignore = substitute(ignore, '\.', '\\.', 'g')
-                    let ignore = substitute(ignore, '\*', '.*', 'g')
 
-                    let cmd .= ' --exclude-dir="' . ignore . '"'
-                    let cmd .= ' --exclude="' . ignore . '"'
-                endfor
+                let excludeFile = tempname()
+                call writefile(split(g:EasyGrepFilesToExclude, ','), excludeFile)
+                let cmd .= ' --exclude-from="' . excludeFile . '"'
+
                 let cmd .= ' "' . expr . '" *'
-
                 let result = system(cmd)
                 let qflist = []
                 let vim_pattern = E2v(a:expr)
