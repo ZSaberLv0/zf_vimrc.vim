@@ -1335,12 +1335,27 @@ if !g:zf_no_plugin
             let g:EasyGrepAllOptionsInExplorer = 1
             let g:EasyGrepCommand = 1
             let g:EasyGrepPerlStyle = 1
-            augroup ZF_Plugin_easygrep_augroup
-                autocmd!
-                autocmd User ZFIgnoreOnUpdate let g:EasyGrepFilesToExclude = join(ZFIgnoreToWildignore(ZFIgnoreGet()), ',')
-            augroup END
             let g:EasyGrepReplaceWindowMode = 2
             let g:EasyGrepDisableCmdParam = 1
+
+            function! ZF_Plugin_easygrep_extraOpts(opts)
+                let excludeList = ZFIgnoreToWildignore(ZFIgnoreGet())
+                if empty(excludeList)
+                    return a:opts
+                endif
+                if match(system('grep --version'), 'GNU') >= 0
+                    let excludeFile = tempname()
+                    call writefile(excludeList, excludeFile)
+                    return a:opts . ' --exclude-from="' . excludeFile . '" '
+                else
+                    return a:opts
+                                \ . ' --exclude="' . join(excludeList, '" --exclude="') . '"'
+                                \ . ' --exclude-dir="' . join(excludeList, '" --exclude-dir="') . '"'
+                                \ . ' '
+                endif
+            endfunction
+            let g:EasyGrepCommandExtraOpts = 'ZF_Plugin_easygrep_extraOpts'
+            let g:EasyGrepFilesToExclude = ''
 
             if 1 " ulgy workaround to prevent default keymap
                 let g:EasyGrepOptionPrefix = '<leader>v?grep?y'
@@ -1409,12 +1424,12 @@ if !g:zf_no_plugin
                 let qflist = []
                 let vim_pattern = E2v(a:expr)
                 for line in split(result, '\n')
-                    let file = substitute(matchstr(line, '^[^:]\+:'), ':', '', 'g')
-                    let file_line = substitute(matchstr(line, ':[0-9]\+:'), ':', '', 'g')
+                    let file = substitute(line, '^\([^:]\+\):.*$', '\1', '') " ^([^:]+):.*$
+                    let file_line = substitute(line, '^[^:]\+:\([0-9]\+\):.*$', '\1', '') " ^[^:]+:([0-9]+):.*$
                     if strlen(file) <= 0 || strlen(file_line) <= 0
                         continue
                     endif
-                    let text = substitute(line, '^\[^:\]*:\[^:\]*:\(.*\)$', '\1', 'g')
+                    let text = substitute(line, '^[^:]\+:[0-9]\+:\(.*\)$', '\1', '') " ^[^:]+:[0-9]+:(.*)$
                     let qflist += [{
                                 \ 'filename' : file,
                                 \ 'lnum' : file_line,
