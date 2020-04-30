@@ -1395,7 +1395,7 @@ if !g:zf_no_plugin
 
                 let excludeFile = tempname()
                 let excludeList = []
-                for item in split(g:EasyGrepFilesToExclude, ',')
+                for item in ZFIgnoreToWildignore(ZFIgnoreGet())
                     let item = ZFIgnorePatternToRegexp(item)
                     if !empty(item)
                         call add(excludeList, item)
