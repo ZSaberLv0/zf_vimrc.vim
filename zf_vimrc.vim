@@ -232,6 +232,9 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
     function! ZF_ModuleDownloadFile(to, url)
         let tmp = tempname()
         let to = substitute(a:to, '\\', '/', 'g')
+        try
+            silent! call mkdir(fnamemodify(to, ':p:h'), 'p')
+        endtry
         if executable('curl')
             let ret = system('curl -o "' . tmp . '" -L "' . a:url . '"')
             if v:shell_error != 0
