@@ -61,6 +61,7 @@ as well as for default text editor and log viewer
         bundle/                 // all plugins placed here
         ZFVimModule/            // (optional) you may supply all your custom setting here
                                 // *.vim under this dir would be sourced automatically
+                                // files are ensured to be sourced by name order
             vimrc.local.vim     // (optional) local setting for current machine
             YourGitRepo/
                 ZFInit/         //     called during init
