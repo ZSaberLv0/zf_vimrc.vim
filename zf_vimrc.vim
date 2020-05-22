@@ -1710,7 +1710,9 @@ if !g:zf_no_plugin
                 call linediff#Linediff(a:line1, a:line2, {})
                 let &splitright = splitright_old
                 if &diff == 1
+                    nnoremap <silent><buffer> q :call ZF_Plugin_linediff_DiffExit()<cr>
                     execute "normal! \<c-w>l"
+                    nnoremap <silent><buffer> q :call ZF_Plugin_linediff_DiffExit()<cr>
                 endif
             endfunction
             command! -range LinediffBeginWrap call ZF_Plugin_linediff_Diff(<line1>, <line2>)
