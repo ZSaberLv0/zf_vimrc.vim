@@ -1399,7 +1399,7 @@ if !g:zf_no_plugin
             nmap <leader>vgo <plug>EgMapGrepOptions
 
             function! ZF_Plugin_easygrep_pcregrep_install()
-                call ZF_ModuleExec(ZF_ModuleGetApt(), 'pcregrep')
+                call ZF_ModuleExec(ZF_ModuleGetApt(), 'pcregrep pcre')
             endfunction
             call ZF_ModuleInstaller('ZF_Plugin_easygrep_pcregrep', 'call ZF_Plugin_easygrep_pcregrep_install()')
             function! ZF_Plugin_easygrep_pcregrep(expr)
