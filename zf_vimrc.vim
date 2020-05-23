@@ -140,9 +140,12 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         let tmpfile = g:zf_vim_cache_path . '/ZFModuleInstall.log'
         silent! call delete(tmpfile)
 
-        execute 'redir > ' . tmpfile
-        call s:ZF_ModuleInstallAction()
-        redir END
+        try
+            execute 'redir > ' . tmpfile
+            call s:ZF_ModuleInstallAction()
+        finally
+            redir END
+        endtry
 
         enew
         execute 'edit ' . tmpfile
@@ -845,9 +848,12 @@ if 1 " common settings
     if v:version > 704 && get(g:, 'ZF_Setting_disableItalic', 1)
         function! ZF_Setting_disableItalic()
             let his = ''
-            redir => his
-            silent highlight
-            redir END
+            try
+                redir => his
+                silent highlight
+            finally
+                redir END
+            endtry
             let his = substitute(his, '\n\s\+', ' ', 'g')
             for line in split(his, "\n")
                 if line !~ ' links to ' && line !~ ' cleared$'
