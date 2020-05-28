@@ -1342,7 +1342,6 @@ if !g:zf_no_plugin
             " ZFPlug 'dkprice/vim-easygrep'
             " modified to support:
             " * `--exclude-from` with large exclude list
-            " * `ggrep` which installed by mac's `brew`
             ZFPlug 'ZSaberLv0/vim-easygrep'
             let g:EasyGrepRecursive = 1
             let g:EasyGrepAllOptionsInExplorer = 1
