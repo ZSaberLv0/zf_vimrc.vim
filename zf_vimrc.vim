@@ -1340,6 +1340,7 @@ if !g:zf_no_plugin
         if g:ZF_Plugin_easygrep
             set grepprg=grep\ -n\ $*\ /dev/null
             " ZFPlug 'dkprice/vim-easygrep'
+            " modified to support `--exclude-from` with large exclude list
             ZFPlug 'ZSaberLv0/vim-easygrep'
             let g:EasyGrepRecursive = 1
             let g:EasyGrepAllOptionsInExplorer = 1
