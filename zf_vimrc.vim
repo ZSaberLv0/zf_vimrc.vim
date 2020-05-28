@@ -1340,7 +1340,9 @@ if !g:zf_no_plugin
         if g:ZF_Plugin_easygrep
             set grepprg=grep\ -n\ $*\ /dev/null
             " ZFPlug 'dkprice/vim-easygrep'
-            " modified to support `--exclude-from` with large exclude list
+            " modified to support:
+            " * `--exclude-from` with large exclude list
+            " * `ggrep` which installed by mac's `brew`
             ZFPlug 'ZSaberLv0/vim-easygrep'
             let g:EasyGrepRecursive = 1
             let g:EasyGrepAllOptionsInExplorer = 1
@@ -1348,6 +1350,10 @@ if !g:zf_no_plugin
             let g:EasyGrepPerlStyle = 1
             let g:EasyGrepReplaceWindowMode = 2
             let g:EasyGrepDisableCmdParam = 1
+            function! ZF_Plugin_easygrep_install()
+                call ZF_ModuleExec(ZF_ModuleGetApt(), 'grep')
+            endfunction
+            call ZF_ModuleInstaller('ZF_Plugin_easygrep', 'call ZF_Plugin_easygrep_install()')
 
             function! ZF_Plugin_easygrep_extraOpts(opts)
                 let excludeList = ZFIgnoreToWildignore(ZFIgnoreGet())
