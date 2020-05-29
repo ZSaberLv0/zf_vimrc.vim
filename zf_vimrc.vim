@@ -1383,7 +1383,7 @@ if !g:zf_no_plugin
             let g:EasyGrepCommandExtraOpts = 'ZF_Plugin_easygrep_extraOpts'
             let g:EasyGrepFilesToExclude = ''
 
-            if 1 " ulgy workaround to prevent default keymap
+            if 1 " ugly workaround to prevent default keymap
                 let g:EasyGrepOptionPrefix = '<leader>v?grep?y'
                 map <silent> <leader>v?grep?v <plug>EgMapGrepCurrentWord_v
                 xmap <silent> <leader>v?grep?v <plug>EgMapGrepSelection_v
@@ -1399,13 +1399,41 @@ if !g:zf_no_plugin
                 xmap <silent> <leader>v?grep?R <plug>EgMapReplaceSelection_R
             endif
 
+            " ugly workaround to support `ggrep` in Mac
+            function! s:fix_ggrep()
+                if !executable('ggrep')
+                    return
+                endif
+                if exists('*exepath')
+                    let ggrep = exepath('ggrep')
+                else
+                    let ggrep = globpath(join(split($PATH, ':'), ','), 'ggrep')
+                endif
+                if empty(ggrep)
+                    return
+                endif
+                let tmpDir = 'easygrep_ggrep_fix'
+                if match($PATH, tmpDir) >= 0 && filereadable(g:zf_vim_cache_path . '/' . tmpDir . '/grep')
+                    return
+                endif
+                call mkdir(g:zf_vim_cache_path . '/' . tmpDir, 'p')
+                call system('ln -s "' . ggrep . '" "' . g:zf_vim_cache_path . '/' . tmpDir . '/grep"')
+                if empty($PATH)
+                    let $PATH=g:zf_vim_cache_path . '/' . tmpDir
+                else
+                    let $PATH=g:zf_vim_cache_path . '/' . tmpDir . ':' . $PATH
+                endif
+            endfunction
+
             function! ZF_Plugin_easygrep_Grep(arg)
+                call s:fix_ggrep()
                 execute ':Grep ' . a:arg
                 execute ':silent! M/' . a:arg
             endfunction
             command! -nargs=+ ZFGrep :call ZF_Plugin_easygrep_Grep(<q-args>)
             nnoremap <leader>vgf :ZFGrep<space>
             function! ZF_Plugin_easygrep_Replace(arg)
+                call s:fix_ggrep()
                 filetype off
                 execute ':Replace ' . a:arg
                 filetype on
