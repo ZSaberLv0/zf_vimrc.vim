@@ -106,6 +106,7 @@ if 1 " global settings
         call system('git config --global core.filemode false')
         call system('git config --global core.autocrlf false')
         call system('git config --global core.safecrlf true')
+        call system('git config --global core.quotepath off')
         echo 'git global user changed to ' . g:zf_git_user_name . ' <' . g:zf_git_user_email . '>'
     endfunction
     command! -nargs=0 ZFGitGlobalConfig :call ZF_GitGlobalConfig()
