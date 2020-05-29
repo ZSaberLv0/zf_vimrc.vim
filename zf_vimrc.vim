@@ -1413,15 +1413,16 @@ if !g:zf_no_plugin
                     return
                 endif
                 let tmpDir = 'easygrep_ggrep_fix'
-                if match($PATH, tmpDir) >= 0 && filereadable(g:zf_vim_cache_path . '/' . tmpDir . '/grep')
-                    return
+                if !filereadable(g:zf_vim_cache_path . '/' . tmpDir . '/grep')
+                    call mkdir(g:zf_vim_cache_path . '/' . tmpDir, 'p')
+                    call system('ln -s "' . ggrep . '" "' . g:zf_vim_cache_path . '/' . tmpDir . '/grep"')
                 endif
-                call mkdir(g:zf_vim_cache_path . '/' . tmpDir, 'p')
-                call system('ln -s "' . ggrep . '" "' . g:zf_vim_cache_path . '/' . tmpDir . '/grep"')
-                if empty($PATH)
-                    let $PATH=g:zf_vim_cache_path . '/' . tmpDir
-                else
-                    let $PATH=g:zf_vim_cache_path . '/' . tmpDir . ':' . $PATH
+                if match($PATH, tmpDir) < 0
+                    if empty($PATH)
+                        let $PATH=g:zf_vim_cache_path . '/' . tmpDir
+                    else
+                        let $PATH=g:zf_vim_cache_path . '/' . tmpDir . ':' . $PATH
+                    endif
                 endif
             endfunction
 
