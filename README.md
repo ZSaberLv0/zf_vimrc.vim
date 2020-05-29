@@ -11,8 +11,9 @@
     * [Additional Requirement](#additional-requirement)
 * [Customizing](#customizing)
 * [Platform Spec](#platform-spec)
-    * [Cygwin](#cygwin)
     * [Complete Engines and LSPs](#complete-engines-and-lsps)
+    * [MacOS ssh](#macos-ssh)
+    * [Cygwin](#cygwin)
     * [Android](#android)
         * [DroidVim (recommended)](#droidvim-recommended)
         * [VimTouch](#vimtouch)
@@ -216,6 +217,29 @@ $HOME/zf_vimrc.vim
 
 # Platform Spec
 
+## Complete Engines and LSPs
+
+usually, complete engines have heavy dependencies and hard to config,
+so we separate these configs to [zf_vimrc.ext](https://github.com/ZSaberLv0/zf_vimrc.ext)
+to make this repo simple and clean,
+the `zf_vimrc.ext` would also be installed by default,
+but you should go [zf_vimrc.ext/README.md](https://github.com/ZSaberLv0/zf_vimrc.ext/blob/master/README.md)
+for how to properly setup LSPs
+
+
+## MacOS ssh
+
+when used under ssh of some new version of MacOS, you may get some weird error message,
+that's because the default shell was changed to `zsh`
+and it does not properly set `$LANG`,
+to solve this, add this line to your `~/.zprofile` or `~/.zshrc`
+
+```
+# or change to your proper locale
+export LANG="en_US.UTF-8"
+```
+
+
 ## Cygwin
 
 when used under different version of cygwin, you should concern these settings if weird problem occurred:
@@ -233,16 +257,6 @@ set shellcmdflag=-c
 ```
 
 set it directly to `.vimrc`, choose the right one for you
-
-
-## Complete Engines and LSPs
-
-usually, complete engines have heavy dependencies and hard to config,
-so we separate these configs to [zf_vimrc.ext](https://github.com/ZSaberLv0/zf_vimrc.ext)
-to make this repo simple and clean,
-the `zf_vimrc.ext` would also be installed by default,
-but you should go [zf_vimrc.ext/README.md](https://github.com/ZSaberLv0/zf_vimrc.ext/blob/master/README.md)
-for how to properly setup LSPs
 
 
 ## Android
