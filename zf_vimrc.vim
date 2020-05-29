@@ -1103,6 +1103,15 @@ if !g:zf_no_plugin
             let g:agit_ignore_spaces = 0
             let g:agit_log_width = 1024
             let g:agit_stat_width = 1024
+            function! ZF_Plugin_agit(path)
+                if isdirectory(a:path)
+                    let path = substitute(a:path, '\\', '/', 'g')
+                    let path = substitute(path, ' ', '\\ ', 'g')
+                    execute 'cd ' . path
+                endif
+                call system('git config core.quotepath off')
+                Agit
+            endfunction
             function! ZF_Plugin_agit_askWrite()
                 if !&modified
                     return 0
@@ -1212,7 +1221,7 @@ if !g:zf_no_plugin
                             \| nmap <silent><buffer> DH :call ZF_Plugin_agit_diff_checkout()<cr>
                             \| nmap <silent><buffer> dd :call ZF_Plugin_agit_diff_delete()<cr>
             augroup END
-            command! -nargs=0 ZFGitDiff :execute 'Agit --dir=' . substitute(getcwd(), ' ', '\\ ', 'g')
+            command! -nargs=* -complete=dir ZFGitDiff :call ZF_Plugin_agit(<q-args>)
         endif
 
         " ==================================================
