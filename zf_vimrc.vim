@@ -1407,7 +1407,7 @@ if !g:zf_no_plugin
                 if exists('*exepath')
                     let ggrep = exepath('ggrep')
                 else
-                    let ggrep = globpath(join(split($PATH, ':'), ','), 'ggrep')
+                    let ggrep = get(split(globpath(join(split($PATH, ':'), ','), 'ggrep'), "\n"), 0, '')
                 endif
                 if empty(ggrep)
                     return
