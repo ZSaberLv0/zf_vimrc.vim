@@ -151,7 +151,7 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         enew
         execute 'edit ' . tmpfile
         let &more = moreSaved
-        let @/ = '.*\(zfvimrc!\|error\|fail\|unable\|exception\|not found\|ambiguous\).*'
+        let @/ = '.*\(zfvimrc!\|error\|fail\|unable\|exception\|not found\|ambiguous\|err!\).*'
         call feedkeys('ggn', 't')
 
         redraw!
@@ -225,13 +225,18 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         for item in split(msg, "\n")
             echo item
         endfor
+        if v:shell_error != 0
+            return '[ZFVimrc!] ' . a:cmd . ' finished with code: ' . v:shell_error
+        endif
     endfunction
     function! ZF_ModuleExec(cmd, module)
         if empty(a:cmd)
             return
         endif
-        let cmd = printf(a:cmd, a:module)
-        call ZF_ModuleExecShell(cmd)
+        for module in split(a:module, ' ')
+            let cmd = printf(a:cmd, module)
+            call ZF_ModuleExecShell(cmd)
+        endfor
     endfunction
     function! ZF_ModuleDownloadFile(to, url)
         let tmp = tempname()
@@ -243,12 +248,12 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         if executable('curl')
             let ret = system('curl -o "' . tmp . '" -L "' . a:url . '"')
             if v:shell_error != 0
-                return ret
+                return '[ZFVimrc!] unable to download (' . v:shell_error . '), url: ' . a:url
             endif
         elseif executable('wget')
             let ret = system('wget -P "' . tmp . '" "' . a:url . '"')
             if v:shell_error != 0
-                return ret
+                return '[ZFVimrc!] unable to download (' . v:shell_error . '), url: ' . a:url
             endif
         else
             return 'no curl or wget available'
