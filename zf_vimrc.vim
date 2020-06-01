@@ -2142,6 +2142,11 @@ if !g:zf_no_plugin
             ZFPlug 'retorillo/md5.vim'
             xnoremap <leader>ce <esc>:call ZF_VimEscape('v')<cr>
             nnoremap <leader>ce :call ZF_VimEscape()<cr>
+
+            function! ZF_Plugin_ZFVimEscape_install()
+                call ZF_ModuleExec(ZF_ModuleGetPip(), 'pyqrcode')
+            endfunction
+            call ZF_ModuleInstaller('ZFVimEscape', 'call ZF_Plugin_ZFVimEscape_install()')
         endif
 
         " ==================================================
@@ -2170,19 +2175,15 @@ if !g:zf_no_plugin
             ZFPlug 'ZSaberLv0/ZFVimFormater'
             ZFPlug 'ZSaberLv0/ZFVimBeautifier'
             ZFPlug 'ZSaberLv0/ZFVimBeautifierTemplate'
-
-            ZFPlug 'elzr/vim-json'
-            let g:vim_json_syntax_conceal = 0
-
-            ZFPlug 'Chiel92/vim-autoformat'
+            ZFPlug 'sbdchd/neoformat'
 
             nnoremap <leader>cf :call ZF_Formater()<cr>
             " note, for Windows python users, you may want to:
             " -  add `.py` to `PATHEXT`
             function! ZF_Plugin_ZFVimFormater_install()
-                call ZF_ModuleExec(ZF_ModuleGetApt(), 'astyle tidy')
-                call ZF_ModuleExec(ZF_ModuleGetPip(), 'jsbeautifier yapf pyqrcode')
-                call ZF_ModuleExec(ZF_ModuleGetNpm(), 'typescript typescript-formatter')
+                call ZF_ModuleExec(ZF_ModuleGetApt(), 'astyle clang-format shfmt swiftformat tidy uncrustify')
+                call ZF_ModuleExec(ZF_ModuleGetPip(), 'cmake_format jsbeautifier sqlparse yapf')
+                call ZF_ModuleExec(ZF_ModuleGetNpm(), 'eslint lua-fmt prettier typescript typescript-formatter')
             endfunction
             call ZF_ModuleInstaller('ZFVimFormater', 'call ZF_Plugin_ZFVimFormater_install()')
         endif
