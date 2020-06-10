@@ -106,7 +106,7 @@ if 1 " global settings
         call system('git config --global core.filemode false')
         call system('git config --global core.autocrlf false')
         call system('git config --global core.safecrlf true')
-        call system('git config --global core.quotepath off')
+        call system('git config --global core.quotepath false')
         echo 'git global user changed to ' . g:zf_git_user_name . ' <' . g:zf_git_user_email . '>'
     endfunction
     command! -nargs=0 ZFGitGlobalConfig :call ZF_GitGlobalConfig()
@@ -1114,7 +1114,7 @@ if !g:zf_no_plugin
                     let path = substitute(path, ' ', '\\ ', 'g')
                     execute 'cd ' . path
                 endif
-                call system('git config core.quotepath off')
+                call system('git config core.quotepath false')
                 Agit
             endfunction
             function! ZF_Plugin_agit_askWrite()
