@@ -1145,25 +1145,27 @@ if !g:zf_no_plugin
                     execute "normal \<Plug>(agit-reload)"
                 endif
             endfunction
-            function! ZF_Plugin_agit_diffMap(localMode)
+            function! ZF_Plugin_agit_curFile()
+                let file = getline('.')
+                let file = substitute(file, '^ \+', '', '') " `^ +`
+                let file = substitute(file, ' \+| .\+$', '', '') " ` +\| .+$`
+                return file
+            endfunction
+            function! ZF_Plugin_agit_diffMap()
                 let tabCount = tabpagenr('$')
 
                 let wildignore = &wildignore
                 set wildignore=
-                if a:localMode
-                    execute "normal \<Plug>(agit-diff-with-local)"
-                else
-                    execute "normal \<Plug>(agit-diff)"
-                endif
+                call agit#diff#sidebyside(t:git, ZF_Plugin_agit_curFile(), '')
                 let &wildignore = wildignore
 
                 if tabpagenr('$') <= tabCount
                     return
                 endif
                 execute "normal! \<c-w>h"
-                nnoremap <buffer> q :call ZF_Plugin_agit_quit()<cr>
+                nnoremap <buffer><silent> q :call ZF_Plugin_agit_quit()<cr>
                 execute "normal! \<c-w>l"
-                nnoremap <buffer> q :call ZF_Plugin_agit_quit()<cr>
+                nnoremap <buffer><silent> q :call ZF_Plugin_agit_quit()<cr>
                 normal! ]czz
             endfunction
             function! ZF_Plugin_agit_print_commitmsg()
@@ -1177,7 +1179,7 @@ if !g:zf_no_plugin
                 return msg
             endfunction
             function! ZF_Plugin_agit_diff_checkout()
-                let file = expand('<cfile>')
+                let file = ZF_Plugin_agit_curFile()
                 if empty(file)
                     return
                 endif
@@ -1191,7 +1193,7 @@ if !g:zf_no_plugin
                 endif
             endfunction
             function! ZF_Plugin_agit_diff_delete()
-                let file = expand('<cfile>')
+                let file = ZF_Plugin_agit_curFile()
                 if empty(file)
                     return
                 endif
@@ -1220,9 +1222,8 @@ if !g:zf_no_plugin
                             \  nmap <silent><buffer> p :call ZF_Plugin_agit_print_commitmsg()<cr>
                             \| nmap <silent><buffer> c <Plug>(agit-git-checkout)
                 autocmd FileType agit_stat
-                            \  nmap <silent><buffer> o :call ZF_Plugin_agit_diffMap(0)<cr>
-                            \| nmap <silent><buffer> <cr> :call ZF_Plugin_agit_diffMap(0)<cr>
-                            \| nmap <silent><buffer> DI :call ZF_Plugin_agit_diffMap(1)<cr>
+                            \  nmap <silent><buffer> o :call ZF_Plugin_agit_diffMap()<cr>
+                            \| nmap <silent><buffer> <cr> :call ZF_Plugin_agit_diffMap()<cr>
                             \| nmap <silent><buffer> DH :call ZF_Plugin_agit_diff_checkout()<cr>
                             \| nmap <silent><buffer> dd :call ZF_Plugin_agit_diff_delete()<cr>
             augroup END
