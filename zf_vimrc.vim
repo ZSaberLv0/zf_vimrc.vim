@@ -10,6 +10,21 @@ if 1 " global settings
     let g:zf_vimrc_path = fnamemodify(expand('<sfile>'), ':p')
 
     " env
+    function! ZF_ToShellPath(path)
+        if executable('cygpath')
+            return substitute(system('cygpath -u "' . a:path . '"'), '[\r\n]', '', 'g')
+        else
+            return a:path
+        endif
+    endfunction
+    function! ZF_ToLocalPath(path)
+        if executable('cygpath')
+            return substitute(system('cygpath -m "' . a:path . '"'), '[\r\n]', '', 'g')
+        else
+            return a:path
+        endif
+    endfunction
+
     let g:zf_windows = 0
     if has('win32') || has('win64')
         let g:zf_windows = 1
@@ -42,11 +57,7 @@ if 1 " global settings
     endif
 
     if !exists('g:zf_vim_home_path')
-        if has("win32unix") && executable('cygpath')
-            let g:zf_vim_home_path = substitute(system('cygpath -m "' . $HOME . '"'), '[\r\n]', '', 'g')
-        else
-            let g:zf_vim_home_path = $HOME
-        endif
+        let g:zf_vim_home_path = ZF_ToLocalPath($HOME)
     endif
     if !exists('g:zf_vim_data_path')
         let g:zf_vim_data_path = g:zf_vim_home_path . '/.vim'
@@ -246,12 +257,12 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
             call mkdir(parent, 'p')
         endif
         if executable('curl')
-            let ret = system('curl -o "' . tmp . '" -L "' . a:url . '"')
+            let ret = system('curl -o "' . ZF_ToShellPath(tmp) . '" -L "' . a:url . '"')
             if v:shell_error != 0
                 return '[ZFVimrc!] unable to download (' . v:shell_error . '), url: ' . a:url
             endif
         elseif executable('wget')
-            let ret = system('wget -P "' . tmp . '" "' . a:url . '"')
+            let ret = system('wget -P "' . ZF_ToShellPath(tmp) . '" "' . a:url . '"')
             if v:shell_error != 0
                 return '[ZFVimrc!] unable to download (' . v:shell_error . '), url: ' . a:url
             endif
@@ -1378,7 +1389,7 @@ if !g:zf_no_plugin
                 if match(system('grep --version'), 'GNU') >= 0
                     let excludeFile = tempname()
                     call writefile(excludeList, excludeFile)
-                    return a:opts . ' --exclude-from="' . excludeFile . '" '
+                    return a:opts . ' --exclude-from="' . ZF_ToShellPath(excludeFile) . '" '
                 else
                     return a:opts
                                 \ . ' --exclude="' . join(excludeList, '" --exclude="') . '"'
@@ -1478,7 +1489,7 @@ if !g:zf_no_plugin
                     endif
                 endfor
                 call writefile(excludeList, excludeFile)
-                let cmd .= ' --exclude-from="' . excludeFile . '"'
+                let cmd .= ' --exclude-from="' . ZF_ToShellPath(excludeFile) . '"'
 
                 let cmd .= ' "' . expr . '" *'
                 let result = system(cmd)
