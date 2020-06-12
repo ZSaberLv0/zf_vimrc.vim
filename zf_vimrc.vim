@@ -42,7 +42,7 @@ if 1 " global settings
     endif
 
     if !exists('g:zf_vim_home_path')
-        if executable('cygpath')
+        if has('win32unix') && executable('cygpath')
             let g:zf_vim_home_path = substitute(system('cygpath -m "' . $HOME . '"'), '[\r\n]', '', 'g')
         else
             let g:zf_vim_home_path = $HOME
