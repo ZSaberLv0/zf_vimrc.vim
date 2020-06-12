@@ -1371,20 +1371,17 @@ if !g:zf_no_plugin
             call ZF_ModuleInstaller('ZF_Plugin_easygrep', 'call ZF_Plugin_easygrep_install()')
 
             function! ZF_Plugin_easygrep_extraOpts(opts)
-                let excludeList = ZFIgnoreToWildignore(ZFIgnoreGet())
-                if empty(excludeList)
-                    return a:opts
-                endif
+                let ret = a:opts
+                let exclude = ZFIgnoreGet()
                 if match(system('grep --version'), 'GNU') >= 0
                     let excludeFile = tempname()
-                    call writefile(excludeList, excludeFile)
-                    return a:opts . ' --exclude-from="' . substitute(excludeFile, '\\', '/', 'g') . '" '
+                    call writefile(exclude['file'], excludeFile)
+                    let ret .= ' --exclude-from="' . substitute(excludeFile, '\\', '/', 'g') . '"'
                 else
-                    return a:opts
-                                \ . ' --exclude="' . join(excludeList, '" --exclude="') . '"'
-                                \ . ' --exclude-dir="' . join(excludeList, '" --exclude-dir="') . '"'
-                                \ . ' '
+                    let ret .= ' --exclude="' . join(exclude['file'], '" --exclude="') . '"'
                 endif
+                let ret .= ' --exclude-dir="' . join(exclude['dir'], '" --exclude-dir="') . '"'
+                return ret . ' '
             endfunction
             let g:EasyGrepCommandExtraOpts = 'ZF_Plugin_easygrep_extraOpts'
             let g:EasyGrepFilesToExclude = ''
@@ -1470,15 +1467,16 @@ if !g:zf_no_plugin
                 endif
 
                 let excludeFile = tempname()
+                let exclude = ZFIgnoreGet()
                 let excludeList = []
-                for item in ZFIgnoreToWildignore(ZFIgnoreGet())
-                    let item = ZFIgnorePatternToRegexp(item)
-                    if !empty(item)
-                        call add(excludeList, item)
-                    endif
+                for item in exclude['file']
+                    call add(excludeList, ZFIgnorePatternToRegexp(item))
                 endfor
                 call writefile(excludeList, excludeFile)
                 let cmd .= ' --exclude-from="' . substitute(excludeFile, '\\', '/', 'g') . '"'
+                for item in exclude['dir']
+                    let cmd .= ' --exclude-dir="' . ZFIgnorePatternToRegexp(item) . '"'
+                endfor
 
                 let cmd .= ' "' . expr . '" *'
                 let result = system(cmd)
