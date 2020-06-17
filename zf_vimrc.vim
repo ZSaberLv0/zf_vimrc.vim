@@ -1951,12 +1951,6 @@ if !g:zf_no_plugin
             let g:NERDTreeMapUpdirKeepOpen = ''
             let g:NERDTreeMapCWD = 'CD'
 
-            ZFPlug 'jistr/vim-nerdtree-tabs'
-            let g:nerdtree_tabs_startup_cd = 0
-            let g:nerdtree_tabs_open_on_gui_startup = 0
-            let g:nerdtree_tabs_open_on_console_startup = 0
-            let g:nerdtree_tabs_no_startup_for_diff = 1
-
             ZFPlug 'ZSaberLv0/nerdtree_fs_menu'
             let g:loaded_nerdtree_exec_menuitem = 1
             let g:loaded_nerdtree_fs_menu = 1
