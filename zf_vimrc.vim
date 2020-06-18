@@ -335,9 +335,14 @@ if 1 " custom key mapping
     " special select mode mapping
     " some plugin use vmap, which would cause unexpected behavior under select mode
     function! ZF_Setting_SelectModeMap()
-        let s:_selectmode_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*-_=+\\|;:,./?)]}>'
-        for i in range(strlen(s:_selectmode_keys))
-            silent! execute 'snoremap <silent> ' . s:_selectmode_keys[i] . ' <c-g>"_c' . s:_selectmode_keys[i]
+        let s:_selectmode_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*-_=+\;:,./?)]}>'
+        for c in split(s:_selectmode_keys, '\ze')
+            silent! execute 'snoremap <silent> ' . c . ' <c-g>"_c' . c
+        endfor
+        let s:_selectmode_keys = '|'
+        for c in split(s:_selectmode_keys, '\ze')
+            let c = '\' . c
+            silent! execute 'snoremap <silent> ' . c . ' <c-g>"_c' . c
         endfor
         silent! snoremap <silent> <space> <esc>
         silent! snoremap <silent> jk <esc>gv
@@ -862,7 +867,7 @@ if 1 " common settings
             endtry
             let his = substitute(his, '\n\s\+', ' ', 'g')
             for line in split(his, "\n")
-                if line !~ ' links to ' && line !~ ' cleared$'
+                if line !~ ' links to ' && line !~ ' cleared$' && line =~ 'italic'
                     execute 'hi' substitute(substitute(line, ' xxx ', ' ', ''), 'italic', 'none', 'g')
                 endif
             endfor
