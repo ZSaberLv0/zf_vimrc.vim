@@ -759,7 +759,6 @@ if 1 " common settings
                 if has('timers')
                     call timer_start(1, function('s:ZF_Setting_largefile_restore'))
                 endif
-                setlocal bufhidden=unload
                 setlocal foldmethod=manual
                 setlocal nofoldenable
                 setlocal nocursorline
