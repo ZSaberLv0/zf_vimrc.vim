@@ -759,6 +759,9 @@ if 1 " common settings
                 if has('timers')
                     call timer_start(1, function('s:ZF_Setting_largefile_restore'))
                 endif
+                " unload would cause buffer reload when enter again,
+                " would save some memory but not handy for general usage
+                " setlocal bufhidden=unload
                 setlocal foldmethod=manual
                 setlocal nofoldenable
                 setlocal nocursorline
