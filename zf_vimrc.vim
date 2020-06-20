@@ -259,6 +259,7 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
             return 'no curl or wget available'
         endif
         call writefile(readfile(tmp, 'b'), to, 'b')
+        call delete(tmp);
         return ''
     endfunction
 
@@ -1381,9 +1382,9 @@ if !g:zf_no_plugin
                 let ret = a:opts
                 let exclude = ZFIgnoreGet()
                 if match(system('grep --version'), 'GNU') >= 0
-                    let excludeFile = tempname()
-                    call writefile(exclude['file'], excludeFile)
-                    let ret .= ' --exclude-from="' . substitute(excludeFile, '\\', '/', 'g') . '"'
+                    let s:easygrep_excludeFile = tempname()
+                    call writefile(exclude['file'], s:easygrep_excludeFile)
+                    let ret .= ' --exclude-from="' . substitute(s:easygrep_excludeFile, '\\', '/', 'g') . '"'
                 else
                     let ret .= ' --exclude="' . join(exclude['file'], '" --exclude="') . '"'
                 endif
@@ -1440,6 +1441,10 @@ if !g:zf_no_plugin
                 call s:fix_ggrep()
                 execute ':Grep ' . a:arg
                 execute ':silent! M/' . a:arg
+                if exists('s:easygrep_excludeFile')
+                    call delete(s:easygrep_excludeFile)
+                    unlet s:easygrep_excludeFile
+                endif
             endfunction
             command! -nargs=+ ZFGrep :call ZF_Plugin_easygrep_Grep(<q-args>)
             nnoremap <leader>vgf :ZFGrep<space>
@@ -1448,6 +1453,10 @@ if !g:zf_no_plugin
                 filetype off
                 execute ':Replace ' . a:arg
                 filetype on
+                if exists('s:easygrep_excludeFile')
+                    call delete(s:easygrep_excludeFile)
+                    unlet s:easygrep_excludeFile
+                endif
             endfunction
             command! -nargs=+ ZFReplace :call ZF_Plugin_easygrep_Replace(<q-args>)
             nnoremap <leader>vgr :ZFReplace //<left>
@@ -1487,6 +1496,7 @@ if !g:zf_no_plugin
 
                 let cmd .= ' "' . expr . '" *'
                 let result = system(cmd)
+                call delete(excludeFile)
                 let qflist = []
                 let vim_pattern = E2v(a:expr)
                 for line in split(result, '\n')
