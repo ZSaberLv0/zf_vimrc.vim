@@ -1123,7 +1123,12 @@ if !g:zf_no_plugin
                     execute 'cd ' . path
                 endif
                 call system('git config core.quotepath false')
-                Agit
+                let path = getcwd()
+                if match(path, ' ') >= 0
+                    Agit
+                else
+                    execute 'Agit --dir=' . path
+                endif
             endfunction
             function! ZF_Plugin_agit_askWrite()
                 if !&modified
