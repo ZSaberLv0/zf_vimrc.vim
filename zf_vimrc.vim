@@ -862,12 +862,16 @@ if 1 " common settings
     if v:version > 704 && get(g:, 'ZF_Setting_disableItalic', 1)
         function! ZF_Setting_disableItalic()
             let his = ''
-            try
-                redir => his
-                silent highlight
-            finally
-                redir END
-            endtry
+            if exists('*execute')
+                let his = execute('highlight')
+            else
+                try
+                    redir => his
+                    silent highlight
+                finally
+                    redir END
+                endtry
+            endif
             let his = substitute(his, '\n\s\+', ' ', 'g')
             for line in split(his, "\n")
                 if line !~ ' links to ' && line !~ ' cleared$' && line =~ 'italic'
