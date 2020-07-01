@@ -2246,6 +2246,9 @@ if !g:zf_no_plugin
             if get(g:, 'ZF_Plugin_ZFVimIM_pinyin', 1)
                 ZFPlug 'ZSaberLv0/ZFVimIM_pinyin'
             endif
+            if get(g:, 'ZF_Plugin_ZFVimIM_openapi', 1)
+                ZFPlug 'ZSaberLv0/ZFVimIM_openapi'
+            endif
         endif
 
         " ==================================================
