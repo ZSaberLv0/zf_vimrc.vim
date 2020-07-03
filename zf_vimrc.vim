@@ -643,7 +643,7 @@ if 1 " custom key mapping
         if cmdtype != ':' && cmdtype != '/'
             return ''
         endif
-        call feedkeys("\<c-c>q" . cmdtype . 'k0' . (getcmdpos() - 1) . 'li', 'nt')
+        call feedkeys("\<c-c>q" . cmdtype . 'k0' . (getcmdpos() - 1) . 'l', 'nt')
         return ''
     endfunction
     cnoremap <silent><expr> ;; ZF_Setting_cmdEdit()
