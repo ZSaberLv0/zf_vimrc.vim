@@ -1977,11 +1977,15 @@ if !g:zf_no_plugin
             let g:NERDTreeMapUpdirKeepOpen = ''
             let g:NERDTreeMapCWD = 'CD'
 
-            ZFPlug 'ZSaberLv0/nerdtree_fs_menu'
-            let g:loaded_nerdtree_exec_menuitem = 1
-            let g:loaded_nerdtree_fs_menu = 1
+            if get(g:, 'ZF_Plugin_nerdtree_fs_menu', 1)
+                ZFPlug 'ZSaberLv0/nerdtree_fs_menu'
+                let g:loaded_nerdtree_exec_menuitem = 1
+                let g:loaded_nerdtree_fs_menu = 1
+            endif
 
-            ZFPlug 'ZSaberLv0/nerdtree_menu_util'
+            if get(g:, 'ZF_Plugin_nerdtree_menu_util', 1)
+                ZFPlug 'ZSaberLv0/nerdtree_menu_util'
+            endif
         endif
 
         " ==================================================
