@@ -2141,6 +2141,7 @@ if !g:zf_no_plugin
         if g:ZF_Plugin_ZFVimDirDiff
             ZFPlug 'ZSaberLv0/ZFVimDirDiff'
             nnoremap <leader>vdd :ZFDirDiff<space>
+            nnoremap <silent> <leader>vdm :ZFDirDiffMark<cr>
 
             function! ZF_DiffGit(repo)
                 redraw!
