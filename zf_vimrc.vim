@@ -1886,18 +1886,19 @@ if !g:zf_no_plugin
         endif
         if g:ZF_Plugin_nerdtree
             ZFPlug 'scrooloose/nerdtree'
-            let NERDTreeNodeDelimiter = "\t"
-            let NERDTreeSortHiddenFirst = 1
-            let NERDTreeQuitOnOpen = 1
-            let NERDTreeShowHidden = 1
-            let NERDTreeShowLineNumbers = 1
-            let NERDTreeWinSize = 50
-            let NERDTreeMinimalUI = 1
-            let NERDTreeDirArrows = 0
-            let NERDTreeAutoDeleteBuffer = 1
-            let NERDTreeHijackNetrw = 1
-            let NERDTreeBookmarksFile = g:zf_vim_cache_path.'/NERDTreeBookmarks'
-            let NERDTreeCascadeSingleChildDir = 0
+            let g:NERDTreeNodeDelimiter = "\t"
+            let g:NERDTreeSortHiddenFirst = 1
+            let g:NERDTreeQuitOnOpen = 1
+            let g:NERDTreeShowHidden = 1
+            let g:NERDTreeShowLineNumbers = 1
+            let g:NERDTreeWinSize = 50
+            let g:NERDTreeMinimalUI = 1
+            let g:NERDTreeDirArrows = 0
+            let g:NERDTreeAutoDeleteBuffer = 1
+            let g:NERDTreeHijackNetrw = 1
+            let g:NERDTreeIgnore=[]
+            let g:NERDTreeBookmarksFile = g:zf_vim_cache_path.'/NERDTreeBookmarks'
+            let g:NERDTreeCascadeSingleChildDir = 0
             let g:NERDTreeDirArrowExpandable = '+'
             let g:NERDTreeDirArrowCollapsible = '~'
             nnoremap <silent> <leader>ve :NERDTreeToggle<cr>
