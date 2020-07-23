@@ -2158,6 +2158,13 @@ if !g:zf_no_plugin
             endfunction
             command! -nargs=+ ZFDiffGit :call ZF_DiffGit(<q-args>)
             function! ZF_DiffGitGetParam()
+                for line in split(system('git remote -v'), "\n")
+                    " ^origin[ \t]+(.*?)[ \t]+\((fetch|push)\)$
+                    let repo = substitute(line, '^origin[ \t]\+\(.\{-}\)[ \t]\+(\(fetch\|push\))$', '\1', '')
+                    if repo != line
+                        return repo
+                    endif
+                endfor
                 return 'https://github.com/' . g:zf_git_user_name . '/' . fnamemodify(getcwd(), ':t')
             endfunction
             nnoremap <leader>vdg :ZFDiffGit <c-r>=ZF_DiffGitGetParam()<cr>
