@@ -57,6 +57,9 @@ if 1 " global settings
     if !exists('g:zf_vim_cache_path')
         let g:zf_vim_cache_path = g:zf_vim_home_path . '/.vim_cache'
     endif
+    if !isdirectory(g:zf_vim_cache_path)
+        call mkdir(g:zf_vim_cache_path, 'p')
+    endif
     if !exists('g:zf_vim_viminfo_path')
         if has('nvim')
             let g:zf_vim_viminfo_path = g:zf_vim_cache_path . '/viminfo_nvim'
