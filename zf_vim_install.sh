@@ -23,16 +23,16 @@ else
 fi
 
 _old_dir=$(pwd)
-cd ~
+cd "$HOME"
 
 # ============================================================
 # clean
 if test "x$ZF_force" = "x1" ; then
-    rm -f "~/.vimrc" >/dev/null 2>&1
-    rm -f "~/_vimrc" >/dev/null 2>&1
-    rm -f "~/.vim" >/dev/null 2>&1
-    rm -f "~/.vim_cache" >/dev/null 2>&1
-    rm -f "~/.config/nvim/init.vim" >/dev/null 2>&1
+    rm -f "./.vimrc" >/dev/null 2>&1
+    rm -f "./_vimrc" >/dev/null 2>&1
+    rm -f "./.vim" >/dev/null 2>&1
+    rm -f "./.vim_cache" >/dev/null 2>&1
+    rm -f "./.config/nvim/init.vim" >/dev/null 2>&1
 fi
 
 # ============================================================
@@ -109,8 +109,8 @@ fi
 git config --global core.autocrlf false
 
 echo "updating zf_vimrc..."
-if test -e "~/.zf_vimrc.vim/zf_vimrc.vim" ; then
-    cp "~/.zf_vimrc.vim/zf_vimrc.vim" "zf_vimrc.vim"
+if test -e "./.zf_vimrc.vim/zf_vimrc.vim" ; then
+    cp "./.zf_vimrc.vim/zf_vimrc.vim" "zf_vimrc.vim"
 else
     _tmpdir="_zf_vimrc_tmp_"
     git clone --depth=1 https://github.com/ZSaberLv0/zf_vimrc.vim.git "$_tmpdir"
