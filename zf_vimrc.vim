@@ -228,9 +228,6 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         for item in split(msg, "\n")
             echo item
         endfor
-        if v:shell_error != 0
-            return '[ZFVimrc!] ' . a:cmd . ' finished with code: ' . v:shell_error
-        endif
     endfunction
     function! ZF_ModuleExec(cmd, module)
         if empty(a:cmd)
@@ -262,7 +259,7 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
             return 'no curl or wget available'
         endif
         call writefile(readfile(tmp, 'b'), to, 'b')
-        call delete(tmp);
+        call delete(tmp)
         return ''
     endfunction
 
