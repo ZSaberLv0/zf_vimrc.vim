@@ -755,7 +755,7 @@ if 1 " common settings
             set eventignore-=FileType
         endfunction
         function! s:ZF_Setting_largefile_setup(notifyRestore)
-            if ZF_Setting_isLargeFile(expand('<afile>'))
+            if !get(b:, 'zf_vim_largefile', 0) && ZF_Setting_isLargeFile(expand('<afile>'))
                 set eventignore+=FileType
                 if has('timers')
                     call timer_start(1, function('s:ZF_Setting_largefile_restore'))
@@ -769,15 +769,13 @@ if 1 " common settings
                 setlocal norelativenumber
                 let b:zf_vim_largefile = 1
                 doautocmd User ZFVimLargeFile
-            else
-                if get(b:, 'zf_vim_largefile', 0) && a:notifyRestore
-                    let b:zf_vim_largefile = 0
-                    doautocmd User ZFVimLargeFile
-                endif
+            elseif get(b:, 'zf_vim_largefile', 0) && a:notifyRestore
+                let b:zf_vim_largefile = 0
+                doautocmd User ZFVimLargeFile
             endif
         endfunction
         autocmd User ZFVimLargeFile silent
-        autocmd BufReadPre * call s:ZF_Setting_largefile_setup(0)
+        autocmd BufReadPre,BufCreate * call s:ZF_Setting_largefile_setup(0)
         autocmd BufWritePost * call s:ZF_Setting_largefile_setup(1)
     augroup END
     " encodings
