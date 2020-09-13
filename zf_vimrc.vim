@@ -14,6 +14,10 @@ if 1 " global settings
     if has('win32') || has('win64')
         let g:zf_windows = 1
     endif
+    let g:zf_cygwin = 0
+    if g:zf_windows && has('win32unix') && executable('cygpath')
+        let g:zf_cygwin = 1
+    endif
     let g:zf_mac = 0
     if has('unix')
         try
@@ -42,7 +46,7 @@ if 1 " global settings
     endif
 
     if !exists('g:zf_vim_home_path')
-        if has('win32unix') && executable('cygpath')
+        if g:zf_cygwin
             let g:zf_vim_home_path = substitute(system('cygpath -m "' . $HOME . '"'), '[\r\n]', '', 'g')
         else
             let g:zf_vim_home_path = $HOME
@@ -162,56 +166,71 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
     endfunction
     command! -nargs=0 ZFModuleInstall :call s:ZF_ModuleInstall()
     function! ZF_ModuleGetApt()
-        if executable('apt-get')
-            return 'apt-get install %s'
-        endif
-        if executable('yum')
-            return 'yum install -y %s'
-        endif
-        if executable('brew')
-            return 'brew install %s'
-        endif
-        if executable('apt')
-            return 'apt install %s'
-        endif
-        if executable('sh') " Cygwin or other special
-            let apt = system('sh -c "apt-get --version"')
-            if match(apt, '[0-9]\+\.[0-9]\+') >= 0
-                return 'sh -c "apt-get install %s"'
+        if !exists('s:ZF_ModuleGetApt')
+            let s:ZF_ModuleGetApt = ''
+            if executable('apt-get')
+                let s:ZF_ModuleGetApt = 'apt-get install %s'
+            elseif executable('yum')
+                let s:ZF_ModuleGetApt = 'yum install -y %s'
+            elseif executable('brew')
+                let s:ZF_ModuleGetApt = 'brew install %s'
+            elseif executable('apt')
+                let s:ZF_ModuleGetApt = 'apt install %s'
+            elseif executable('sh') " Cygwin or other special
+                let apt = system('sh -c "apt-get --version"')
+                if match(apt, '[0-9]\+\.[0-9]\+') >= 0
+                    let s:ZF_ModuleGetApt = 'sh -c "apt-get install %s"'
+                else
+                    let apt = system('sh -c "apt-cyg --version"')
+                    if match(apt, '[0-9]\+\.[0-9]\+') >= 0
+                        let s:ZF_ModuleGetApt = 'sh -c "apt-cyg install %s"'
+                    endif
+                endif
             endif
-            let apt = system('sh -c "apt-cyg --version"')
-            if match(apt, '[0-9]\+\.[0-9]\+') >= 0
-                return 'sh -c "apt-cyg install %s"'
-            endif
         endif
-        echo ' ' | echo '[ZFVimrc!] unable to find package manager (apt-get/yum/brew)'
-        return ''
+        if empty('s:ZF_ModuleGetApt')
+            echo '[ZFVimrc!] unable to find package manager (apt-get/yum/brew)'
+        endif
+        return s:ZF_ModuleGetApt
     endfunction
     function! ZF_ModuleGetPip()
-        if executable('pip3')
-            return 'pip3 install %s'
+        if !exists('s:ZF_ModuleGetPip')
+            if executable('pip3')
+                let s:ZF_ModuleGetPip = 'pip3 install %s'
+            elseif executable('pip')
+                let s:ZF_ModuleGetPip = 'pip install %s'
+            endif
         endif
-        if executable('pip')
-            return 'pip install %s'
+        if empty('s:ZF_ModuleGetPip')
+            echo '[ZFVimrc!] unable to find pip'
         endif
-        echo ' ' | echo '[ZFVimrc!] unable to find pip'
-        return ''
+        return s:ZF_ModuleGetPip
     endfunction
     function! ZF_ModuleGetNpm()
-        if executable('npm')
-            return 'npm install -g %s'
+        if !exists('s:ZF_ModuleGetNpm')
+            if executable('npm')
+                let s:ZF_ModuleGetNpm = 'npm install -g %s'
+            endif
         endif
-        echo ' ' | echo '[ZFVimrc!] unable to find npm'
-        return ''
+        if empty('s:ZF_ModuleGetNpm')
+            echo '[ZFVimrc!] unable to find npm'
+        endif
+        return s:ZF_ModuleGetNpm
     endfunction
     function! ZF_ModuleGetGithubRelease(userName, repoName)
-        if executable('curl')
-            let list = system('curl -s https://api.github.com/repos/' . a:userName . '/' . a:repoName . '/releases/latest | grep "browser_"')
-        elseif executable('wget')
-            let list = system('wget -qO- https://api.github.com/repos/' . a:userName . '/' . a:repoName . '/releases/latest | grep "browser_"')
-        else
+        if !exists('s:ZF_ModuleGetGithubRelease')
+            if executable('curl')
+                let s:ZF_ModuleGetGithubRelease = 'curl -s https://api.github.com/repos/%s/%s/releases/latest | grep "browser_"'
+            elseif executable('wget')
+                let s:ZF_ModuleGetGithubRelease = 'wget -qO- https://api.github.com/repos/%s/%s/releases/latest | grep "browser_"'
+            else
+                let s:ZF_ModuleGetGithubRelease = ''
+            endif
+        endif
+        if empty('s:ZF_ModuleGetGithubRelease')
             return []
         endif
+        let list = system(printf(s:ZF_ModuleGetGithubRelease, a:userName, a:repoName))
         if match(list, 'browser_') < 0
             return []
         endif
@@ -223,44 +242,70 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         return ret
     endfunction
     function! ZF_ModuleExecShell(cmd)
-        echo ' ' | echo a:cmd
+        echo a:cmd
         let msg = system(a:cmd)
         for item in split(msg, "\n")
             echo item
         endfor
+        return msg
     endfunction
-    function! ZF_ModuleExec(cmd, module)
-        if empty(a:cmd)
+    function! ZF_ModuleExec(fmt, ...)
+        if empty(a:fmt)
             return
         endif
-        for module in split(a:module, ' ')
-            let cmd = printf(a:cmd, module)
-            call ZF_ModuleExecShell(cmd)
+        let tmp = 'let cmd = printf(a:fmt'
+        if a:0 == 1 && type(a:1) == type([])
+            for i in range(len(a:1))
+                let tmp .= ', a:1[' . i . ']'
+            endfor
+        else
+            for i in range(a:0)
+                let tmp .= ', a:' . (i+1)
+            endfor
+        endif
+        let tmp .= ')'
+        execute tmp
+        return ZF_ModuleExecShell(cmd)
+    endfunction
+    function! ZF_ModulePackAdd(pm, packages)
+        if empty(a:pm)
+            return
+        endif
+        for package in split(a:packages, ' ')
+            call ZF_ModuleExec(a:pm, package)
         endfor
     endfunction
     function! ZF_ModuleDownloadFile(to, url)
+        if !exists('s:ZF_ModuleDownloadFile')
+            if executable('curl')
+                let s:ZF_ModuleDownloadFile = 'curl -o "%s" -L "%s"'
+            elseif executable('wget')
+                let s:ZF_ModuleDownloadFile = 'wget -P "%s" "%s"'
+            else
+                let s:ZF_ModuleDownloadFile = ''
+            endif
+        endif
+        if empty(s:ZF_ModuleDownloadFile)
+            echo '[ZFVimrc!] no curl or wget available'
+            return 0
+        endif
+
         let tmp = tempname()
         let to = substitute(a:to, '\\', '/', 'g')
         let parent = fnamemodify(to, ':p:h')
         if !isdirectory(parent)
             call mkdir(parent, 'p')
         endif
-        if executable('curl')
-            let ret = system('curl -o "' . substitute(tmp, '\\', '/', 'g') . '" -L "' . a:url . '"')
-            if v:shell_error != 0
-                return '[ZFVimrc!] unable to download (' . v:shell_error . '), url: ' . a:url
-            endif
-        elseif executable('wget')
-            let ret = system('wget -P "' . substitute(tmp, '\\', '/', 'g') . '" "' . a:url . '"')
-            if v:shell_error != 0
-                return '[ZFVimrc!] unable to download (' . v:shell_error . '), url: ' . a:url
-            endif
-        else
-            return 'no curl or wget available'
+
+        let ret = system(printf(s:ZF_ModuleDownloadFile, substitute(tmp, '\\', '/', 'g'), a:url))
+        if v:shell_error != 0
+            echo '[ZFVimrc!] unable to download (' . v:shell_error . '), url: ' . a:url
+            return 0
         endif
+
         call writefile(readfile(tmp, 'b'), to, 'b')
         call delete(tmp)
-        return ''
+        return 1
     endfunction
 
     for f in sort(split(globpath(g:zf_vim_data_path . '/ZFVimModule', '*.vim'), "\n"))
@@ -1381,7 +1426,7 @@ if !g:zf_no_plugin
             let g:EasyGrepReplaceWindowMode = 2
             let g:EasyGrepDisableCmdParam = 1
             function! ZF_Plugin_easygrep_install()
-                call ZF_ModuleExec(ZF_ModuleGetApt(), 'grep')
+                call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'grep')
             endfunction
             call ZF_ModuleInstaller('ZF_Plugin_easygrep', 'call ZF_Plugin_easygrep_install()')
 
@@ -1419,6 +1464,10 @@ if !g:zf_no_plugin
 
             " ugly workaround to support `ggrep` in Mac
             function! s:fix_ggrep()
+                if exists('s:fix_ggrep_flag')
+                    return
+                endif
+                let s:fix_ggrep_flag = 1
                 if !executable('ggrep')
                     return
                 endif
@@ -1470,7 +1519,7 @@ if !g:zf_no_plugin
             nmap <leader>vgo <plug>EgMapGrepOptions
 
             function! ZF_Plugin_easygrep_pcregrep_install()
-                call ZF_ModuleExec(ZF_ModuleGetApt(), 'pcregrep pcre')
+                call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'pcregrep pcre')
             endfunction
             call ZF_ModuleInstaller('ZF_Plugin_easygrep_pcregrep', 'call ZF_Plugin_easygrep_pcregrep_install()')
             function! ZF_Plugin_easygrep_pcregrep(expr)
@@ -2179,7 +2228,7 @@ if !g:zf_no_plugin
             nnoremap <leader>ce :call ZF_VimEscape()<cr>
 
             function! ZF_Plugin_ZFVimEscape_install()
-                call ZF_ModuleExec(ZF_ModuleGetPip(), 'pyqrcode')
+                call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'pyqrcode')
             endfunction
             call ZF_ModuleInstaller('ZFVimEscape', 'call ZF_Plugin_ZFVimEscape_install()')
         endif
@@ -2216,9 +2265,9 @@ if !g:zf_no_plugin
             " note, for Windows python users, you may want to:
             " -  add `.py` to `PATHEXT`
             function! ZF_Plugin_ZFVimFormater_install()
-                call ZF_ModuleExec(ZF_ModuleGetApt(), 'astyle clang-format shfmt swiftformat tidy uncrustify')
-                call ZF_ModuleExec(ZF_ModuleGetPip(), 'cmake_format jsbeautifier sqlparse yapf')
-                call ZF_ModuleExec(ZF_ModuleGetNpm(), 'eslint lua-fmt prettier typescript typescript-formatter')
+                call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'astyle clang-format shfmt swiftformat tidy uncrustify')
+                call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'cmake_format jsbeautifier sqlparse yapf')
+                call ZF_ModulePackAdd(ZF_ModuleGetNpm(), 'eslint lua-fmt prettier typescript typescript-formatter')
             endfunction
             call ZF_ModuleInstaller('ZFVimFormater', 'call ZF_Plugin_ZFVimFormater_install()')
         endif
