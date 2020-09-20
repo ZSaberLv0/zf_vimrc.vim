@@ -168,7 +168,9 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
     function! ZF_ModuleGetApt()
         if !exists('s:ZF_ModuleGetApt')
             let s:ZF_ModuleGetApt = ''
-            if executable('apt-get')
+            if g:zf_windows && !empty(globpath(substitute($PATH, pathSeparator, ',', 'g'), 'apt-cyg'))
+                let s:ZF_ModuleGetApt = 'sh -c "apt-cyg install %s"'
+            elseif executable('apt-get')
                 let s:ZF_ModuleGetApt = 'apt-get install %s'
             elseif executable('yum')
                 let s:ZF_ModuleGetApt = 'yum install -y %s'
@@ -176,15 +178,9 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
                 let s:ZF_ModuleGetApt = 'brew install %s'
             elseif executable('apt')
                 let s:ZF_ModuleGetApt = 'apt install %s'
-            elseif executable('sh') " Cygwin or other special
-                let apt = system('sh -c "apt-get --version"')
-                if match(apt, '[0-9]\+\.[0-9]\+') >= 0
+            elseif executable('sh') " other special
+                if !empty(globpath(substitute($PATH, g:zf_windows ? ';' : ':', ',', 'g'), 'apt-get'))
                     let s:ZF_ModuleGetApt = 'sh -c "apt-get install %s"'
-                else
-                    let apt = system('sh -c "apt-cyg --version"')
-                    if match(apt, '[0-9]\+\.[0-9]\+') >= 0
-                        let s:ZF_ModuleGetApt = 'sh -c "apt-cyg install %s"'
-                    endif
                 endif
             endif
         endif
