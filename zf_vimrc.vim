@@ -199,6 +199,8 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
                 let s:ZF_ModuleGetPip = 'pip3 install %s'
             elseif executable('pip')
                 let s:ZF_ModuleGetPip = 'pip install %s'
+            else
+                let s:ZF_ModuleGetPip = ''
             endif
         endif
         if empty('s:ZF_ModuleGetPip')
@@ -210,6 +212,8 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
         if !exists('s:ZF_ModuleGetNpm')
             if executable('npm')
                 let s:ZF_ModuleGetNpm = 'npm install -g %s'
+            else
+                let s:ZF_ModuleGetNpm = ''
             endif
         endif
         if empty('s:ZF_ModuleGetNpm')
