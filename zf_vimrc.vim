@@ -168,7 +168,7 @@ if !get(g:, 'g:zf_no_submodule', 0) " sub modules
     function! ZF_ModuleGetApt()
         if !exists('s:ZF_ModuleGetApt')
             let s:ZF_ModuleGetApt = ''
-            if g:zf_windows && !empty(globpath(substitute($PATH, pathSeparator, ',', 'g'), 'apt-cyg'))
+            if g:zf_windows && !empty(globpath(substitute($PATH, ';', ',', 'g'), 'apt-cyg'))
                 let s:ZF_ModuleGetApt = 'sh -c "apt-cyg install %s"'
             elseif executable('apt-get')
                 let s:ZF_ModuleGetApt = 'apt-get install %s'
