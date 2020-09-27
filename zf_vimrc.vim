@@ -120,7 +120,7 @@ if 1 " global settings
 endif " global settings
 
 
-if !get(g:, 'g:zf_no_submodule', 0) " sub modules
+if !get(g:, 'zf_no_submodule', 0) " sub modules
     " extra install steps for sub modules
     let g:zfmoduleInstallerList = []
     function! ZF_ModuleInstaller(name, cmd)
