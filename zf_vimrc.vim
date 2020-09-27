@@ -2198,7 +2198,7 @@ if !g:zf_no_plugin
                 call system('rm -rf "' . tmp_path . '"')
                 call system('git clone ' . a:repo . ' "' . tmp_path . '"')
                 execute ':ZFDirDiff ' . tmp_path . ' .'
-                augroup ZF_DiffGit_autoclean_augroup
+                augroup ZF_DiffGit_autoClean_augroup
                     autocmd!
                     autocmd VimLeavePre * call system('rm -rf "' . g:zf_vim_cache_path . '/_zf_diffgit_tmp_"')
                 augroup END
