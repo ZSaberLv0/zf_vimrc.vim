@@ -135,7 +135,11 @@ if !get(g:, 'zf_no_submodule', 0) " sub modules
             redraw
             echo '============================================================'
             echo '[ZFVimrc] updating ' . item.name
-            execute '' . item.cmd
+            if type(item.cmd) == type('')
+                execute '' . item.cmd
+            else
+                call item.cmd()
+            endif
         endfor
         redraw
         echo '============================================================'
