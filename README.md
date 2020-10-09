@@ -235,8 +235,8 @@ and it does not properly set `$LANG`,
 to solve this, add this line to your `~/.zprofile` or `~/.zshrc`
 
 ```
-# or change to your proper locale
 export LANG="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
 ```
 
 
