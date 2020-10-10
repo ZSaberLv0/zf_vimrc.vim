@@ -1245,6 +1245,13 @@ if !g:zf_no_plugin
                 echo msg
                 return msg
             endfunction
+            function! ZF_Plugin_agit_checkout()
+                let hash = agit#extract_hash(getline('.'))
+                if hash != ''
+                    call agit#git#exec('checkout ' . hash, getcwd())
+                    execute "normal \<Plug>(agit-reload)"
+                endif
+            endfunction
             function! ZF_Plugin_agit_diff_checkout()
                 let file = ZF_Plugin_agit_curFile()
                 if empty(file)
@@ -1287,7 +1294,7 @@ if !g:zf_no_plugin
                             \| nmap <silent><buffer> DD <Plug>(agit-reload)
                 autocmd FileType agit
                             \  nmap <silent><buffer> p :call ZF_Plugin_agit_print_commitmsg()<cr>
-                            \| nmap <silent><buffer> c <Plug>(agit-git-checkout)
+                            \| nmap <silent><buffer> cc :call ZF_Plugin_agit_checkout()<cr>
                 autocmd FileType agit_stat
                             \  nmap <silent><buffer> o :call ZF_Plugin_agit_diffMap()<cr>
                             \| nmap <silent><buffer> <cr> :call ZF_Plugin_agit_diffMap()<cr>
