@@ -1082,6 +1082,9 @@ if !g:zf_no_plugin
     endif
 
     " minimal plugin config:
+    "     filetype plugin on
+    "     syntax on
+    "     set nocompatible
     "     let g:plug_home = $HOME . '/.vim/bundle'
     "     let g:plug_url_format = 'https://github.com/%s'
     "     execute 'source ' . g:plug_home . '/vim-plug/plug.vim'
