@@ -120,6 +120,22 @@ if 1 " global settings
 endif " global settings
 
 
+if !get(g:, 'zf_no_ext', 0)
+    let g:zf_vimrc_ext_path = g:zf_vim_data_path . '/ZFVimModule/zf_vimrc.ext'
+    if !filereadable(g:zf_vimrc_ext_path . '/README.md')
+        call system('git clone --depth=1 https://github.com/ZSaberLv0/zf_vimrc.ext "' . g:zf_vimrc_ext_path . '"')
+    endif
+    if !exists('g:ZFVimrcUtil_updateCallback')
+        let g:ZFVimrcUtil_updateCallback = {}
+    endif
+    let g:ZFVimrcUtil_updateCallback['zf_vimrc.ext'] = 'ZF_VimrcExtUpdate'
+    function! ZF_VimrcExtUpdate()
+        call system('cd "' . g:zf_vimrc_ext_path . '" && git fetch --all && git reset --hard origin/master && git pull')
+    endfunction
+    nnoremap <leader>vimre :edit ~/.vim/ZFVimModule/zf_vimrc.ext<cr>
+endif
+
+
 if !get(g:, 'zf_no_submodule', 0) " sub modules
     " extra install steps for sub modules
     let g:zfmoduleInstallerList = []
@@ -1065,20 +1081,6 @@ if !g:zf_no_plugin
 
     if !filereadable(s:plug_file_path)
         call system('git clone --depth=1 https://github.com/junegunn/vim-plug "' . g:zf_vim_plugin_path . '/vim-plug"')
-    endif
-    if !get(g:, 'zf_no_ext', 0)
-        let g:zf_vimrc_ext_path = g:zf_vim_data_path . '/ZFVimModule/zf_vimrc.ext'
-        if !filereadable(g:zf_vimrc_ext_path . '/README.md')
-            call system('git clone --depth=1 https://github.com/ZSaberLv0/zf_vimrc.ext "' . g:zf_vimrc_ext_path . '"')
-        endif
-        if !exists('g:ZFVimrcUtil_updateCallback')
-            let g:ZFVimrcUtil_updateCallback = {}
-        endif
-        let g:ZFVimrcUtil_updateCallback['zf_vimrc.ext'] = 'ZF_VimrcExtUpdate'
-        function! ZF_VimrcExtUpdate()
-            call system('cd "' . g:zf_vimrc_ext_path . '" && git fetch --all && git reset --hard origin/master && git pull')
-        endfunction
-        nnoremap <leader>vimre :edit ~/.vim/ZFVimModule/zf_vimrc.ext<cr>
     endif
 
     " minimal plugin config:
