@@ -306,7 +306,7 @@ let g:zf_fakevim=1
 
 * not fully tested
 * some vim simulation plugins doesn't support `source` command,
-  so you may need to paste directly to proper vimrc files (e.g. `.ideavim`, `.xvimrc`)
+  so you may need to paste directly to proper vimrc files (e.g. `.ideavimrc`, `.xvimrc`)
 * some vim simulation plugins doesn't support `if-statement` and plugins,
   so you may need to manually delete all lines under the `if g:zf_no_plugin!=1` section
 
@@ -315,6 +315,7 @@ let g:zf_fakevim=1
 
 recommended to:
 
+* (for MacOS only) `defaults write -g ApplePressAndHoldEnabled 0`
 * install `IdeaVim-EasyMotion` plugin (within your IDE's plugin manager)
 * add these configs to your `~/.ideavimrc`
 
