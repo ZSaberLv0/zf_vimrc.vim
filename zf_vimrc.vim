@@ -1906,7 +1906,7 @@ if !g:zf_no_plugin
         if !exists('g:ZF_Plugin_matchup')
             let g:ZF_Plugin_matchup = 1
         endif
-        if !exists('*matchaddpos')
+        if !exists('*matchaddpos') || v:version <= 704
             let g:ZF_Plugin_matchup = 0
         endif
         if g:ZF_Plugin_matchup
