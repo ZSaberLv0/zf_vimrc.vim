@@ -18,6 +18,7 @@
         * [DroidVim (recommended)](#droidvim-recommended)
         * [VimTouch](#vimtouch)
     * [For simulation plugins of IDE](#for-simulation-plugins-of-ide)
+        * [IdeaVim](#ideavim)
 
 <!-- vim-markdown-toc -->
 
@@ -308,4 +309,38 @@ let g:zf_fakevim=1
   so you may need to paste directly to proper vimrc files (e.g. `.ideavim`, `.xvimrc`)
 * some vim simulation plugins doesn't support `if-statement` and plugins,
   so you may need to manually delete all lines under the `if g:zf_no_plugin!=1` section
+
+
+### IdeaVim
+
+recommended to:
+
+* install `IdeaVim-EasyMotion` plugin (within your IDE's plugin manager)
+* add these configs to your `~/.ideavimrc`
+
+    ```
+    let g:zf_fakevim=1
+    source ~/zf_vimrc.vim
+
+    nmap <c-o> :action SearchEverywhere<cr>
+
+    set easymotion
+    nmap s <plug>(easymotion-s)
+    xmap s <plug>(easymotion-s)
+    nmap S <plug>(easymotion-bd-jk)
+    xmap S <plug>(easymotion-bd-jk)
+    let g:EasyMotion_startofline = 1
+
+    set surround
+    nmap rd ds
+    nmap RD ds
+    nmap rc cs
+    nmap RC cs
+    xmap r S
+    xmap R S
+
+    set commentary
+    nmap CC gcc
+    xmap CC gcc
+    ```
 
