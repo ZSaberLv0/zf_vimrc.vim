@@ -139,8 +139,10 @@ endif
 if !get(g:, 'zf_no_submodule', 0) " sub modules
     " extra install steps for sub modules
     let g:zfmoduleInstallerList = []
-    function! ZF_ModuleInstaller(name, cmd)
-        call add(g:zfmoduleInstallerList, {'name' : a:name, 'cmd' : a:cmd})
+    function! ZF_ModuleInstaller(name, cmd, ...)
+        if get(g:, 'ZFModule_' . a:name, get(a:, 1, 1))
+            call add(g:zfmoduleInstallerList, {'name' : a:name, 'cmd' : a:cmd})
+        endif
     endfunction
     function! s:ZF_ModuleInstallAction()
         if empty(g:zfmoduleInstallerList)
