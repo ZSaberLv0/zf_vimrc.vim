@@ -189,18 +189,18 @@ if !get(g:, 'zf_no_submodule', 0) " sub modules
         if !exists('s:ZF_ModuleGetApt')
             let s:ZF_ModuleGetApt = ''
             if g:zf_windows && !empty(globpath(substitute($PATH, ';', ',', 'g'), 'apt-cyg'))
-                let s:ZF_ModuleGetApt = 'sh -c "apt-cyg install %s"'
+                let s:ZF_ModuleGetApt = 'sh -c "yes | apt-cyg install %s"'
             elseif executable('apt-get')
-                let s:ZF_ModuleGetApt = 'apt-get install %s'
+                let s:ZF_ModuleGetApt = 'yes | apt-get install %s'
             elseif executable('yum')
-                let s:ZF_ModuleGetApt = 'yum install -y %s'
+                let s:ZF_ModuleGetApt = 'yes | yum install %s'
             elseif executable('brew')
-                let s:ZF_ModuleGetApt = 'brew install %s'
+                let s:ZF_ModuleGetApt = 'yes | brew install %s'
             elseif executable('apt')
-                let s:ZF_ModuleGetApt = 'apt install %s'
+                let s:ZF_ModuleGetApt = 'yes | apt install %s'
             elseif executable('sh') " other special
                 if !empty(globpath(substitute($PATH, g:zf_windows ? ';' : ':', ',', 'g'), 'apt-get'))
-                    let s:ZF_ModuleGetApt = 'sh -c "apt-get install %s"'
+                    let s:ZF_ModuleGetApt = 'sh -c "yes | apt-get install %s"'
                 endif
             endif
         endif
