@@ -924,7 +924,7 @@ if 1 " common settings
     set selectmode=key
     set mouse=
     " disable italic fonts
-    if v:version > 704 && get(g:, 'ZF_Setting_disableItalic', 1)
+    if v:version > 704 && get(g:, 'ZF_Setting_disableItalic', 0)
         function! ZF_Setting_disableItalic()
             let his = ''
             if exists('*execute')
