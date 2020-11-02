@@ -672,6 +672,7 @@ if 1 " custom key mapping
     nnoremap CI <c-a>
     nnoremap CU <c-x>
     set nrformats+=alpha
+    set nrformats-=octal
     " macro spec
     function! ZF_Setting_VimMacroMap()
         nnoremap Q :call ZF_Setting_VimMacroBegin(0)<cr>
@@ -755,7 +756,9 @@ if 1 " custom key mapping
         nnoremap <leader>z/ :%s/\<<c-r>0\>//gn<left><left><left><left>
         xnoremap <leader>z/ y:%s/\<<c-r>0\>//gn<left><left><left><left>
     endif
-    " suspend is not useful
+    " command line utils
+    cnoremap <expr> %% getcmdtype() == ':' ? substitute(expand('%'), '\\', '/', 'g') : '%%'
+    " suspend is not useful and would confuse user
     nnoremap <c-z> <nop>
 endif " custom key mapping
 
@@ -790,6 +793,9 @@ if 1 " common settings
     set whichwrap=b,s,<,>,[,]
     set display=lastline
     set sessionoptions-=options
+    if has("patch-8.1.1564")
+        set signcolumn=number
+    endif
     function! ZF_Setting_common_action()
         set number
         set textwidth=0
@@ -923,6 +929,7 @@ if 1 " common settings
     set sidescrolloff=5
     set selectmode=key
     set mouse=
+    set nomodeline
     " disable italic fonts
     if v:version > 704 && get(g:, 'ZF_Setting_disableItalic', 0)
         function! ZF_Setting_disableItalic()
