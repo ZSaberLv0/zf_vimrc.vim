@@ -757,7 +757,7 @@ if 1 " custom key mapping
         xnoremap <leader>z/ y:%s/\<<c-r>0\>//gn<left><left><left><left>
     endif
     " command line utils
-    cnoremap <expr> %% getcmdtype() == ':' ? substitute(expand('%'), '\\', '/', 'g') : '%%'
+    cnoremap <expr> %% getcmdtype() == ':' ? substitute(expand('%:p'), '\\', '/', 'g') : '%%'
     " suspend is not useful and would confuse user
     nnoremap <c-z> <nop>
 endif " custom key mapping
@@ -2421,6 +2421,19 @@ if !g:zf_no_plugin
                             \   "\"             \\     'git_user_pwd' : 'YourPwdOrToken',",
                             \   "\"             \\   },",
                             \   "\"             \\ ]",
+                            \   "",
+                            \   "if !exists('g:ZFIgnoreData')",
+                            \   "    let g:ZFIgnoreData = {}",
+                            \   "endif",
+                            \   "let g:ZFIgnoreData['MyCustomIgnore'] = {",
+                            \   "            \\   'common' : {",
+                            \   "            \\     'file' : {",
+                            \   "            \\       '*.exe' : 1,",
+                            \   "            \\     },",
+                            \   "            \\     'dir' : {",
+                            \   "            \\     },",
+                            \   "            \\   },",
+                            \   "            \\ }",
                             \   "",
                             \   "\" let g:ZFAutoScript = {",
                             \   "\"             \\   'projDir' : 'shell_to_run',",
