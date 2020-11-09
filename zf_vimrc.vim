@@ -2502,6 +2502,11 @@ if !g:zf_no_plugin
         endif
         if g:ZF_Plugin_ZFVimUtil
             ZFPlug 'ZSaberLv0/ZFVimUtil'
+            function! ZF_Plugin_ZFVimUtil_install()
+                call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'pillow')
+            endfunction
+            call ZF_ModuleInstaller('ZFVimUtil', 'call ZF_Plugin_ZFVimUtil_install()')
+
             nnoremap <leader>vs :ZFExecShell<space>
             nnoremap <leader>vc :ZFExecCmd<space>
             nnoremap <leader>calc :ZFCalc<space>
