@@ -1006,6 +1006,7 @@ if 1 " common settings
     function! ZF_Setting_fold_action()
         set foldminlines=0
         set foldlevel=128
+        set foldignore=
         set foldmethod=manual
         normal! zE
     endfunction
