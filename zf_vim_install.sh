@@ -23,7 +23,7 @@ else
 fi
 
 _old_dir=$(pwd)
-cd ~
+cd "$HOME"
 
 # ============================================================
 # clean
@@ -69,7 +69,7 @@ zf_vim_install () {
         echo "\" * after installed, press z? to view quick tutorial, enjoy" >> "$_vimrc"
         echo "" >> "$_vimrc"
 
-        echo "source ~/zf_vimrc.vim" >> "$_vimrc"
+        echo "source \$HOME/zf_vimrc.vim" >> "$_vimrc"
         echo "\" ---------- added by zf_vimrc.vim ----------" >> "$_vimrc"
         echo "" >> "$_vimrc"
         echo "" >> "$_vimrc"
