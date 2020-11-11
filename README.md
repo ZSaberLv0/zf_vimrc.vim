@@ -66,10 +66,10 @@ as well as for default text editor and log viewer
                                 // files are ensured to be sourced by name order
             vimrc.local.vim     // (optional) local setting for current machine
             YourGitRepo/
-                ZFInit/         //     called during init
-                ZFPlugPrev/     //     called just after `vim-plug`'s `plug#begin()`
-                ZFPlugPost/     //     called just before `vim-plug`'s `plug#end()`
-                ZFFinish/       //     called after all other source
+                ZFInit/         //     sourced during init
+                ZFPlugPrev/     //     sourced just after `vim-plug`'s `plug#begin()`
+                ZFPlugPost/     //     sourced just before `vim-plug`'s `plug#end()`
+                ZFFinish/       //     sourced after all other source
     .vimrc                      // vim's default config file
     zf_vimrc.vim                // this repo's main config file
 ```
@@ -102,7 +102,7 @@ export ZF_xxx=1
 curl zsaber.com/vim | sh
 ```
 
-<b>once installed, you may press `z?` to view a quick tutorial for this config</b>
+once installed, you may press `z?` to view a quick tutorial for this config
 
 
 ### Windows gVimPortable
@@ -187,33 +187,34 @@ $HOME/zf_vimrc.vim
 
 # Customizing
 
-1. it's recommended to modify platform-dependent settings in `.vimrc` or `~/.vim/ZFVimModule/vimrc.local.vim`, such as:
+this config is fully modularized, it's recommended to supply your own setting in `~/.vim/ZFVimModule`:
 
-    ```
-    au GUIEnter * simalt ~x
-    set guifont=Consolas:h12
-    set termencoding=cp936
-    let g:zf_colorscheme_256=1
-    source path/zf_vimrc.vim
-    ```
+```
+~/
+    .vim/
+        ZFVimModule/
+            vimrc.local.vim     // recommended to supply platform-dependent settings for local machine
+            YourGitRepo1/       // you may supply extra config as git repo,
+                                //   with specified directory structure
+                ZFInit/         // sourced during init,
+                                //   config for `zf_vimrc.vim` itself can be placed here,
+                                //   for example `let g:ZF_Plugin_agit = 0` to disable builtin plugin
+                    a.vim       // all *.vim files would be sourced,
+                    b.vim       //   and are ensured ordered by file name
+                ZFPlugPrev/     // sourced just after `plug#begin()`,
+                                //   you may add your own plugin here,
+                                //   for example: `ZFPlug 'UserName/PlugName'`
+                ZFPlugPost/     // sourced just before `plug#end()`
+                ZFFinish/       // sourced after all other source,
+                                //   can be used to override some config of `zf_vimrc.vim`
+            YourGitRepo2/       // you may supply any number of extra config
+                ZFInit/
+                ZFPlugPrev/
+                ZFPlugPost/
+                ZFFinish/
+```
 
-* all builtin plugins can be disabled by adding this before `source zf_vimrc.vim`
-
-    ```
-    let g:ZF_Plugin_agit=0
-    ```
-
-* to add your own plugin, add this before `source zf_vimrc.vim`
-
-    ```
-    function! MyPlugSetting()
-        ZFPlug 'username/your_plugin1_name'
-        let your_plugin1_config=xxx
-        ZFPlug 'username/your_plugin2_name'
-        let your_plugin2_config=yyy
-    endfunction
-    autocmd User ZFVimrcPlug call MyPlugSetting()
-    ```
+see [zf_vimrc.ext](https://github.com/ZSaberLv0/zf_vimrc.ext) for example
 
 
 # Platform Spec
@@ -265,7 +266,7 @@ set it directly to `.vimrc`, choose the right one for you
 ### DroidVim (recommended)
 
 * the vim config is placed under `/data/data/com.droidvim/files/home/.vimrc`
-* you should manually copy all settings from other platform to VimTouch's folder,
+* you should manually copy all settings from other platform to DroidVim's folder,
     the result folder tree should looks like:
 
     ```
