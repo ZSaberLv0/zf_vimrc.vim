@@ -2433,7 +2433,6 @@ if !g:zf_no_plugin
                             \   "let g:ZFIgnoreData['MyCustomIgnore'] = {",
                             \   "            \\   'common' : {",
                             \   "            \\     'file' : {",
-                            \   "            \\       '*.exe' : 1,",
                             \   "            \\     },",
                             \   "            \\     'dir' : {",
                             \   "            \\     },",
