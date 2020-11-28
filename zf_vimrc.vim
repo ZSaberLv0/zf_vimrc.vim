@@ -1287,7 +1287,7 @@ if !g:zf_no_plugin
                 if empty(file)
                     return
                 endif
-                echo 'delete `' . fnamemodify(file, ':t') . '` ?'
+                echo 'delete `' . file . '` ?'
                 echo '  (y)es'
                 echo '  (n)o'
                 echo 'choose: '
@@ -1299,7 +1299,15 @@ if !g:zf_no_plugin
                 if exists('*ZFBackupSave')
                     call ZFBackupSave(file)
                 endif
-                call delete(file)
+                if isdirectory(file)
+                    if g:zf_windows
+                        call system('rmdir /s/q "' . file . '" >nul 2>&1')
+                    else
+                        call system('rm -rf "' . file . '" >/dev/null 2>&1')
+                    endif
+                else
+                    call delete(file)
+                endif
                 execute "normal \<Plug>(agit-reload)"
                 redraw!
             endfunction
