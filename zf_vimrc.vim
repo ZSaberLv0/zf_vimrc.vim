@@ -1214,13 +1214,13 @@ if !g:zf_no_plugin
                 execute "normal! \<c-w>k"
                 execute "normal! \<c-w>h"
                 try
-                    nunmap <buffer> q
+                    silent! nunmap <buffer> q
                 endtry
                 let changed += ZF_Plugin_agit_askWrite()
                 execute "normal! \<c-w>k"
                 execute "normal! \<c-w>l"
                 try
-                    nunmap <buffer> q
+                    silent! nunmap <buffer> q
                 endtry
                 let changed += ZF_Plugin_agit_askWrite()
                 tabclose
