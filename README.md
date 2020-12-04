@@ -326,6 +326,7 @@ recommended to:
 
     nmap <c-o> :action SearchEverywhere<cr>
     nmap zi :action ShowIntentionActions<cr>
+    nmap zo :action OverrideMethods<cr>
 
     set easymotion
     nmap s <plug>(easymotion-s)
