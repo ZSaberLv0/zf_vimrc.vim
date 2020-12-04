@@ -325,6 +325,7 @@ recommended to:
     source ~/zf_vimrc.vim
 
     nmap <c-o> :action SearchEverywhere<cr>
+    nmap zi :action ShowIntentionActions<cr>
 
     set easymotion
     nmap s <plug>(easymotion-s)
