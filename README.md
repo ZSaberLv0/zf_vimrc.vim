@@ -45,8 +45,8 @@ tested:
 
 may work: (search and see `g:zf_fakevim`)
 
+* IntelliJ IDEA's IdeaVim (good to use, some keymap doesn't work)
 * Qt Creator's FakeVim (able to use, some keymap doesn't work)
-* IntelliJ IDEA's IdeaVim (able to use, some keymap doesn't work)
 * VisualStudio's VsVim (able to use, some keymap doesn't work, require `let g:zf_fakevim=1`)
 * XCode's XVim (not recommended, some action have unexpected behavior)
 
@@ -307,7 +307,7 @@ let g:zf_fakevim=1
 
 * not fully tested
 * some vim simulation plugins doesn't support `source` command,
-  so you may need to paste directly to proper vimrc files (e.g. `.ideavimrc`, `.xvimrc`)
+  so you may need to paste directly to proper vimrc files (e.g. `.xvimrc`)
 * some vim simulation plugins doesn't support `if-statement` and plugins,
   so you may need to manually delete all lines under the `if g:zf_no_plugin!=1` section
 
@@ -327,6 +327,9 @@ recommended to:
     nmap <c-o> :action SearchEverywhere<cr>
     nmap zi :action ShowIntentionActions<cr>
     nmap zo :action OverrideMethods<cr>
+    nmap X :action CloseAllEditorsButActive<cr>
+    nmap H :action PreviousTab<cr>
+    nmap L :action NextTab<cr>
 
     set easymotion
     nmap s <plug>(easymotion-s)
