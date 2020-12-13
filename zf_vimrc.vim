@@ -1057,6 +1057,9 @@ if !g:zf_no_plugin
     let g:zfplugMap = {}
     let g:zfplug_needupdate = 0
     function! s:Plug(repo, ...)
+        if get(get(g:, 'zfplugDisableMap', {}), a:repo, 0)
+            return
+        endif
         if get(g:zfplugMap, a:repo) != 0
             return
         endif
