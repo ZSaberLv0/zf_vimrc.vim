@@ -2200,6 +2200,10 @@ if !g:zf_no_plugin
         endif
         if g:ZF_Plugin_ZFVimImageViewer
             ZFPlug 'ZSaberLv0/ZFVimImageViewer'
+            function! ZF_Plugin_ZFVimImageViewer_install()
+                call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'img2txt.py')
+            endfunction
+            call ZF_ModuleInstaller('ZF_Plugin_ZFVimImageViewer', 'call ZF_Plugin_ZFVimImageViewer_install()')
         endif
 
         " ==================================================
