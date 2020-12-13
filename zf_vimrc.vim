@@ -1137,8 +1137,6 @@ if !g:zf_no_plugin
         if !exists('g:zf_color_plugin_256')
             let g:zf_color_plugin_256 = 'morhetz/gruvbox'
             let g:gruvbox_italic = 0
-            " gruvbox default to light bg for some weird vim version
-            autocmd FileType,BufNewFile,BufReadPost * call ZFColorscheme()
             function! ZF_Plugin_gruvbox_colorscheme()
                 if get(g:, 'ZF_colorscheme_override', 1)
                     highlight Cursor gui=BOLD guibg=Green guifg=Black
@@ -1170,6 +1168,9 @@ if !g:zf_no_plugin
             if g:zf_color_plugin_256 != '' && g:zf_color_plugin_256 != g:zf_color_plugin_default
                 ZFPlug g:zf_color_plugin_256
             endif
+            execute 'set background=' . g:zf_color_bg_256
+        else
+            execute 'set background=' . g:zf_color_bg_default
         endif
     endif " themes
 
@@ -2191,6 +2192,14 @@ if !g:zf_no_plugin
         if g:ZF_Plugin_ZFVimIgnore
             ZFPlug 'ZSaberLv0/ZFVimIgnore'
             nnoremap <leader>vgi :ZFIgnoreToggle<cr>
+        endif
+
+        " ==================================================
+        if !exists('g:ZF_Plugin_ZFVimImageViewer')
+            let g:ZF_Plugin_ZFVimImageViewer = 1
+        endif
+        if g:ZF_Plugin_ZFVimImageViewer
+            ZFPlug 'ZSaberLv0/ZFVimImageViewer'
         endif
 
         " ==================================================
