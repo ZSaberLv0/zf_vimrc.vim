@@ -14,9 +14,10 @@ if 1 " global settings
     if has('win32') || has('win64')
         let g:zf_windows = 1
     endif
-    let g:zf_cygwin = 0
-    if g:zf_windows && has('win32unix') && executable('cygpath')
+    if has('win32unix') && executable('cygpath')
         let g:zf_cygwin = 1
+    else
+        let g:zf_cygwin = 0
     endif
     let g:zf_mac = 0
     if has('unix')
@@ -190,7 +191,7 @@ if !get(g:, 'zf_no_submodule', 0) " sub modules
     function! ZF_ModuleGetApt()
         if !exists('s:ZF_ModuleGetApt')
             let s:ZF_ModuleGetApt = ''
-            if g:zf_windows && !empty(globpath(substitute($PATH, ';', ',', 'g'), 'apt-cyg'))
+            if !empty(globpath(substitute($PATH, ';', ',', 'g'), 'apt-cyg'))
                 let s:ZF_ModuleGetApt = 'sh -c "yes | apt-cyg install %s"'
             elseif executable('apt-get')
                 let s:ZF_ModuleGetApt = 'yes | apt-get install %s'
