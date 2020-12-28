@@ -617,6 +617,11 @@ if 1 " custom key mapping
             snoremap <c-g> <c-o>"_c<c-r>0
         endif
     endif
+    if has('clipboard')
+        cnoremap <s-insert> <c-r>*
+    else
+        cnoremap <s-insert> <c-r>"
+    endif
     " window and buffer management
     nnoremap B :bufdo<space>
     nnoremap zs :w<cr>
@@ -1641,11 +1646,6 @@ if !g:zf_no_plugin
                 endif
                 nmap <silent> <leader>vf <Plug>(incsearch-fuzzy-/)
                 nnoremap <leader>zf /\v
-                if has('clipboard')
-                    cnoremap <s-insert> <c-r>*
-                else
-                    cnoremap <s-insert> <c-r>"
-                endif
             endfunction
             augroup ZF_Plugin_incsearch_augroup
                 autocmd!
