@@ -2218,6 +2218,25 @@ if !g:zf_no_plugin
         endif
 
         " ==================================================
+        if !exists('g:ZF_Plugin_ZFVimAsciiPlayer')
+            let g:ZF_Plugin_ZFVimAsciiPlayer = 1
+        endif
+        if g:ZF_Plugin_ZFVimAsciiPlayer
+            ZFPlug 'ZSaberLv0/ZFVimAsciiPlayer'
+
+            if !exists('g:ZF_Plugin_ZFVimAsciiPlayer_image')
+                let g:ZF_Plugin_ZFVimAsciiPlayer_image = 1
+            endif
+            if g:ZF_Plugin_ZFVimAsciiPlayer_image
+                ZFPlug 'ZSaberLv0/ZFVimAsciiPlayer_image'
+                function! ZF_Plugin_ZFVimAsciiPlayer_image_install()
+                    call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'img2txt.py')
+                endfunction
+                call ZF_ModuleInstaller('ZF_Plugin_ZFVimAsciiPlayer_image', 'call ZF_Plugin_ZFVimAsciiPlayer_image_install()')
+            endif
+        endif
+
+        " ==================================================
         if !exists('g:ZF_Plugin_ZFVimIM')
             let g:ZF_Plugin_ZFVimIM = 1
         endif
