@@ -869,9 +869,6 @@ if 1 " common settings
                 setlocal noswapfile
                 setlocal nocursorline
                 setlocal norelativenumber
-                if v:version > 704 || (v:version == 704 && has("patch073"))
-                    setlocal undolevels=-1
-                endif
                 let b:zf_vim_largefile = 1
                 doautocmd User ZFVimLargeFile
             elseif get(b:, 'zf_vim_largefile', 0) && a:notifyRestore
