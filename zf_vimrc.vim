@@ -26,7 +26,7 @@ if 1 " global settings
                 endif
             endif
         endif
-        return substitute(path, '\\', '/', 'g')
+        return substitute(substitute(path, '\\', '/', 'g'), '\%(\/\)\@<!\/\+$', '', '') " (?<!\/)\/+$
     endfunction
 
     let g:zf_vimrc_path = CygpathFix_absPath(expand('<sfile>'))
