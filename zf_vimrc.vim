@@ -1547,17 +1547,16 @@ if !g:zf_no_plugin
             let g:eregex_default_enable = 0
             function! ZF_Plugin_eregex_sort(bang, line1, line2, args)
                 let cmd = a:line1 . ',' . a:line2 . 'sort' . a:bang . ' '
-                if len(a:args) <= 0 || a:args[0] != '/'
+                " (?<=\/).*?(?=\/|$)
+                let pattern = matchstr(a:args, '\%(\/\)\@<=.\{-}\%(\/\|$\)\@=')
+                let patternPos = match(a:args, '\%(\/\)\@<=.\{-}\%(\/\|$\)\@=')
+                if len(pattern) == 0 || patternPos < 0
                     let cmd .= a:args
                 else
-                    let match = matchstrpos(a:args, '\%(/\)\@<=.*\%(/\)\@=')
-                    if match[1] >= 0
-                        let cmd .= '/' . E2v(match[0]) . '/ ' . strpart(a:args, match[2] + 1)
-                    else
-                        let cmd .= '/' . E2v(strpart(a:args, 1)) . '/'
-                    endif
+                    let cmd .= strpart(a:args, 0, patternPos)
+                    let cmd .= E2v(pattern)
+                    let cmd .= strpart(a:args, patternPos + len(pattern))
                 endif
-
                 execute cmd
             endfunction
             command! -nargs=* -range=% -bang Sort :call ZF_Plugin_eregex_sort('<bang>', <line1>, <line2>, <q-args>)
