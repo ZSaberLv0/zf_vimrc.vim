@@ -3,7 +3,7 @@
 " ============================================================
 
 if 1 " global settings
-    filetype plugin on
+    filetype plugin indent on
     syntax on
     set nocompatible
 
@@ -1126,7 +1126,7 @@ if !g:zf_no_plugin
     endif
 
     " minimal plugin config:
-    "     filetype plugin on
+    "     filetype plugin indent on
     "     syntax on
     "     set nocompatible
     "     let g:plug_home = $HOME . '/.vim/bundle'
