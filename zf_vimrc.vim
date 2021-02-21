@@ -352,6 +352,17 @@ if !get(g:, 'zf_no_submodule', 0) " sub modules
         call delete(tmp)
         return 1
     endfunction
+    function! ZF_ModuleGitClone(repo, toPath)
+        if filereadable(a:toPath . '/.git/HEAD')
+            return
+        endif
+        if g:zf_windows
+            call system('rmdir /s/q "' . substitute(a:toPath, '/', '\', 'g') . '"')
+        else
+            call system('rm -rf "' . substitute(a:toPath, '\', '/', 'g') . '"')
+        endif
+        echo system('git clone --depth=1 ' . a:repo . ' "' . substitute(a:toPath, '\', '/', 'g') . '"')
+    endfunction
 
     for f in sort(split(globpath(g:zf_vim_data_path . '/ZFVimModule', '*.vim'), "\n"))
         execute 'source ' . fnameescape(f)
