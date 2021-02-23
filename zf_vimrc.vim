@@ -1250,7 +1250,6 @@ if !g:zf_no_plugin
             let g:AutoPairsMapBS = 1
             let g:AutoPairsMapCh = 0
             let g:AutoPairsMapCR = 0
-            let g:AutoPairsCenterLine = 0
             let g:AutoPairsMapSpace = 0
             let g:AutoPairsFlyMode = 0
             let g:AutoPairsMultilineClose = 0
