@@ -953,13 +953,32 @@ if 1 " common settings
     endif
     " tab and indent
     set expandtab
-    set shiftwidth=4
-    set softtabstop=0
-    set tabstop=4
+    set nosmarttab
     set smartindent
     set cindent
     set autoindent
-    set cinkeys=0{,0},0),:,!^F,o,O,e
+    set cinkeys=0{,0},:,!^F,o,O,e
+    function! s:tabstop(n)
+        let s:tabstopOverride=1
+        let &shiftwidth=a:n
+        let &tabstop=a:n
+        let &softtabstop=0
+        let s:tabstopOverride=0
+    endfunction
+    call s:tabstop(4)
+    if exists('##OptionSet')
+        augroup ZF_Setting_tabstop
+            autocmd!
+            autocmd OptionSet shiftwidth,tabstop,softtabstop call s:tabstopSync()
+        augroup END
+        function! s:tabstopSync()
+            if get(s:, 'tabstopOverride', 0)
+                        \ || v:option_new <= 0
+                return
+            endif
+            call s:tabstop(v:option_new)
+        endfunction
+    endif
     " editing
     set virtualedit=onemore,block
     set selection=exclusive
