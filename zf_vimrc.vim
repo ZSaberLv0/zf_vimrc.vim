@@ -1684,6 +1684,31 @@ if !g:zf_no_plugin
         endif
 
         " ==================================================
+        if !exists('g:ZF_Plugin_inline_edit')
+            let g:ZF_Plugin_inline_edit = 1
+        endif
+        if g:ZF_Plugin_inline_edit
+            ZFPlug 'AndrewRadev/inline_edit.vim'
+            let g:inline_edit_proxy_type = "tempfile"
+            let g:inline_edit_modify_statusline = 0
+            function! ZF_Plugin_inline_edit_entry(count, filetype) range
+                let winnrOld = winnr('$')
+                execute "'<,'>InlineEdit " . a:filetype
+                if winnrOld == winnr('$')
+                    return
+                endif
+                let undolevelsOld = &undolevels
+                set undolevels=-1
+                silent! execute "normal! a \<bs>\<esc>gg0"
+                let &undolevels = undolevelsOld
+                set nomodified
+                nnoremap <buffer><expr> q &modified?':w<cr>:bd<cr>':':bd<cr>'
+            endfunction
+            command! -range=0 -nargs=* -complete=filetype E
+                        \ call ZF_Plugin_inline_edit_entry(<count>, <q-args>)
+        endif
+
+        " ==================================================
         if !exists('g:ZF_Plugin_LeaderF')
             let g:ZF_Plugin_LeaderF = 1
         endif
