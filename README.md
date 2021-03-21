@@ -35,8 +35,8 @@ main purpose:
 
 tested:
 
-* vim version 7.3 or above
-* neovim version 0.1 or above
+* vim 7.3 or above
+* neovim 0.3 or above
 * Windows's gVim
 * cygwin's vim
 * Mac OS's vim and macvim (console or GUI)
