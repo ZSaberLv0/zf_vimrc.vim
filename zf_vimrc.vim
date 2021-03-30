@@ -7,6 +7,14 @@ if 1 " global settings
     syntax on
     set nocompatible
 
+    " global functions
+    function! ZF_rm(dir)
+        if g:zf_windows
+            call system('rmdir /s/q "' . substitute(a:dir, '/', '\', 'g') . '"')
+        else
+            call system('rm -rf "' . substitute(a:dir, '\', '/', 'g') . '"')
+        endif
+    endfunction
     function! CygpathFix_absPath(path)
         if len(a:path) <= 0|return ''|endif
         if !exists('g:CygpathFix_isCygwin')
@@ -357,11 +365,7 @@ if !get(g:, 'zf_no_submodule', 0) " sub modules
         if filereadable(a:toPath . '/.git/HEAD')
             return
         endif
-        if g:zf_windows
-            call system('rmdir /s/q "' . substitute(a:toPath, '/', '\', 'g') . '"')
-        else
-            call system('rm -rf "' . substitute(a:toPath, '\', '/', 'g') . '"')
-        endif
+        call ZF_rm(a:toPath)
         echo system('git clone --depth=1 ' . a:repo . ' "' . substitute(a:toPath, '\', '/', 'g') . '"')
     endfunction
 
@@ -2161,12 +2165,12 @@ if !g:zf_no_plugin
                 redraw!
                 echo 'updating ' . a:repo . ' ...'
                 let tmp_path = g:zf_vim_cache_path . '/_zf_diffgit_tmp_'
-                call system('rm -rf "' . tmp_path . '"')
+                call ZF_rm(tmp_path)
                 call system('git clone ' . a:repo . ' "' . tmp_path . '"')
                 execute ':ZFDirDiff ' . tmp_path . ' .'
                 augroup ZF_DiffGit_autoClean_augroup
                     autocmd!
-                    autocmd VimLeavePre * call system('rm -rf "' . g:zf_vim_cache_path . '/_zf_diffgit_tmp_"')
+                    autocmd VimLeavePre * call ZF_rm(g:zf_vim_cache_path . '/_zf_diffgit_tmp_')
                 augroup END
             endfunction
             command! -nargs=+ ZFDiffGit :call ZF_DiffGit(<q-args>)
