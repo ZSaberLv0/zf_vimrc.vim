@@ -1370,6 +1370,7 @@ if !g:zf_no_plugin
             " modified to support:
             " * `--exclude-from` with large exclude list
             ZFPlug 'ZSaberLv0/vim-easygrep'
+            let g:EasyGrepFileAssociations = ''
             let g:EasyGrepRecursive = 1
             let g:EasyGrepAllOptionsInExplorer = 1
             let g:EasyGrepCommand = 1
