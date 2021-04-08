@@ -1865,10 +1865,16 @@ if !g:zf_no_plugin
         endif
         if g:ZF_Plugin_matchup
             ZFPlug 'andymass/vim-matchup'
-            let g:matchup_matchparen_status_offscreen = 0
-            let g:matchup_matchparen_pumvisible = 0
             let g:matchup_mappings_enabled = 0
+            let g:matchup_mouse_enabled = 0
             let g:matchup_text_obj_enabled = 0
+            let g:matchup_matchparen_timeout = 50
+            let g:matchup_matchparen_insert_timeout = 50
+            let g:matchup_matchparen_offscreen = {}
+            let g:matchup_matchparen_deferred = 1
+            let g:matchup_matchparen_deferred_show_delay = 200
+            let g:matchup_matchparen_pumvisible = 0
+            let g:matchup_matchparen_nomode = "ivV\<c-v>"
             if !g:zf_fakevim
                 nmap % <plug>(matchup-%)
                 xmap % <plug>(matchup-%)
@@ -1881,7 +1887,7 @@ if !g:zf_no_plugin
                     if g:zf_low_performance
                         let g:matchup_matchparen_stopline = 20
                     else
-                        let g:matchup_matchparen_stopline = 1000
+                        let g:matchup_matchparen_stopline = 300
                     endif
                 endfunction
                 autocmd User ZFVimLowPerf,ZFVimrcPostLow call s:ZF_Plugin_matchup_low_perf()
