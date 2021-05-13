@@ -597,10 +597,19 @@ if 1 " custom key mapping
     endif
     set clipboard+=unnamed
     set clipboard+=unnamedplus
-    nnoremap p gP
-    xnoremap p "_dgP
-    nnoremap P gp
-    xnoremap P "_dgp
+    if !g:zf_fakevim
+        " https://github.com/neovim/neovim/issues/8272#issuecomment-381306483
+        " E315
+        nnoremap <silent> p :silent! normal! ""gP<cr>
+        xnoremap <silent> p "_d:silent! normal! ""gP<cr>
+        nnoremap <silent> P :silent! normal! ""gp<cr>
+        xnoremap <silent> P "_d:silent! normal! ""gp<cr>
+    else
+        nnoremap p gP
+        xnoremap p "_dgP
+        nnoremap P gp
+        xnoremap P "_dgp
+    endif
     nmap <c-g> p
     xmap <c-g> p
     if has('clipboard')
