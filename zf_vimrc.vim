@@ -895,6 +895,7 @@ if 1 " common settings
                 setlocal nofoldenable
                 setlocal noswapfile
                 setlocal nocursorline
+                setlocal nocursorcolumn
                 setlocal norelativenumber
                 let b:zf_vim_largefile = 1
                 doautocmd User ZFVimLargeFile
