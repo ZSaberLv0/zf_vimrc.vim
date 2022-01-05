@@ -234,7 +234,7 @@ if !get(g:, 'zf_no_submodule', 0) " sub modules
         let &more = moreSaved
         let @/ = '.*\(zfvimrc!\|error\|fail\|unable\|exception\|not found\|ambiguous\|err!\).*'
         call histadd('/', @/)
-        call feedkeys('ggn', 't')
+        call feedkeys('ggn', 'nt')
 
         redraw!
         echo '[ZFVimrc] update finish'
@@ -624,7 +624,7 @@ if 1 " custom key mapping
         " paste as user typed
         " to ensure the command would exist in command history
         function! ZF_Setting_command_paste()
-            call feedkeys("\<c-r>*", 't')
+            call feedkeys("\<c-r>*", 'nt')
             return ''
         endfunction
         cnoremap <expr> <c-g> '' . ZF_Setting_command_paste()
