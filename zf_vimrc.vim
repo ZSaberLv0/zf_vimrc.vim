@@ -998,7 +998,8 @@ if 1 " common settings
     endif
     " editing
     set virtualedit=onemore,block
-    set selection=exclusive
+    " exclusive is buggy, especially for old plugins
+    " set selection=exclusive
     set guicursor=a:block-blinkon0
     set backspace=indent,eol,start
     set scrolloff=5
@@ -2071,7 +2072,7 @@ if !g:zf_no_plugin
 
         " ==================================================
         if !exists('g:ZF_Plugin_supertab')
-            let g:ZF_Plugin_supertab = 1
+            let g:ZF_Plugin_supertab = 0
         endif
         if g:ZF_Plugin_supertab
             ZFPlug 'ervandew/supertab'
@@ -2137,8 +2138,39 @@ if !g:zf_no_plugin
             let g:UltiSnipsJumpBackwardTrigger = "<c-u>"
             let g:UltiSnipsRemoveSelectModeMappings = 0
         endif
+
+        if !exists('g:ZF_Plugin_snipmate')
+            let g:ZF_Plugin_snipmate = (g:ZF_Plugin_ultisnips ? 0 : 1)
+        endif
+        if g:ZF_Plugin_snipmate
+            " https://github.com/garbas/vim-snipmate/issues/285
+            if &selection != 'exclusive'
+                ZFPlug 'MarcWeber/vim-addon-mw-utils'
+                ZFPlug 'tomtom/tlib_vim'
+                ZFPlug 'garbas/vim-snipmate'
+                imap <c-o> <Plug>snipMateNextOrTrigger
+                smap <c-o> <Plug>snipMateNextOrTrigger
+                imap <c-u> <Plug>snipMateBack
+                smap <c-u> <Plug>snipMateBack
+                let g:snipMate = {
+                            \   'snippet_version' : 1,
+                            \   'override' : 1,
+                            \   'always_choose_first' : 1,
+                            \   'no_match_completion_feedkeys_chars' : '',
+                            \ }
+            else
+                ZFPlug 'Shougo/neosnippet.vim'
+                let g:neosnippet#enable_snipmate_compatibility = 1
+                let g:neosnippet#data_directory = g:zf_vim_cache_path . '/neosnippet'
+                let g:neosnippet#enable_conceal_markers = 0
+                imap <c-o> <Plug>(neosnippet_expand_or_jump)
+                smap <c-o> <Plug>(neosnippet_expand_or_jump)
+                xmap <c-o> <Plug>(neosnippet_expand_target)
+            endif
+        endif
+
         if !exists('g:ZF_Plugin_ZF_ultisnips')
-            let g:ZF_Plugin_ZF_ultisnips = g:ZF_Plugin_ultisnips
+            let g:ZF_Plugin_ZF_ultisnips = ((g:ZF_Plugin_ultisnips || g:ZF_Plugin_snipmate) ? 1 : 0)
         endif
         if g:ZF_Plugin_ZF_ultisnips
             ZFPlug 'ZSaberLv0/ZF_ultisnips'
@@ -2147,15 +2179,16 @@ if !g:zf_no_plugin
                 if empty(ft)
                     let ft = 'all'
                 endif
-                let path = g:zf_vim_plugin_path . '/ZF_ultisnips/UltiSnips/' . ft . '.snippets'
+                let path = g:zf_vim_plugin_path . '/ZF_ultisnips/snippets/' . ft . '.snippets'
                 execute 'edit ' . substitute(path, ' ', '\\ ', 'g')
-                set filetype=snippets
             endfunction
             command! -nargs=? -complete=filetype ZFSnipEdit :call ZF_Plugin_ZFSnipEdit(<f-args>)
 
-            let g:UltiSnipsListSnippets = ''
-            inoremap <silent> <c-o> <C-R>=ZF_ultisnips_ListSnippets_onekey()<cr>
-            snoremap <silent> <c-o> <Esc>:call ZF_ultisnips_ListSnippets_onekey()<cr>
+            if g:ZF_Plugin_ultisnips
+                let g:UltiSnipsListSnippets = ''
+                inoremap <silent> <c-o> <C-R>=ZF_ultisnips_ListSnippets_onekey()<cr>
+                snoremap <silent> <c-o> <Esc>:call ZF_ultisnips_ListSnippets_onekey()<cr>
+            endif
         endif
 
         " ==================================================
