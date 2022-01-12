@@ -426,6 +426,7 @@ recommended to:
     source ~/zf_vimrc.vim
 
     nmap <c-o> :action SearchEverywhere<cr>
+    nmap zu :action GoToErrorGroup<cr>
     nmap zi :action ShowIntentionActions<cr>
     nmap zo :action OverrideMethods<cr>
     nmap X :action CloseAllEditorsButActive<cr>
