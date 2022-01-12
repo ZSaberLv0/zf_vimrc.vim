@@ -228,8 +228,6 @@ fi
 
 # ============================================================
 # git update
-git config core.autocrlf false
-
 echo "[ZFVim] updating zf_vimrc..."
 if test -e "./.zf_vimrc.vim/zf_vimrc.vim" ; then
     cp "./.zf_vimrc.vim/zf_vimrc.vim" "zf_vimrc.vim"
