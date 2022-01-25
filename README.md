@@ -425,6 +425,7 @@ recommended to:
     let g:zf_fakevim=1
     source ~/zf_vimrc.vim
 
+    nnoremap <esc> <esc>:action HideActiveWindow<cr>
     nmap <c-o> :action SearchEverywhere<cr>
     nmap zu :action GoToErrorGroup<cr>
     nmap zi :action ShowIntentionActions<cr>
@@ -439,6 +440,8 @@ recommended to:
     xmap s <plug>(easymotion-s)
     nmap S <plug>(easymotion-bd-jk)
     xmap S <plug>(easymotion-bd-jk)
+    nmap f <plug>(easymotion-bd-fl)
+    xmap f <plug>(easymotion-bd-fl)
     let g:EasyMotion_startofline = 1
 
     set surround
