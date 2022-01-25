@@ -1343,7 +1343,7 @@ if !g:zf_no_plugin
             try
                 set diffopt+=internal,algorithm:patience
             catch
-                if v:version >= 704
+                if v:version > 704
                     ZFPlug 'chrisbra/vim-diff-enhanced'
                     let &diffexpr = 'EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
                 endif
