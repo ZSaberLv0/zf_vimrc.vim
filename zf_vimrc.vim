@@ -2431,7 +2431,7 @@ if !g:zf_no_plugin
                 call setline(1, [
                             \   "",
                             \   "\" for chinese users",
-                            \   "\" let g:zf_githost = 'https://hub.fastgit.org'",
+                            \   "\" let g:zf_githost = 'https://github.com.cnpmjs.org'",
                             \   "",
                             \   "\" see here for possible complete engines:",
                             \   "\"     https://github.com/ZSaberLv0/zf_vimrc.ext/tree/master/ZFPlugPost/complete_engine",
