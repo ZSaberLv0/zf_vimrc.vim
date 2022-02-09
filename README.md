@@ -1,28 +1,28 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Introduction](#introduction)
-  * [Directory Structure](#directory-structure)
-  * [Directory Structure (Portable Mode)](#directory-structure-portable-mode)
+    * [Directory Structure](#directory-structure)
+    * [Directory Structure (Portable Mode)](#directory-structure-portable-mode)
 * [Install](#install)
-  * [Quick Install](#quick-install)
-    * [Portable Mode](#portable-mode)
-    * [Windows gVimPortable](#windows-gvimportable)
-    * [Install Settings](#install-settings)
-  * [Manual Install](#manual-install)
-  * [Uninstall](#uninstall)
-    * [non-Portable Mode](#non-portable-mode)
-    * [Portable Mode](#portable-mode-1)
-  * [Additional Requirement](#additional-requirement)
+    * [Quick Install](#quick-install)
+        * [Portable Mode](#portable-mode)
+        * [Windows gVimPortable](#windows-gvimportable)
+        * [Install Settings](#install-settings)
+    * [Manual Install](#manual-install)
+    * [Uninstall](#uninstall)
+        * [non-Portable Mode](#non-portable-mode)
+        * [Portable Mode](#portable-mode-1)
+    * [Additional Requirement](#additional-requirement)
 * [Customizing](#customizing)
 * [Platform Spec](#platform-spec)
-  * [Complete Engines and LSPs](#complete-engines-and-lsps)
-  * [MacOS ssh](#macos-ssh)
-  * [Cygwin](#cygwin)
-  * [Android](#android)
-    * [DroidVim (recommended)](#droidvim-recommended)
-    * [VimTouch](#vimtouch)
-  * [For simulation plugins of IDE](#for-simulation-plugins-of-ide)
-    * [IdeaVim](#ideavim)
+    * [Complete Engines and LSPs](#complete-engines-and-lsps)
+    * [MacOS ssh](#macos-ssh)
+    * [Cygwin](#cygwin)
+    * [Android](#android)
+        * [DroidVim (recommended)](#droidvim-recommended)
+        * [VimTouch](#vimtouch)
+    * [For simulation plugins of IDE](#for-simulation-plugins-of-ide)
+        * [IdeaVim](#ideavim)
 
 <!-- vim-markdown-toc -->
 
@@ -177,8 +177,8 @@ or, by default, the quick install script would prompt for these options
 
     useful mirrors:
 
-    * `https://github.com.cnpmjs.org`
     * `https://hub.fastgit.org`
+    * `https://github.com.cnpmjs.org`
 
 * `ZFVim_local` : `[n/y/path_to_install]` whether install locally
 
