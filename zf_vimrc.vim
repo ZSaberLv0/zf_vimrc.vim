@@ -853,7 +853,6 @@ if 1 " common settings
     set whichwrap=b,s,<,>,[,]
     set display=lastline
     set sessionoptions-=options
-    set timeoutlen=500
     if has("patch-8.1.1564")
         set signcolumn=number
     endif
