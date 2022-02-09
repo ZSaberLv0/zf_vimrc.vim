@@ -174,7 +174,7 @@ if !get(g:, 'zf_no_ext', 0)
     function! ZF_VimrcExtUpdate()
         let remote = system('cd "' . g:zf_vimrc_ext_path . '" && git remote get-url --all origin')
         let remote = substitute(remote, '[\r\n]', '', 'g')
-        if !empty(remote) && match(remote, g:zf_githost) < 0
+        if empty(remote) || match(remote, g:zf_githost) < 0
             call ZF_rm(g:zf_vimrc_ext_path)
             call system('git clone --depth=1 ' . g:zf_githost . '/ZSaberLv0/zf_vimrc.ext "' . g:zf_vimrc_ext_path . '"')
         else
