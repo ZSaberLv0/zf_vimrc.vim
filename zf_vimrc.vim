@@ -10,9 +10,9 @@ if 1 " global settings
     " global functions
     function! ZF_rm(dir)
         if g:zf_windows
-            call system('rmdir /s/q "' . substitute(a:dir, '/', '\', 'g') . '"')
+            silent! call system('rmdir /s/q "' . substitute(a:dir, '/', '\', 'g') . '"')
         else
-            call system('rm -rf "' . substitute(a:dir, '\', '/', 'g') . '"')
+            silent! call system('rm -rf "' . substitute(a:dir, '\', '/', 'g') . '"')
         endif
     endfunction
     function! CygpathFix_absPath(path)
