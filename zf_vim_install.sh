@@ -76,8 +76,8 @@ fi
 zf_vim_githost_setup () {
     _githost_file=$1
     mkdir -p ${_githost_file%[/\\]*}
-    if ! test "x-$ZFVim_githost" = "x-" ; then
-        echo "let g:zf_githost = '$ZFVim_githost'" > "$_githost_file"
+    if ! test "x-$_zf_githost" = "x-" ; then
+        echo "let g:zf_githost = '$_zf_githost'" > "$_githost_file"
     fi
 }
 
