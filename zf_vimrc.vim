@@ -1081,7 +1081,7 @@ if 1 " common settings
         inoremap <c-k> <c-k>
         inoremap <c-j> <c-j>
     endif
-    set completeopt=menuone,longest
+    set completeopt=menuone
     set complete=.,w,b,u,k,t
     set omnifunc=syntaxcomplete#Complete
     " fold
