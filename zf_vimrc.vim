@@ -1008,6 +1008,7 @@ if 1 " common settings
     set guicursor=a:block-blinkon0
     set backspace=indent,eol,start
     set scrolloff=5
+    set nostartofline
     set sidescrolloff=5
     set selectmode=key
     set mouse=
