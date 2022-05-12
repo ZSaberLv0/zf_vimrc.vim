@@ -1663,7 +1663,7 @@ if !g:zf_no_plugin
             endif
             let g:expand_region_text_objects = {
                         \   "i'":0, 'i"':0, 'i`':0, 'i)':1, 'i]':1, 'i}':1, 'i>':1,
-                        \   "a'":0, 'a"':0, 'a`':0, 'a)':1, 'a]':1, 'a}':1, 'a>':1,
+                        \   "2i'":0, '2i"':0, '2i`':0, 'a)':1, 'a]':1, 'a}':1, 'a>':1,
                         \ }
         endif
 
