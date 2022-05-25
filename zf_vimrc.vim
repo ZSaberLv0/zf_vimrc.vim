@@ -2368,6 +2368,23 @@ if !g:zf_no_plugin
             if get(g:, 'ZF_Plugin_ZFVimIM_openapi', 1)
                 ZFPlug 'ZSaberLv0/ZFVimIM_openapi'
             endif
+
+            function! ZF_Plugin_ZFVimIM_statusline_setup()
+                let &statusline = substitute(&statusline, ' *%k *', '%{ZFVimIME_IMEStatusline()}', 'g')
+                augroup ZF_Plugin_ZFVimIM_statusline_qf_augroup
+                    autocmd!
+                    autocmd BufWinEnter quickfix,qf call ZF_Plugin_ZFVimIM_statusline_update()
+                augroup END
+            endfunction
+            function! ZF_Plugin_ZFVimIM_statusline_update()
+                if exists('*ZFVimIME_IMEStatusline')
+                    let &l:statusline = substitute(&l:statusline, ' *%k *', '%{ZFVimIME_IMEStatusline()}', 'g')
+                endif
+            endfunction
+            augroup ZF_Plugin_ZFVimIM_statusline_augroup
+                autocmd!
+                autocmd User ZFVimrcPostNormal call ZF_Plugin_ZFVimIM_statusline_setup()
+            augroup END
         endif
 
         " ==================================================
