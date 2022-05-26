@@ -2370,7 +2370,9 @@ if !g:zf_no_plugin
             endif
 
             function! ZF_Plugin_ZFVimIM_statusline_setup()
-                let &statusline = substitute(&statusline, ' *%k *', '%{ZFVimIME_IMEStatusline()}', 'g')
+                if exists('*ZFVimIME_IMEStatusline')
+                    let &statusline = substitute(&statusline, ' *%k *', '%{ZFVimIME_IMEStatusline()}', 'g')
+                endif
                 augroup ZF_Plugin_ZFVimIM_statusline_qf_augroup
                     autocmd!
                     autocmd BufWinEnter quickfix,qf call ZF_Plugin_ZFVimIM_statusline_update()
