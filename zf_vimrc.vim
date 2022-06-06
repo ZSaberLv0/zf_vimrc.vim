@@ -2299,17 +2299,6 @@ if !g:zf_no_plugin
             ZFPlug 'ZSaberLv0/ZFVimFormater'
             ZFPlug 'ZSaberLv0/ZFVimBeautifier'
             ZFPlug 'ZSaberLv0/ZFVimBeautifierTemplate'
-            ZFPlug 'sbdchd/neoformat'
-
-            nnoremap <leader>cf :call ZF_Formater()<cr>
-            " note, for Windows python users, you may want to:
-            " -  add `.py` to `PATHEXT`
-            function! ZF_Plugin_ZFVimFormater_install()
-                call ZF_ModulePackAdd(ZF_ModuleGetApt(), 'astyle clang-format shfmt swiftformat tidy uncrustify')
-                call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'cmake_format jsbeautifier sqlparse yapf')
-                call ZF_ModulePackAdd(ZF_ModuleGetNpm(), 'eslint lua-fmt prettier typescript typescript-formatter')
-            endfunction
-            call ZF_ModuleInstaller('ZFVimFormater', 'call ZF_Plugin_ZFVimFormater_install()')
         endif
 
         " ==================================================
