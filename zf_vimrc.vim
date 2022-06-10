@@ -1627,6 +1627,7 @@ if !g:zf_no_plugin
                             \| nnoremap <leader>z/ :%S/\<<c-r><c-w>\>//gn<left><left><left><left>
                             \| xnoremap <leader>z/ "ty:%S/\<<c-r>t\>//gn<left><left><left><left>
             augroup END
+            " sed -E 's/from/to/g' file > file
         endif
 
         " ==================================================
