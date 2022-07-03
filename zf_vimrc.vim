@@ -981,6 +981,7 @@ if 1 " common settings
     set autoindent
     set cinkeys=0{,0},:,!^F,o,O,e
     function! s:tabstop(tabstop)
+        let b:tabstop = a:tabstop
         let s:tabstopOverride=1
         let &shiftwidth = a:tabstop
         let &tabstop = a:tabstop
@@ -988,7 +989,9 @@ if 1 " common settings
         let s:tabstopOverride=0
     endfunction
     function! s:tabstopInit()
-        call s:tabstop(get(b:, 'tabstop', 4))
+        if !exists('b:tabstop')
+            call s:tabstop(4)
+        endif
     endfunction
     augroup ZF_Setting_tabstopInit_augroup
         autocmd!
@@ -1004,7 +1007,6 @@ if 1 " common settings
                         \ || v:option_new <= 0
                 return
             endif
-            let b:tabstop = v:option_new
             call s:tabstop(v:option_new)
         endfunction
     endif
