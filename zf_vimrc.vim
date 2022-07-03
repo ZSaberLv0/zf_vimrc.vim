@@ -980,16 +980,22 @@ if 1 " common settings
     set cindent
     set autoindent
     set cinkeys=0{,0},:,!^F,o,O,e
-    function! s:tabstop(n)
+    function! s:tabstop(tabstop)
         let s:tabstopOverride=1
-        let &shiftwidth=a:n
-        let &tabstop=a:n
-        let &softtabstop=0
+        let &shiftwidth = a:tabstop
+        let &tabstop = a:tabstop
+        let &softtabstop = 0
         let s:tabstopOverride=0
     endfunction
-    call s:tabstop(4)
+    function! s:tabstopInit()
+        call s:tabstop(get(b:, 'tabstop', 4))
+    endfunction
+    augroup ZF_Setting_tabstopInit_augroup
+        autocmd!
+        autocmd BufEnter * call s:tabstopInit()
+    augroup END
     if exists('##OptionSet')
-        augroup ZF_Setting_tabstop
+        augroup ZF_Setting_tabstopSync_augroup
             autocmd!
             autocmd OptionSet shiftwidth,tabstop,softtabstop call s:tabstopSync()
         augroup END
@@ -998,6 +1004,7 @@ if 1 " common settings
                         \ || v:option_new <= 0
                 return
             endif
+            let b:tabstop = v:option_new
             call s:tabstop(v:option_new)
         endfunction
     endif
