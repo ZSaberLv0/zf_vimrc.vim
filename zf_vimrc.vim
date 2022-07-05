@@ -1528,12 +1528,18 @@ if !g:zf_no_plugin
                 let exclude = ZFIgnoreGet()
                 let excludeList = []
                 for item in exclude['file']
-                    call add(excludeList, ZFIgnorePatternToRegexp(item))
+                    let pattern = ZFIgnorePatternToRegexp(item)
+                    if pattern != ''
+                        call add(excludeList, pattern)
+                    endif
                 endfor
                 call writefile(excludeList, excludeFile)
                 let cmd .= ' --exclude-from="' . substitute(excludeFile, '\\', '/', 'g') . '"'
                 for item in exclude['dir']
-                    let cmd .= ' --exclude-dir="' . ZFIgnorePatternToRegexp(item) . '"'
+                    let pattern = ZFIgnorePatternToRegexp(item)
+                    if pattern != ''
+                        let cmd .= ' --exclude-dir="' . pattern . '"'
+                    endif
                 endfor
 
                 let cmd .= ' "' . expr . '" *'
