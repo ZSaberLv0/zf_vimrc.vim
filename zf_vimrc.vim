@@ -1596,8 +1596,10 @@ if !g:zf_no_plugin
             augroup ZF_Plugin_easymotion_augroup
                 autocmd!
                 autocmd User ZFVimrcPostNormal
-                            \  nmap f <plug>(easymotion-bd-fl)
-                            \| xmap f <plug>(easymotion-bd-fl)
+                            \  nmap f <plug>(easymotion-fl)
+                            \| xmap f <plug>(easymotion-fl)
+                            \| nmap F <plug>(easymotion-Fl)
+                            \| xmap F <plug>(easymotion-Fl)
                             \| nmap s <plug>(easymotion-s)
                             \| xmap s <plug>(easymotion-s)
                             \| nmap S <plug>(easymotion-sol-bd-jk)
@@ -2597,49 +2599,53 @@ endif " if !g:zf_no_plugin
 
 " ==================================================
 " theme
-augroup ZF_colorscheme_augroup
-    autocmd!
-    autocmd User ZFVimrcColorscheme silent
-    autocmd ColorScheme * doautocmd User ZFVimrcColorscheme
-augroup END
+if !g:zf_fakevim
+    augroup ZF_colorscheme_augroup
+        autocmd!
+        autocmd User ZFVimrcColorscheme silent
+        autocmd ColorScheme * doautocmd User ZFVimrcColorscheme
+    augroup END
 
-function! ZFColorscheme()
-    if !empty(get(g:, 'zf_color_name_256', '')) && !empty(globpath(&rtp, 'colors/' . g:zf_color_name_256 . '.vim'))
-        execute 'set background=' . g:zf_color_bg_256
-        execute 'colorscheme ' . g:zf_color_name_256
-    elseif !empty(get(g:, 'zf_color_name_default', '')) && !empty(globpath(&rtp, 'colors/' . g:zf_color_name_default . '.vim'))
-        execute 'set background=' . g:zf_color_bg_default
-        execute 'colorscheme ' . g:zf_color_name_default
-    else
-        set background=dark
-        colorscheme murphy
-    endif
-    doautocmd User ZFVimrcColorscheme
-endfunction
-call ZFColorscheme()
+    function! ZFColorscheme()
+        if !empty(get(g:, 'zf_color_name_256', '')) && !empty(globpath(&rtp, 'colors/' . g:zf_color_name_256 . '.vim'))
+            execute 'set background=' . g:zf_color_bg_256
+            execute 'colorscheme ' . g:zf_color_name_256
+        elseif !empty(get(g:, 'zf_color_name_default', '')) && !empty(globpath(&rtp, 'colors/' . g:zf_color_name_default . '.vim'))
+            execute 'set background=' . g:zf_color_bg_default
+            execute 'colorscheme ' . g:zf_color_name_default
+        else
+            set background=dark
+            colorscheme murphy
+        endif
+        doautocmd User ZFVimrcColorscheme
+    endfunction
+    call ZFColorscheme()
+endif
 
 
 " ==================================================
 " final setup
-augroup ZF_VimrcPost_augroup
-    autocmd!
-    autocmd User ZFVimrcPostLow silent
-    autocmd User ZFVimrcPostNormal silent
-    autocmd User ZFVimrcPostHigh silent
-    function! s:finalSetup()
-        call s:subModule('ZFFinish')
-        doautocmd User ZFVimrcPostLow
-        doautocmd User ZFVimrcPostNormal
-        doautocmd User ZFVimrcPostHigh
-        doautocmd User ZFVimLowPerf
-        if exists('*s:PlugCheck')
-            call s:PlugCheck()
+if !g:zf_fakevim
+    augroup ZF_VimrcPost_augroup
+        autocmd!
+        autocmd User ZFVimrcPostLow silent
+        autocmd User ZFVimrcPostNormal silent
+        autocmd User ZFVimrcPostHigh silent
+        function! s:finalSetup()
+            call s:subModule('ZFFinish')
+            doautocmd User ZFVimrcPostLow
+            doautocmd User ZFVimrcPostNormal
+            doautocmd User ZFVimrcPostHigh
+            doautocmd User ZFVimLowPerf
+            if exists('*s:PlugCheck')
+                call s:PlugCheck()
+            endif
+        endfunction
+        if exists('v:vim_did_enter') && v:vim_did_enter
+            call s:finalSetup()
+        else
+            autocmd VimEnter * call s:finalSetup()
         endif
-    endfunction
-    if exists('v:vim_did_enter') && v:vim_did_enter
-        call s:finalSetup()
-    else
-        autocmd VimEnter * call s:finalSetup()
-    endif
-augroup END
+    augroup END
+endif
 
