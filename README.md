@@ -433,7 +433,10 @@ recommended to:
     nmap X :action CloseAllEditorsButActive<cr>
     nmap H :action PreviousTab<cr>
     nmap L :action NextTab<cr>
-    nmap <leader>ve :action ActivateProjectToolWindow<cr>
+
+    set NERDTree
+    nmap <leader>ve :NERDTreeToggle<cr>
+    nmap <leader>ze :NERDTreeFind<cr>
 
     set easymotion
     nmap s <plug>(easymotion-s)
