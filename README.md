@@ -443,8 +443,10 @@ recommended to:
     xmap s <plug>(easymotion-s)
     nmap S <plug>(easymotion-bd-jk)
     xmap S <plug>(easymotion-bd-jk)
-    nmap f <plug>(easymotion-bd-fl)
-    xmap f <plug>(easymotion-bd-fl)
+    nmap f <plug>(easymotion-fl)
+    xmap f <plug>(easymotion-fl)
+    nmap F <plug>(easymotion-Fl)
+    xmap F <plug>(easymotion-Fl)
     let g:EasyMotion_startofline = 1
 
     set surround
