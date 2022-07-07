@@ -1954,6 +1954,9 @@ if 1 && !g:zf_no_plugin
         endif
 
         " ==================================================
+        " some memo about scp to here and there:
+        "     ls | ssh user@remotehost 'cat > /xxx/remotefile'
+        "     ssh user@remotehost 'cat > /xxx/remotefile' | grep xxx
         if !exists('g:ZF_Plugin_nerdtree')
             let g:ZF_Plugin_nerdtree = 1
         endif
