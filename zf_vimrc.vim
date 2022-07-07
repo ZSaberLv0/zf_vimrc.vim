@@ -152,7 +152,7 @@ if 1 " global settings
 endif " global settings
 
 
-if !get(g:, 'zf_no_submodule', 0) " source local config before ext
+if 1 && !get(g:, 'zf_no_submodule', 0) " source local config before ext
     for f in sort(split(globpath(g:zf_vim_data_path . '/ZFVimModule', '*.vim'), "\n"))
         execute 'source ' . fnameescape(f)
     endfor
@@ -162,7 +162,7 @@ if !get(g:, 'zf_no_submodule', 0) " source local config before ext
 endif
 
 
-if !get(g:, 'zf_no_ext', 0)
+if 1 && !get(g:, 'zf_no_ext', 0)
     let g:zf_vimrc_ext_path = g:zf_vim_data_path . '/ZFVimModule/zf_vimrc.ext'
     if !filereadable(g:zf_vimrc_ext_path . '/README.md')
         call system('git clone --depth=1 ' . g:zf_githost . '/ZSaberLv0/zf_vimrc.ext "' . g:zf_vimrc_ext_path . '"')
@@ -193,7 +193,7 @@ if !get(g:, 'zf_no_ext', 0)
 endif
 
 
-if !get(g:, 'zf_no_submodule', 0) " sub modules
+if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
     " extra install steps for sub modules
     let g:zfmoduleInstallerList = []
     function! ZF_ModuleInstaller(name, cmd, ...)
@@ -586,10 +586,15 @@ if 1 " custom key mapping
     xmap zg; zg}
     xmap z; z}
     " go to define
-    if empty(mapcheck('zj', 'n'))
+    if !g:zf_fakevim
+        if empty(mapcheck('zj', 'n'))
+            nnoremap zj <c-]>
+        endif
+        if empty(mapcheck('zk', 'n'))
+            nnoremap zk <c-t>
+        endif
+    else
         nnoremap zj <c-]>
-    endif
-    if empty(mapcheck('zk', 'n'))
         nnoremap zk <c-t>
     endif
     nnoremap zh :tprevious<cr>
@@ -1137,7 +1142,7 @@ endif " common settings
 " all plugins
 "     vim-plug
 "     git clone --depth=1 https://github.com/junegunn/vim-plug ~/.vim/bundle/vim-plug
-if !g:zf_no_plugin
+if 1 && !g:zf_no_plugin
     " ==================================================
     " plug setting
     let g:plug_home = g:zf_vim_plugin_path
@@ -1432,21 +1437,20 @@ if !g:zf_no_plugin
             let g:EasyGrepCommandExtraOpts = 'ZF_Plugin_easygrep_extraOpts'
             let g:EasyGrepFilesToExclude = ''
 
-            if 1 " ugly workaround to prevent default keymap
-                let g:EasyGrepOptionPrefix = '<leader>v?grep?y'
-                map <silent> <leader>v?grep?v <plug>EgMapGrepCurrentWord_v
-                xmap <silent> <leader>v?grep?v <plug>EgMapGrepSelection_v
-                map <silent> <leader>v?grep?V <plug>EgMapGrepCurrentWord_V
-                xmap <silent> <leader>v?grep?V <plug>EgMapGrepSelection_V
-                map <silent> <leader>v?grep?a <plug>EgMapGrepCurrentWord_a
-                xmap <silent> <leader>v?grep?a <plug>EgMapGrepSelection_a
-                map <silent> <leader>v?grep?A <plug>EgMapGrepCurrentWord_A
-                xmap <silent> <leader>v?grep?A <plug>EgMapGrepSelection_A
-                map <silent> <leader>v?grep?r <plug>EgMapReplaceCurrentWord_r
-                xmap <silent> <leader>v?grep?r <plug>EgMapReplaceSelection_r
-                map <silent> <leader>v?grep?R <plug>EgMapReplaceCurrentWord_R
-                xmap <silent> <leader>v?grep?R <plug>EgMapReplaceSelection_R
-            endif
+            " ugly workaround to prevent default keymap
+            let g:EasyGrepOptionPrefix = '<leader>v?grep?y'
+            map <silent> <leader>v?grep?v <plug>EgMapGrepCurrentWord_v
+            xmap <silent> <leader>v?grep?v <plug>EgMapGrepSelection_v
+            map <silent> <leader>v?grep?V <plug>EgMapGrepCurrentWord_V
+            xmap <silent> <leader>v?grep?V <plug>EgMapGrepSelection_V
+            map <silent> <leader>v?grep?a <plug>EgMapGrepCurrentWord_a
+            xmap <silent> <leader>v?grep?a <plug>EgMapGrepSelection_a
+            map <silent> <leader>v?grep?A <plug>EgMapGrepCurrentWord_A
+            xmap <silent> <leader>v?grep?A <plug>EgMapGrepSelection_A
+            map <silent> <leader>v?grep?r <plug>EgMapReplaceCurrentWord_r
+            xmap <silent> <leader>v?grep?r <plug>EgMapReplaceSelection_r
+            map <silent> <leader>v?grep?R <plug>EgMapReplaceCurrentWord_R
+            xmap <silent> <leader>v?grep?R <plug>EgMapReplaceSelection_R
 
             " ugly workaround to support `ggrep` in Mac
             function! s:fix_ggrep()
@@ -2598,8 +2602,7 @@ endif " if !g:zf_no_plugin
 
 
 " ==================================================
-" theme
-if !g:zf_fakevim
+if 1 && !g:zf_fakevim " theme
     augroup ZF_colorscheme_augroup
         autocmd!
         autocmd User ZFVimrcColorscheme silent
@@ -2624,8 +2627,7 @@ endif
 
 
 " ==================================================
-" final setup
-if !g:zf_fakevim
+if 1 && !g:zf_fakevim " final setup
     augroup ZF_VimrcPost_augroup
         autocmd!
         autocmd User ZFVimrcPostLow silent
