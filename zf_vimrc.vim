@@ -42,7 +42,7 @@ if 1 " global settings
 
     " env
     let g:zf_windows = 0
-    if has('windows')
+    if has('windows') && !has('unix')
         let g:zf_windows = 1
     endif
     if has('win32unix') && executable('cygpath')
