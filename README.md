@@ -422,6 +422,7 @@ recommended to:
 * add these configs to your `~/.ideavimrc`
 
     ```
+    let mapleader="'"
     let g:zf_fakevim=1
     source ~/zf_vimrc.vim
 
