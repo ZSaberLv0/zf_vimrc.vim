@@ -418,7 +418,7 @@ let g:zf_fakevim=1
 recommended to:
 
 * (for MacOS only) `defaults write -g ApplePressAndHoldEnabled 0`
-* install `IdeaVim-EasyMotion` plugin (within your IDE's plugin manager)
+* install `IdeaVim-EasyMotion` and `AceJump` plugin (within your IDE's plugin manager)
 * add these configs to your `~/.ideavimrc`
 
     ```
