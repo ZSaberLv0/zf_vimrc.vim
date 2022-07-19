@@ -42,7 +42,7 @@ if 1 " global settings
 
     " env
     let g:zf_windows = 0
-    if has('windows') && !has('unix')
+    if (has('win32') || has('win64')) && !has('unix')
         let g:zf_windows = 1
     endif
     if has('win32unix') && executable('cygpath')
@@ -958,25 +958,15 @@ if 1 " common settings
     nnoremap zb :call ZF_Setting_ToggleSearch()<cr>
 
     if !g:zf_fakevim
-        nnoremap zn viw<esc>b/<c-r><c-w><cr>N
+        nnoremap zn viw"ty/<c-r>t<cr>N
         xnoremap zn "ty/<c-r>t<cr>N
-        nnoremap zm viw<esc>b/\<<c-r><c-w>\><cr>N
+        nnoremap zm viw"ty/\<<c-r>t\><cr>N
         xnoremap zm "ty/\<<c-r>t\><cr>N
-
-        nnoremap z/n viw<esc>b:%s/<c-r><c-w>//gn<cr>``
-        xnoremap z/n "ty:%s/<c-r>t//gn<cr>``
-        nnoremap z/m viw<esc>b:%s/\<<c-r><c-w>\>//gn<cr>``
-        xnoremap z/m "ty:%s/\<<c-r>t\>//gn<cr>``
     else
         nnoremap zn viwy/<c-r>0<cr>N
         xnoremap zn y/<c-r>0<cr>N
         nnoremap zm viwy/\<<c-r>0\><cr>N
         xnoremap zm y/\<<c-r>0\><cr>N
-
-        nnoremap z/n viwy:%s/<c-r>0//gn<cr>``
-        xnoremap z/n y:%s/<c-r>0//gn<cr>``
-        nnoremap z/m viwy:%s/\<<c-r>0\>//gn<cr>``
-        xnoremap z/m y:%s/\<<c-r>0\>//gn<cr>``
     endif
     " tab and indent
     set expandtab
