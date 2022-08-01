@@ -495,10 +495,10 @@ if 1 " custom key mapping
     nnoremap <c-l> zl
     nnoremap <c-j> <c-e>
     nnoremap <c-k> <c-y>
-    inoremap <c-h> <left>
-    inoremap <c-l> <right>
-    inoremap <c-j> <down>
-    inoremap <c-k> <up>
+    imap <c-h> <left>
+    imap <c-l> <right>
+    imap <c-j> <down>
+    imap <c-k> <up>
     cnoremap <c-h> <left>
     cnoremap <c-l> <right>
     cnoremap <c-j> <down>
@@ -1074,17 +1074,17 @@ if 1 " common settings
     augroup END
     " complete
     if !g:zf_fakevim
-        inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
-        inoremap <expr> <c-p> pumvisible() ? '<c-p>' : '<c-p><c-r>=pumvisible() ? "\<lt>Up>" : ""<cr>'
-        inoremap <expr> <c-n> pumvisible() ? '<c-n>' : '<c-n><c-r>=pumvisible() ? "\<lt>Down>" : ""<cr>'
-        inoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
-        inoremap <expr> <c-j> pumvisible() ? '<c-n>' : '<down>'
+        imap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
+        imap <expr> <c-p> pumvisible() ? '<c-p>' : '<c-p><c-r>=pumvisible() ? "\<lt>Up>" : ""<cr>'
+        imap <expr> <c-n> pumvisible() ? '<c-n>' : '<c-n><c-r>=pumvisible() ? "\<lt>Down>" : ""<cr>'
+        imap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
+        imap <expr> <c-j> pumvisible() ? '<c-n>' : '<down>'
     else
-        inoremap <cr> <cr>
-        inoremap <c-p> <c-p>
-        inoremap <c-n> <c-n>
-        inoremap <c-k> <c-k>
-        inoremap <c-j> <c-j>
+        imap <cr> <cr>
+        imap <c-p> <c-p>
+        imap <c-n> <c-n>
+        imap <c-k> <c-k>
+        imap <c-j> <c-j>
     endif
     set completeopt=menuone
     set complete=.,w,b,u,k,t
