@@ -1344,6 +1344,18 @@ if 1 && !g:zf_no_plugin
         endif
 
         " ==================================================
+        if !exists('g:ZF_Plugin_context')
+            let g:ZF_Plugin_context = has('nvim-0.4.0') || has('patch-8.1.1364')
+        endif
+        if g:ZF_Plugin_context
+            ZFPlug 'wellle/context.vim'
+            let g:context_add_mappings = 0
+            let g:context_highlight_normal = 'Normal'
+            let g:context_highlight_border = 'Cursor'
+            let g:context_highlight_tag    = '<hide>'
+        endif
+
+        " ==================================================
         if !exists('g:ZF_Plugin_diff_enhanced')
             let g:ZF_Plugin_diff_enhanced = 1
         endif
