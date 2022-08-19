@@ -1692,6 +1692,14 @@ if 1 && !g:zf_no_plugin
         endif
 
         " ==================================================
+        if !exists('g:ZF_Plugin_helpful')
+            let g:ZF_Plugin_helpful = 1
+        endif
+        if g:ZF_Plugin_helpful
+            ZFPlug 'tweekmonster/helpful.vim'
+        endif
+
+        " ==================================================
         if !exists('g:ZF_Plugin_incsearch')
             let g:ZF_Plugin_incsearch = 1
         endif
