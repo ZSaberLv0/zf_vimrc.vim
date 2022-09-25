@@ -1080,11 +1080,11 @@ if 1 " common settings
         imap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
         imap <expr> <c-j> pumvisible() ? '<c-n>' : '<down>'
     else
-        imap <cr> <cr>
-        imap <c-p> <c-p>
-        imap <c-n> <c-n>
-        imap <c-k> <c-k>
-        imap <c-j> <c-j>
+        inoremap <cr> <cr>
+        inoremap <c-p> <c-p>
+        inoremap <c-n> <c-n>
+        inoremap <c-k> <c-k>
+        inoremap <c-j> <c-j>
     endif
     set completeopt=menuone
     set complete=.,w,b,u,k,t
