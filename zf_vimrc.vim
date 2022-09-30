@@ -2566,7 +2566,7 @@ if 1 && !g:zf_no_plugin
         if g:ZF_Plugin_ZFVimUtil
             ZFPlug 'ZSaberLv0/ZFVimUtil'
             function! ZF_Plugin_ZFVimUtil_install()
-                call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'pillow')
+                call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'pillow numpy')
             endfunction
             call ZF_ModuleInstaller('ZFVimUtil', 'call ZF_Plugin_ZFVimUtil_install()')
 
