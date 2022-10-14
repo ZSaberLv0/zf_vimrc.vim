@@ -1541,11 +1541,11 @@ if 1 && !g:zf_no_plugin
                 let qflist = []
                 let vim_pattern = E2v(a:expr)
                 for line in split(result, '\n')
-                    let file = substitute(line, '^\([^:]\+\):.*$', '\1', '') " ^([^:]+):.*$
                     let file_line = substitute(line, '^[^:]\+:\([0-9]\+\):.*$', '\1', '') " ^[^:]+:([0-9]+):.*$
-                    if strlen(file) <= 0 || strlen(file_line) <= 0
+                    if file_line == line
                         continue
                     endif
+                    let file = substitute(line, '^\([^:]\+\):.*$', '\1', '') " ^([^:]+):.*$
                     let text = substitute(line, '^[^:]\+:[0-9]\+:\(.*\)$', '\1', '') " ^[^:]+:[0-9]+:(.*)$
                     let qflist += [{
                                 \ 'filename' : file,
