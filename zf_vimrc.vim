@@ -1609,7 +1609,6 @@ if 1 && !g:zf_no_plugin
             " ZFPlug 'othree/eregex.vim'
             ZFPlug 'ZSaberLv0/eregex.vim'
             let g:eregex_default_enable = 0
-
             function! ZF_Plugin_eregex_sort(bang, line1, line2, args)
                 let cmd = a:line1 . ',' . a:line2 . 'sort' . a:bang . ' '
                 " (?<=\/).*?(?=\/|$)
@@ -1625,43 +1624,19 @@ if 1 && !g:zf_no_plugin
                 execute cmd
             endfunction
             command! -nargs=* -range=% -bang Sort :call ZF_Plugin_eregex_sort('<bang>', <line1>, <line2>, <q-args>)
-
-            function! ZF_Plugin_eregex_search(cmd, ...)
-                let incsearch = get(a:, 1, 0)
-                let enableSaved = get(b:, 'eregex_incsearch', -1)
-                let b:eregex_incsearch = 0
-
-                try
-                    call feedkeys(a:cmd, 'nt')
-                    if !incsearch
-                        call feedkeys('', 'ntx!')
-                    endif
-                catch
-                    echo v:exception
-                finally
-                    if enableSaved == -1
-                        silent! unlet b:eregex_incsearch
-                    elseif enableSaved
-                        let b:eregex_incsearch = 1
-                    else
-                        let b:eregex_incsearch = 0
-                    endif
-                endtry
-                return ''
-            endfunction
             augroup ZF_Plugin_eregex_augroup
                 autocmd!
                 autocmd User ZFVimrcPostNormal
                             \  nnoremap / :M/
                             \| nnoremap ? /\v
-                            \| nnoremap <expr> <leader>vr ZF_Plugin_eregex_search(":.,$S//gec\<left>\<left>\<left>\<left>", 1)
-                            \| xnoremap <expr> <leader>vr ZF_Plugin_eregex_search("\"ty:.,$S/\<c-r>t//gec\<left>\<left>\<left>\<left>")
-                            \| nnoremap <expr> <leader>zr ZF_Plugin_eregex_search(":.,$S/\\<\<c-r>\<c-w>\\>//gec\<left>\<left>\<left>\<left>")
-                            \| xnoremap <expr> <leader>zr ZF_Plugin_eregex_search("\"ty:.,$S/\\<\<c-r>t\\>//gec\<left>\<left>\<left>\<left>")
-                            \| nnoremap <expr> <leader>v/ ZF_Plugin_eregex_search(":%S///gn\<left>\<left>\<left>\<left>", 1)
-                            \| xnoremap <expr> <leader>v/ ZF_Plugin_eregex_search("\"ty:%S/\<c-r>t//gn\<left>\<left>\<left>\<left>")
-                            \| nnoremap <expr> <leader>z/ ZF_Plugin_eregex_search(":%S/\\<\<c-r>\<c-w>\\>//gn\<left>\<left>\<left>\<left>")
-                            \| xnoremap <expr> <leader>z/ ZF_Plugin_eregex_search("\"ty:%S/\\<\<c-r>t\\>//gn\<left>\<left>\<left>\<left>")
+                            \| nnoremap <leader>vr :.,$S//gec<left><left><left><left>
+                            \| xnoremap <leader>vr "ty:.,$S/<c-r>t//gec<left><left><left><left>
+                            \| nnoremap <leader>zr :.,$S/\<<c-r><c-w>\>//gec<left><left><left><left>
+                            \| xnoremap <leader>zr "ty:.,$S/\<<c-r>t\>//gec<left><left><left><left>
+                            \| nnoremap <leader>v/ :%S///gn<left><left><left><left>
+                            \| xnoremap <leader>v/ "ty:%S/<c-r>t//gn<left><left><left><left>
+                            \| nnoremap <leader>z/ :%S/\<<c-r><c-w>\>//gn<left><left><left><left>
+                            \| xnoremap <leader>z/ "ty:%S/\<<c-r>t\>//gn<left><left><left><left>
             augroup END
             " sed -E 's/from/to/g' file > file
         endif
