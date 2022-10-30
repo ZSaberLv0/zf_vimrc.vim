@@ -1626,8 +1626,8 @@ if 1 && !g:zf_no_plugin
             augroup ZF_Plugin_eregex_augroup
                 autocmd!
                 autocmd User ZFVimrcPostNormal
-                            \  nnoremap / /\v
-                            \| nnoremap ? :M/
+                            \  nnoremap / :M/
+                            \| nnoremap ? /\v
                             \| nnoremap <leader>vr :.,$S//gec<left><left><left><left>
                             \| xnoremap <leader>vr "ty:.,$S/<c-r>t//gec<left><left><left><left>
                             \| nnoremap <leader>zr :.,$S/\<<c-r><c-w>\>//gec<left><left><left><left>
@@ -1712,12 +1712,10 @@ if 1 && !g:zf_no_plugin
                 endif
 
                 if !g:zf_fakevim
-                    nmap <silent> / <Plug>(incsearch-fuzzyword-/)
+                    nmap <silent> ? <Plug>(incsearch-fuzzyword-stay)
                 else
-                    nnoremap / /
+                    nnoremap ? /
                 endif
-                nmap <silent> <leader>vf <Plug>(incsearch-fuzzy-/)
-                nnoremap <leader>zf /\v
             endfunction
             augroup ZF_Plugin_incsearch_augroup
                 autocmd!
