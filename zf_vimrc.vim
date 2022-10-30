@@ -1606,7 +1606,8 @@ if 1 && !g:zf_no_plugin
             let g:ZF_Plugin_eregex = 1
         endif
         if g:ZF_Plugin_eregex
-            ZFPlug 'othree/eregex.vim'
+            " ZFPlug 'othree/eregex.vim'
+            ZFPlug 'ZSaberLv0/eregex.vim'
             let g:eregex_default_enable = 0
             function! ZF_Plugin_eregex_sort(bang, line1, line2, args)
                 let cmd = a:line1 . ',' . a:line2 . 'sort' . a:bang . ' '
