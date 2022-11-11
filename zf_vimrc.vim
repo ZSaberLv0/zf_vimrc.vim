@@ -974,7 +974,6 @@ if 1 " common settings
     set smartindent
     set cindent
     set autoindent
-    set cinkeys=0{,0},:,!^F,o,O,e
     function! s:tabstop(tabstop)
         let b:tabstop = a:tabstop
         let s:tabstopOverride=1
