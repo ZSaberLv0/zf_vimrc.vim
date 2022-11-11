@@ -1074,11 +1074,11 @@ if 1 " common settings
     augroup END
     " complete
     if !g:zf_fakevim
-        imap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
-        imap <expr> <c-p> pumvisible() ? '<c-p>' : '<c-p><c-r>=pumvisible() ? "\<lt>Up>" : ""<cr>'
-        imap <expr> <c-n> pumvisible() ? '<c-n>' : '<c-n><c-r>=pumvisible() ? "\<lt>Down>" : ""<cr>'
-        imap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
-        imap <expr> <c-j> pumvisible() ? '<c-n>' : '<down>'
+        inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<cr>"
+        inoremap <expr> <c-p> pumvisible() ? '<c-p>' : '<c-p><c-r>=pumvisible() ? "\<lt>Up>" : ""<cr>'
+        inoremap <expr> <c-n> pumvisible() ? '<c-n>' : '<c-n><c-r>=pumvisible() ? "\<lt>Down>" : ""<cr>'
+        inoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
+        inoremap <expr> <c-j> pumvisible() ? '<c-n>' : '<down>'
     else
         inoremap <cr> <cr>
         inoremap <c-p> <c-p>
