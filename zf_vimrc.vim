@@ -2384,6 +2384,7 @@ if 1 && !g:zf_no_plugin
             endif
             if get(g:, 'ZF_Plugin_ZFVimIM_openapi', 1)
                 ZFPlug 'ZSaberLv0/ZFVimIM_openapi'
+                let g:ZFVimIM_openapi_jobFallback = 1
             endif
 
             function! ZF_Plugin_ZFVimIM_statusline_setup()
