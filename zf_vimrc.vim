@@ -1749,6 +1749,14 @@ if 1 && !g:zf_no_plugin
         endif
 
         " ==================================================
+        if !exists('g:ZF_Plugin_json_ponyfill')
+            let g:ZF_Plugin_json_ponyfill = !exists('*json_encode')
+        endif
+        if g:ZF_Plugin_json_ponyfill
+            ZFPlug 'retorillo/json-ponyfill.vim'
+        endif
+
+        " ==================================================
         if !exists('g:ZF_Plugin_LeaderF')
             let g:ZF_Plugin_LeaderF = 1
         endif
