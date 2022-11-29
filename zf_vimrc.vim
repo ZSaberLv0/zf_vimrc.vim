@@ -1563,6 +1563,37 @@ if 1 && !g:zf_no_plugin
             endfunction
             command! -nargs=+ ZFGrepExt :call ZF_Plugin_easygrep_pcregrep(<q-args>)
             nnoremap <leader>vge :ZFGrepExt<space>
+
+            function! ZF_Plugin_easygrep_incsearch(cmdline)
+                let cmd = substitute(a:cmdline, ' .*', '', '')
+                if cmd == 'ZFGrep' || cmd == 'ZFGrepExt'
+                    return {
+                                \   'method' : cmd,
+                                \   'delim' : '/',
+                                \   'modifiers' : '',
+                                \   'pattern' : substitute(a:cmdline, '^ *[^ ]\+ \+', '', ''),
+                                \ }
+                elseif cmd == 'ZFReplace'
+                    let slashToken = nr2char(127)
+                    let cmdline = substitute(a:cmdline, '^ *[^ ]\+ \+', '', '')
+                    let cmdline = substitute(cmdline, '\\/', slashToken, 'g')
+                    let items = split(cmdline, '/')
+                    if empty(items)
+                        return {}
+                    endif
+                    return {
+                                \   'method' : cmd,
+                                \   'delim' : '/',
+                                \   'modifiers' : '',
+                                \   'pattern' : substitute(items[0], slashToken, '\\/', 'g'),
+                                \ }
+                else
+                    return {}
+                endif
+            endfunction
+            let g:eregex_incsearch_custom_cmdparser = {
+                       \   'ZFGrep' : function('ZF_Plugin_easygrep_incsearch'),
+                       \ }
         endif
 
         " ==================================================
