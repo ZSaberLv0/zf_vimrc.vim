@@ -414,8 +414,12 @@ endif " sub modules
 if 1 " custom key mapping
     " esc
     if !g:zf_fakevim
+        function! ZF_Setting_ijk()
+            call feedkeys((getpos('.')[2] == 1) ? "\<esc>" : "\<esc>l", 'nt')
+            return ''
+        endfunction
         inoremap <esc> <esc>l
-        inoremap <expr> jk (getpos('.')[2] == 1) ? "\<esc>" : "\<esc>l"
+        inoremap <expr> jk ZF_Setting_ijk()
         cnoremap jk <c-c>
     else
         noremap <esc> <esc>
