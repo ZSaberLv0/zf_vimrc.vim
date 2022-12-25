@@ -1402,10 +1402,11 @@ if 1 && !g:zf_no_plugin
             " modified to support:
             " * `--exclude-from` with large exclude list
             ZFPlug 'ZSaberLv0/vim-easygrep'
-            let g:EasyGrepRecursive = 1
-            let g:EasyGrepAllOptionsInExplorer = 1
             let g:EasyGrepCommand = 1
             let g:EasyGrepPerlStyle = 1
+            let g:EasyGrepRecursive = 1
+            let g:EasyGrepHidden = 1
+            let g:EasyGrepAllOptionsInExplorer = 1
             let g:EasyGrepReplaceWindowMode = 2
             let g:EasyGrepDisableCmdParam = 1
             function! ZF_Plugin_easygrep_install()
