@@ -1405,7 +1405,7 @@ if 1 && !g:zf_no_plugin
             let g:EasyGrepCommand = 1
             let g:EasyGrepPerlStyle = 1
             let g:EasyGrepRecursive = 1
-            let g:EasyGrepHidden = 1
+            let g:EasyGrepHidden = 0
             let g:EasyGrepAllOptionsInExplorer = 1
             let g:EasyGrepReplaceWindowMode = 2
             let g:EasyGrepDisableCmdParam = 1
@@ -1418,13 +1418,17 @@ if 1 && !g:zf_no_plugin
                 let ret = a:opts
                 let exclude = ZFIgnoreGet()
                 if match(system('grep --version'), 'GNU') >= 0
-                    let s:easygrep_excludeFile = tempname()
-                    call writefile(exclude['file'], s:easygrep_excludeFile)
-                    let ret .= ' --exclude-from="' . substitute(s:easygrep_excludeFile, '\\', '/', 'g') . '"'
+                    if !empty(exclude['file'])
+                        let s:easygrep_excludeFile = tempname()
+                        call writefile(exclude['file'], s:easygrep_excludeFile)
+                        let ret .= ' --exclude-from="' . substitute(s:easygrep_excludeFile, '\\', '/', 'g') . '"'
+                    endif
                 else
                     let ret .= ' --exclude="' . join(exclude['file'], '" --exclude="') . '"'
                 endif
-                let ret .= ' --exclude-dir="' . join(exclude['dir'], '" --exclude-dir="') . '"'
+                if !empty(exclude['dir'])
+                    let ret .= ' --exclude-dir="' . join(exclude['dir'], '" --exclude-dir="') . '"'
+                endif
                 return ret . ' '
             endfunction
             let g:EasyGrepCommandExtraOpts = 'ZF_Plugin_easygrep_extraOpts'
@@ -1530,8 +1534,10 @@ if 1 && !g:zf_no_plugin
                         call add(excludeList, pattern)
                     endif
                 endfor
-                call writefile(excludeList, excludeFile)
-                let cmd .= ' --exclude-from="' . substitute(excludeFile, '\\', '/', 'g') . '"'
+                if !empty(excludeList)
+                    call writefile(excludeList, excludeFile)
+                    let cmd .= ' --exclude-from="' . substitute(excludeFile, '\\', '/', 'g') . '"'
+                endif
                 for item in exclude['dir']
                     let pattern = ZFIgnorePatternToRegexp(item)
                     if pattern != ''
