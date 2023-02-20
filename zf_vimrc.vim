@@ -8,11 +8,25 @@ if 1 " global settings
     set nocompatible
 
     " global functions
+    function! ZF_system(cmd)
+        if exists('g:ZF_system_log')
+            let startTime = reltime()
+            let ret = system(a:cmd)
+            let costTime = float2nr(reltimefloat(reltime(startTime, reltime())) * 1000)
+            call add(g:ZF_system_log, {
+                        \   'cmd' : a:cmd,
+                        \   'time' : costTime,
+                        \ })
+            return ret
+        else
+            return system(a:cmd)
+        endif
+    endfunction
     function! ZF_rm(dir)
         if g:zf_windows
-            silent! call system('rmdir /s/q "' . substitute(a:dir, '/', '\', 'g') . '"')
+            silent! call ZF_system('rmdir /s/q "' . substitute(a:dir, '/', '\', 'g') . '"')
         else
-            silent! call system('rm -rf "' . substitute(a:dir, '\', '/', 'g') . '"')
+            silent! call ZF_system('rm -rf "' . substitute(a:dir, '\', '/', 'g') . '"')
         endif
     endfunction
     function! CygpathFix_absPath(path)
@@ -53,7 +67,7 @@ if 1 " global settings
     let g:zf_mac = 0
     if has('unix')
         try
-            silent! let s:uname = system('uname')
+            silent! let s:uname = ZF_system('uname')
             if match(s:uname, 'Darwin') >= 0
                 let g:zf_mac = 1
             endif
@@ -140,12 +154,12 @@ if 1 " global settings
     endif
     " you may set g:zf_git_user_token to git push without password
     function! ZF_GitGlobalConfig()
-        call system('git config --global user.email "' . g:zf_git_user_email . '"')
-        call system('git config --global user.name "' . g:zf_git_user_name . '"')
-        call system('git config --global core.filemode false')
-        call system('git config --global core.autocrlf false')
-        call system('git config --global core.safecrlf true')
-        call system('git config --global core.quotepath false')
+        call ZF_system('git config --global user.email "' . g:zf_git_user_email . '"')
+        call ZF_system('git config --global user.name "' . g:zf_git_user_name . '"')
+        call ZF_system('git config --global core.filemode false')
+        call ZF_system('git config --global core.autocrlf false')
+        call ZF_system('git config --global core.safecrlf true')
+        call ZF_system('git config --global core.quotepath false')
         echo 'git global user changed to ' . g:zf_git_user_name . ' <' . g:zf_git_user_email . '>'
     endfunction
     command! -nargs=0 ZFGitGlobalConfig :call ZF_GitGlobalConfig()
@@ -165,25 +179,25 @@ endif
 if 1 && !get(g:, 'zf_no_ext', 0)
     let g:zf_vimrc_ext_path = g:zf_vim_data_path . '/ZFVimModule/zf_vimrc.ext'
     if !filereadable(g:zf_vimrc_ext_path . '/README.md')
-        call system('git clone --depth=1 ' . g:zf_githost . '/ZSaberLv0/zf_vimrc.ext "' . g:zf_vimrc_ext_path . '"')
+        call ZF_system('git clone --depth=1 ' . g:zf_githost . '/ZSaberLv0/zf_vimrc.ext "' . g:zf_vimrc_ext_path . '"')
     endif
     if !exists('g:ZFVimrcUtil_updateCallback')
         let g:ZFVimrcUtil_updateCallback = {}
     endif
     let g:ZFVimrcUtil_updateCallback['zf_vimrc.ext'] = 'ZF_VimrcExtUpdate'
     function! ZF_VimrcExtUpdate()
-        let remote = system('cd "' . g:zf_vimrc_ext_path . '" && git remote get-url --all origin')
+        let remote = ZF_system('cd "' . g:zf_vimrc_ext_path . '" && git remote get-url --all origin')
         let remote = substitute(remote, '[\r\n]', '', 'g')
         if match(remote, '^[a-z]\+://') < 0
-            let remote = system('cd "' . g:zf_vimrc_ext_path . '" && git remote -v')
+            let remote = ZF_system('cd "' . g:zf_vimrc_ext_path . '" && git remote -v')
             let remote = matchstr(remote, '\%(origin[ \t]\+\)\@<=[^ \t]\+\%([ \t]\+(push)\)\@=')
             let remote = substitute(remote, '://.\+@', '://', '')
         endif
         if empty(remote) || match(remote, g:zf_githost) < 0
             call ZF_rm(g:zf_vimrc_ext_path)
-            call system('git clone --depth=1 ' . g:zf_githost . '/ZSaberLv0/zf_vimrc.ext "' . g:zf_vimrc_ext_path . '"')
+            call ZF_system('git clone --depth=1 ' . g:zf_githost . '/ZSaberLv0/zf_vimrc.ext "' . g:zf_vimrc_ext_path . '"')
         else
-            call system('cd "' . g:zf_vimrc_ext_path . '" && git fetch --all && git reset --hard origin/master && git pull')
+            call ZF_system('cd "' . g:zf_vimrc_ext_path . '" && git fetch --all && git reset --hard origin/master && git pull')
         endif
     endfunction
     function! ZF_VimrcExtEdit()
@@ -310,7 +324,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         if empty('s:ZF_ModuleGetGithubRelease')
             return []
         endif
-        let list = system(printf(s:ZF_ModuleGetGithubRelease, a:userName, a:repoName))
+        let list = ZF_system(printf(s:ZF_ModuleGetGithubRelease, a:userName, a:repoName))
         if match(list, 'browser_') < 0
             return []
         endif
@@ -323,7 +337,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
     endfunction
     function! ZF_ModuleExecShell(cmd)
         echo a:cmd
-        let msg = system(a:cmd)
+        let msg = ZF_system(a:cmd)
         for item in split(msg, "\n")
             echo item
         endfor
@@ -377,7 +391,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             call mkdir(parent, 'p')
         endif
 
-        let ret = system(printf(s:ZF_ModuleDownloadFile, substitute(tmp, '\\', '/', 'g'), a:url))
+        let ret = ZF_system(printf(s:ZF_ModuleDownloadFile, substitute(tmp, '\\', '/', 'g'), a:url))
         if v:shell_error != 0
             echo '[ZFVimrc!] unable to download (' . v:shell_error . '), url: ' . a:url
             return 0
@@ -392,7 +406,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             return
         endif
         call ZF_rm(a:toPath)
-        echo system('git clone --depth=1 ' . a:repo . ' "' . substitute(a:toPath, '\', '/', 'g') . '"')
+        echo ZF_system('git clone --depth=1 ' . a:repo . ' "' . substitute(a:toPath, '\', '/', 'g') . '"')
     endfunction
 
     " steps: ZFInit, ZFPlugPrev, ZFPlugPost, ZFFinish
@@ -1177,7 +1191,7 @@ if 1 && !g:zf_no_plugin
     endfunction
 
     if !filereadable(s:plug_file_path)
-        call system('git clone --depth=1 ' . g:zf_githost . '/junegunn/vim-plug "' . g:zf_vim_plugin_path . '/vim-plug"')
+        call ZF_system('git clone --depth=1 ' . g:zf_githost . '/junegunn/vim-plug "' . g:zf_vim_plugin_path . '/vim-plug"')
     endif
 
     " minimal plugin config:
@@ -1244,7 +1258,7 @@ if 1 && !g:zf_no_plugin
         if !exists('g:zf_colorscheme_256')
             let g:zf_colorscheme_256 = 1
         endif
-        if g:zf_colorscheme_256 == 1 && !has('gui') && substitute(system('tput colors'), "[\r\n]", '', 'g') < 256
+        if g:zf_colorscheme_256 == 1 && !has('gui') && substitute(ZF_system('tput colors'), "[\r\n]", '', 'g') < 256
             let g:zf_colorscheme_256 = 0
         endif
         if g:zf_colorscheme_256 == 1
@@ -1417,7 +1431,7 @@ if 1 && !g:zf_no_plugin
             function! ZF_Plugin_easygrep_extraOpts(opts)
                 let ret = a:opts
                 let exclude = ZFIgnoreGet()
-                if match(system('grep --version'), 'GNU') >= 0
+                if match(ZF_system('grep --version'), 'GNU') >= 0
                     if !empty(exclude['file'])
                         let s:easygrep_excludeFile = tempname()
                         call writefile(exclude['file'], s:easygrep_excludeFile)
@@ -1469,7 +1483,7 @@ if 1 && !g:zf_no_plugin
                 let tmpDir = 'easygrep_ggrep_fix'
                 if !filereadable(g:zf_vim_cache_path . '/' . tmpDir . '/grep')
                     call mkdir(g:zf_vim_cache_path . '/' . tmpDir, 'p')
-                    call system('ln -s "' . ggrep . '" "' . g:zf_vim_cache_path . '/' . tmpDir . '/grep"')
+                    call ZF_system('ln -s "' . ggrep . '" "' . g:zf_vim_cache_path . '/' . tmpDir . '/grep"')
                 endif
                 if match($PATH, tmpDir) < 0
                     if empty($PATH)
@@ -1511,7 +1525,7 @@ if 1 && !g:zf_no_plugin
             call ZF_ModuleInstaller('ZF_Plugin_easygrep_pcregrep', 'call ZF_Plugin_easygrep_pcregrep_install()')
             function! ZF_Plugin_easygrep_pcregrep(expr)
                 try
-                    if match(system('pcregrep --version'), '[0-9]\+\.[0-9]\+') < 0
+                    if match(ZF_system('pcregrep --version'), '[0-9]\+\.[0-9]\+') < 0
                         redraw | echo 'pcregrep not installed'
                         return
                     endif
@@ -1546,7 +1560,7 @@ if 1 && !g:zf_no_plugin
                 endfor
 
                 let cmd .= ' "' . expr . '" *'
-                let result = system(cmd)
+                let result = ZF_system(cmd)
                 call delete(excludeFile)
                 let qflist = []
                 let vim_pattern = E2v(a:expr)
@@ -2306,7 +2320,7 @@ if 1 && !g:zf_no_plugin
                 echo 'updating ' . a:repo . ' ...'
                 let tmp_path = g:zf_vim_cache_path . '/_zf_diffgit_tmp_'
                 call ZF_rm(tmp_path)
-                call system('git clone ' . a:repo . ' "' . tmp_path . '"')
+                call ZF_system('git clone ' . a:repo . ' "' . tmp_path . '"')
                 execute ':ZFDirDiff ' . tmp_path . ' .'
                 augroup ZF_DiffGit_autoClean_augroup
                     autocmd!
@@ -2315,7 +2329,7 @@ if 1 && !g:zf_no_plugin
             endfunction
             command! -nargs=+ ZFDiffGit :call ZF_DiffGit(<q-args>)
             function! ZF_DiffGitGetParam()
-                for line in split(system('git remote -v'), "\n")
+                for line in split(ZF_system('git remote -v'), "\n")
                     " ^origin[ \t]+(.*?)[ \t]+\((fetch|push)\)$
                     let repo = substitute(line, '^origin[ \t]\+\(.\{-}\)[ \t]\+(\(fetch\|push\))$', '\1', '')
                     if repo != line
