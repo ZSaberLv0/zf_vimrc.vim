@@ -2638,6 +2638,7 @@ if 1 && !g:zf_no_plugin
             nnoremap <leader>vdb :ZFDiffBuffer<space>
             nnoremap <leader>vde :ZFDiffExit<cr>
             nnoremap <leader>vvo :ZFOpenAllFileInClipboard<cr>
+            nnoremap <leader>vvO :ZFRunAllFileInClipboard<cr>
             nnoremap <leader>vvs :ZFRunShellScriptInClipboard<cr>
             nnoremap <leader>vvc :ZFRunVimCommandInClipboard<cr>
             nnoremap <leader>vn :ZFNumberConvert<cr>
