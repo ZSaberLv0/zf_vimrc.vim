@@ -1857,6 +1857,18 @@ if 1 && !g:zf_no_plugin
                         \     '<up>' : ['<c-p>'],
                         \     '<down>' : ['<c-n>'],
                         \ }
+            let g:Lf_PreviewResult = {
+                        \     'File' : 0,
+                        \     'Buffer' : 0,
+                        \     'Mru' : 0,
+                        \     'Tag' : 0,
+                        \     'BufTag' : 0,
+                        \     'Function' : 0,
+                        \     'Line' : 0,
+                        \     'Colorscheme' : 0,
+                        \     'Rg' : 0,
+                        \     'Gtags' : 0,
+                        \ }
             nnoremap <silent> <leader>vo :LeaderfFile<cr>
             nnoremap <silent> <leader>zo :LeaderfFile<cr><f5>
         endif
