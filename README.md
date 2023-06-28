@@ -434,6 +434,8 @@ recommended to:
     nmap X :action CloseAllEditorsButActive<cr>
     nmap H :action PreviousTab<cr>
     nmap L :action NextTab<cr>
+    nmap CC :action CommentByLineComment<cr><up>
+    xmap CC :action CommentByLineComment<cr>
 
     set NERDTree
     nmap <leader>ve :NERDTreeToggle<cr>
@@ -457,9 +459,5 @@ recommended to:
     nmap RC cs
     xmap r S
     xmap R S
-
-    set commentary
-    nmap CC gcc
-    xmap CC gcc
     ```
 
