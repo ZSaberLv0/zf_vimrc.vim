@@ -435,7 +435,7 @@ recommended to:
     nmap H :action PreviousTab<cr>
     nmap L :action NextTab<cr>
     nmap CC :action CommentByLineComment<cr><up>
-    xmap CC :action CommentByLineComment<cr>
+    xmap CC :action CommentByLineComment<cr><esc>
 
     set NERDTree
     nmap <leader>ve :NERDTreeToggle<cr>
