@@ -1833,6 +1833,7 @@ if 1 && !g:zf_no_plugin
         endif
         if g:ZF_Plugin_LeaderF
             ZFPlug 'Yggdroot/LeaderF'
+            let g:Lf_DefaultExternalTool = ''
             let g:Lf_ShortcutF = '<c-o>'
             let g:Lf_ShortcutB = ''
             let g:Lf_CacheDirectory = g:zf_vim_cache_path.'/leaderf'
