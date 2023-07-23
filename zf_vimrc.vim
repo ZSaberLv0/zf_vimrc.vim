@@ -2436,7 +2436,7 @@ if 1 && !g:zf_no_plugin
             if g:ZF_Plugin_ZFVimAsciiPlayer_image
                 ZFPlug 'ZSaberLv0/ZFVimAsciiPlayer_image'
                 function! ZF_Plugin_ZFVimAsciiPlayer_image_install()
-                    call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'img2txt.py ansi')
+                    call ZF_ModulePackAdd(ZF_ModuleGetPip(), 'img2txt.py')
                 endfunction
                 call ZF_ModuleInstaller('ZF_Plugin_ZFVimAsciiPlayer_image', 'call ZF_Plugin_ZFVimAsciiPlayer_image_install()')
             endif
