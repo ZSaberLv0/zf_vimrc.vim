@@ -991,7 +991,7 @@ if 1 " common settings
     set nosmarttab
     set smartindent
     set cindent
-    set cinoptions=l1,g0,(1s,w1s,W1s,m1,j1,J1
+    set cinoptions=l1,g0,(2s,w1s,W1s,m1,j1,J1
     set autoindent
     function! s:tabstop(tabstop)
         let b:tabstop = a:tabstop
