@@ -991,6 +991,7 @@ if 1 " common settings
     set nosmarttab
     set smartindent
     set cindent
+    set cinoptions=l1,g0,(1s,w1s,W1s,m1,j1,J1
     set autoindent
     function! s:tabstop(tabstop)
         let b:tabstop = a:tabstop
@@ -1617,8 +1618,8 @@ if 1 && !g:zf_no_plugin
                 endif
             endfunction
             let g:eregex_incsearch_custom_cmdparser = {
-                       \   'ZFGrep' : function('ZF_Plugin_easygrep_incsearch'),
-                       \ }
+                        \   'ZFGrep' : function('ZF_Plugin_easygrep_incsearch'),
+                        \ }
         endif
 
         " ==================================================
