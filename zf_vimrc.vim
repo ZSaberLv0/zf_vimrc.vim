@@ -890,19 +890,22 @@ if 1 " common settings
         autocmd FileType,BufNewFile,BufReadPost * call ZF_Setting_common_action()
     augroup END
     function! ZF_Setting_isLargeFile(file)
-        let size = getfsize(a:file)
-        let largeFile = get(g:, 'ZF_Setting_largefile', 2 * 1024 * 1024)
-        if size == -2 || (largeFile > 0 && size > largeFile)
-            return 1
-        endif
-        let largeColumn = get(g:, 'ZF_Setting_largefile_column', 2000)
-        if largeColumn > 0 && filereadable(a:file)
-            for line in readfile(a:file, '', get(g:, 'ZF_Setting_largefile_columnChecklines', 20))
-                if len(line) >= largeColumn
-                    return 1
-                endif
-            endfor
-        endif
+        try
+            let size = getfsize(a:file)
+            let largeFile = get(g:, 'ZF_Setting_largefile', 2 * 1024 * 1024)
+            if size == -2 || (largeFile > 0 && size > largeFile)
+                return 1
+            endif
+            let largeColumn = get(g:, 'ZF_Setting_largefile_column', 2000)
+            if largeColumn > 0 && filereadable(a:file)
+                for line in readfile(a:file, '', get(g:, 'ZF_Setting_largefile_columnChecklines', 20))
+                    if len(line) >= largeColumn
+                        return 1
+                    endif
+                endfor
+            endif
+        catch
+        endtry
         return 0
     endfunction
     augroup ZF_Setting_largefile_augroup
