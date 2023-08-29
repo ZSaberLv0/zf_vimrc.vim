@@ -2146,7 +2146,8 @@ if 1 && !g:zf_no_plugin
             let g:ZF_Plugin_searchindex = 1
         endif
         if g:ZF_Plugin_searchindex
-            ZFPlug 'google/vim-searchindex'
+            " ZFPlug 'google/vim-searchindex'
+            ZFPlug 'ZSaberLv0/vim-searchindex'
             let g:searchindex_improved_star = 0
             augroup ZF_Plugin_searchindex_augroup
                 autocmd!
