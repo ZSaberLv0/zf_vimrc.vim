@@ -389,10 +389,13 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         if !exists('s:ZF_ModuleDownloadFile')
             if executable('curl')
                 let s:ZF_ModuleDownloadFile = 'curl -o "%s" -L "%s"'
+                let s:ZF_ModuleDownloadFile_sizeGetter = 'curl -sI "%s"'
             elseif executable('wget')
                 let s:ZF_ModuleDownloadFile = 'wget -P "%s" "%s"'
+                let s:ZF_ModuleDownloadFile_sizeGetter = 'curl -sI "%s"'
             else
                 let s:ZF_ModuleDownloadFile = ''
+                let s:ZF_ModuleDownloadFile_sizeGetter = ''
             endif
         endif
         if empty(s:ZF_ModuleDownloadFile)
@@ -405,6 +408,22 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         let parent = fnamemodify(CygpathFix_absPath(to), ':h')
         if !isdirectory(parent)
             call mkdir(parent, 'p')
+        endif
+
+        if filereadable(to)
+            let existSize = getfsize(to)
+            if existSize >= 0
+                let remoteSize = -1
+                for line in split(ZF_system(printf(s:ZF_ModuleDownloadFile_sizeGetter, a:url)), '[\r\n]')
+                    if match(line, '\ccontent-length') >= 0
+                        let remoteSize = str2nr(matchstr(line, '[0-9]\+'))
+                        break
+                    endif
+                endfor
+                if remoteSize == existSize
+                    return
+                endif
+            endif
         endif
 
         let ret = ZF_system(printf(s:ZF_ModuleDownloadFile, substitute(tmp, '\\', '/', 'g'), a:url))
