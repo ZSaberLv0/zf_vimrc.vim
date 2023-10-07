@@ -421,7 +421,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
                     endif
                 endfor
                 if remoteSize == existSize
-                    return
+                    return 1
                 endif
             endif
         endif
