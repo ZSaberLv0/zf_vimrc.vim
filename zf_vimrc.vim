@@ -313,12 +313,28 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
     endfunction
     function! ZF_ModuleGetGithubRelease(userName, repoName)
         if !exists('s:ZF_ModuleGetGithubRelease')
+            let userName = get(g:, 'ZF_ModuleGetGithubRelease_git_user_name', get(g:, 'zf_git_user_name', ''))
+            let userToken = get(g:, 'ZF_ModuleGetGithubRelease_git_user_token', get(g:, 'zf_git_user_token', ''))
+            let api = 'https://api.github.com/repos/%s/%s/releases/latest'
+
             if executable('curl')
-                let s:ZF_ModuleGetGithubRelease = 'curl -s https://api.github.com/repos/%s/%s/releases/latest | grep "browser_"'
+                let s:ZF_ModuleGetGithubRelease = 'curl'
+                if !empty(userName) && !empty(userToken)
+                    let s:ZF_ModuleGetGithubRelease .= printf(' --header "authorization: %s %s"', userName, userToken)
+                endif
+                let s:ZF_ModuleGetGithubRelease .= ' -s ' . api
             elseif executable('wget')
-                let s:ZF_ModuleGetGithubRelease = 'wget -qO- https://api.github.com/repos/%s/%s/releases/latest | grep "browser_"'
+                let s:ZF_ModuleGetGithubRelease = 'wget'
+                if !empty(userName) && !empty(userToken)
+                    let s:ZF_ModuleGetGithubRelease .= printf(' --header="authorization: %s %s"', userName, userToken)
+                endif
+                let s:ZF_ModuleGetGithubRelease .= ' -qO- ' . api
             else
                 let s:ZF_ModuleGetGithubRelease = ''
+            endif
+
+            if !empty(s:ZF_ModuleGetGithubRelease)
+                let s:ZF_ModuleGetGithubRelease .= ' | grep "browser_"'
             endif
         endif
         if empty('s:ZF_ModuleGetGithubRelease')
