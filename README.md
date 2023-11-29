@@ -436,6 +436,10 @@ recommended to:
     nmap L :action NextTab<cr>
     nmap CC :action CommentByLineComment<cr><up>
     xmap CC :action CommentByLineComment<cr><esc>
+    nmap t :action EditorSelectWord<cr>
+    xmap t :action EditorSelectWord<cr>
+    nmap T :action EditorUnSelectWord<cr>
+    xmap T :action EditorUnSelectWord<cr>
 
     set NERDTree
     nmap <leader>ve :NERDTreeToggle<cr>
