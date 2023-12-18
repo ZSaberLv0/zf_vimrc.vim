@@ -2,7 +2,16 @@
 " http://zsaber.com/blog/p/31
 " ============================================================
 
-if 1 " global settings
+" global configs:
+" let g:zf_no_global_setting = 1
+" let g:zf_no_submodule = 1
+" let g:zf_no_ext = 1
+" let g:zf_no_keymap = 1
+" let g:zf_no_common_setting = 1
+" let g:zf_no_plugin = 1
+" let g:zf_no_theme = 1
+
+if 1 && !get(g:, 'zf_no_global_setting', 0) " global settings
     filetype plugin indent on
     syntax on
     set nocompatible
@@ -460,7 +469,7 @@ endif " sub modules
 
 
 " ==================================================
-if 1 " custom key mapping
+if 1 && !get(g:, 'zf_no_keymap', 0) " custom key mapping
     " esc
     if !g:zf_fakevim
         function! ZF_Setting_ijk()
@@ -878,7 +887,7 @@ endif " custom key mapping
 
 
 " ==================================================
-if 1 " common settings
+if 1 && !get(g:, 'zf_no_common_setting', 0) " common settings
     " common
     if !empty(g:zf_vim_viminfo_path)
         let zf_vim_viminfo_path = substitute(substitute(g:zf_vim_viminfo_path, '\\', '/', 'g'), ' ', '\\ ', 'g')
@@ -1188,7 +1197,7 @@ endif " common settings
 " all plugins
 "     vim-plug
 "     git clone --depth=1 https://github.com/junegunn/vim-plug ~/.vim/bundle/vim-plug
-if 1 && !g:zf_no_plugin
+if 1 && !get(g:, 'zf_no_plugin', 0)
     " ==================================================
     " plug setting
     let g:plug_home = g:zf_vim_plugin_path
@@ -1249,7 +1258,7 @@ if 1 && !g:zf_no_plugin
     call s:subModule('ZFPlugPrev')
 
     " ==================================================
-    if 1 " themes
+    if 1 && !get(g:, 'zf_no_theme', 0) " themes
         " ==================================================
         " let g:zf_color_plugin_(256|default) = 'YourSchemePlugin'
         " let g:zf_color_name_(256|default) = 'YourSchemeName'
@@ -2715,11 +2724,11 @@ if 1 && !g:zf_no_plugin
         doautocmd User ZFVimrcPlug
     augroup END
     call plug#end()
-endif " if !g:zf_no_plugin
+endif
 
 
 " ==================================================
-if 1 && !g:zf_fakevim " theme
+if 1 && !get(g:, 'zf_fakevim', 0) && !get(g:, 'zf_no_theme', 0) " theme
     augroup ZF_colorscheme_augroup
         autocmd!
         autocmd User ZFVimrcColorscheme silent
@@ -2744,7 +2753,7 @@ endif
 
 
 " ==================================================
-if 1 && !g:zf_fakevim " final setup
+if 1 && !get(g:, 'zf_fakevim', 0) " final setup
     augroup ZF_VimrcPost_augroup
         autocmd!
         autocmd User ZFVimrcPostLow silent
