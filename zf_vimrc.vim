@@ -268,6 +268,9 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         echo '[ZFVimrc] update finish'
     endfunction
     command! -nargs=0 ZFModuleInstall :call s:ZF_ModuleInstall()
+    function! ZF_ModuleInstallFail(msg)
+        echo '[ZFVimrc!] ' . a:msg
+    endfunction
     function! ZF_ModuleGetApt()
         if !exists('s:ZF_ModuleGetApt')
             let s:ZF_ModuleGetApt = ''
@@ -288,7 +291,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             endif
         endif
         if empty('s:ZF_ModuleGetApt')
-            echo '[ZFVimrc!] unable to find package manager (apt-get/yum/brew)'
+            call ZF_ModuleInstallFail('unable to find package manager (apt-get/yum/brew)')
         endif
         return s:ZF_ModuleGetApt
     endfunction
@@ -303,7 +306,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             endif
         endif
         if empty('s:ZF_ModuleGetPip')
-            echo '[ZFVimrc!] unable to find pip'
+            call ZF_ModuleInstallFail('unable to find pip')
         endif
         return s:ZF_ModuleGetPip
     endfunction
@@ -316,7 +319,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             endif
         endif
         if empty('s:ZF_ModuleGetNpm')
-            echo '[ZFVimrc!] unable to find npm'
+            call ZF_ModuleInstallFail('unable to find npm')
         endif
         return s:ZF_ModuleGetNpm
     endfunction
@@ -408,7 +411,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             endif
         endif
         if empty(s:ZF_ModuleDownloadFile)
-            echo '[ZFVimrc!] no curl or wget available'
+            call ZF_ModuleInstallFail('no curl or wget available')
             return 0
         endif
 
@@ -437,7 +440,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
 
         let ret = ZF_system(printf(s:ZF_ModuleDownloadFile, substitute(tmp, '\\', '/', 'g'), a:url))
         if v:shell_error != 0
-            echo '[ZFVimrc!] unable to download (' . v:shell_error . '), url: ' . a:url
+            call ZF_ModuleInstallFail('unable to download (' . v:shell_error . '), url: ' . a:url)
             return 0
         endif
 
