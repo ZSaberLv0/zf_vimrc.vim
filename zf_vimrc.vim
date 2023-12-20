@@ -923,6 +923,8 @@ if 1 && !get(g:, 'zf_no_common_setting', 0) " common settings
     set whichwrap=b,s,<,>,[,]
     set display=lastline
     set sessionoptions-=options
+    " https://github.com/vim/vim/issues/13721
+    set ttimeoutlen=50
     if has("patch-8.1.1564")
         set signcolumn=number
     endif
