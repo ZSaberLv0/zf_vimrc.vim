@@ -1966,6 +1966,16 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:ctrlp_map = '<c-o>'
             nnoremap <silent> <leader>vo :CtrlP<cr>
             nnoremap <silent> <leader>zo :CtrlPClearAllCaches<cr>:CtrlP<cr>
+
+            if !exists('g:ZF_Plugin_ctrlp_py_matcher')
+                let g:ZF_Plugin_ctrlp_py_matcher = 1
+            endif
+            if !exists(':pyfile') && !exists(':py3file')
+                let g:ZF_Plugin_ctrlp_py_matcher = 0
+            endif
+            if g:ZF_Plugin_ctrlp_py_matcher
+                ZFPlug 'FelikZ/ctrlp-py-matcher'
+            endif
         endif
 
         " ==================================================
