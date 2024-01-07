@@ -939,6 +939,9 @@ if 1 && !get(g:, 'zf_no_common_setting', 0) " common settings
         autocmd FileType,BufNewFile,BufReadPost * call ZF_Setting_common_action()
     augroup END
     function! ZF_Setting_isLargeFile(file)
+        if get(b:, 'zf_vim_largefile_force', 0)
+            return 1
+        endif
         try
             let size = getfsize(a:file)
             let largeFile = get(g:, 'ZF_Setting_largefile', 2 * 1024 * 1024)
@@ -971,16 +974,41 @@ if 1 && !get(g:, 'zf_no_common_setting', 0) " common settings
                 " unload would cause buffer reload when enter again,
                 " would save some memory but not handy for general usage
                 " setlocal bufhidden=unload
+                let b:zf_vim_largefile_saved_foldmethod=&foldmethod
                 setlocal foldmethod=manual
+                let b:zf_vim_largefile_saved_foldenable=&foldenable
                 setlocal nofoldenable
+                let b:zf_vim_largefile_saved_swapfile=&swapfile
                 setlocal noswapfile
+                let b:zf_vim_largefile_saved_cursorline=&cursorline
                 setlocal nocursorline
+                let b:zf_vim_largefile_saved_cursorcolumn=&cursorcolumn
                 setlocal nocursorcolumn
+                let b:zf_vim_largefile_saved_relativenumber=&relativenumber
                 setlocal norelativenumber
                 let b:zf_vim_largefile = 1
                 doautocmd User ZFVimLargeFile
             elseif get(b:, 'zf_vim_largefile', 0) && a:notifyRestore
                 let b:zf_vim_largefile = 0
+                if exists('b:zf_vim_largefile_saved_foldmethod')
+                    execute 'setlocal foldmethod=' . b:zf_vim_largefile_saved_foldmethod
+                    unlet b:zf_vim_largefile_saved_foldmethod
+                endif
+                if get(b:, 'zf_vim_largefile_saved_foldenable', 0)
+                    set foldenable
+                endif
+                if get(b:, 'zf_vim_largefile_saved_swapfile', 0)
+                    set swapfile
+                endif
+                if get(b:, 'zf_vim_largefile_saved_cursorline', 0)
+                    set cursorline
+                endif
+                if get(b:, 'zf_vim_largefile_saved_cursorcolumn', 0)
+                    set cursorcolumn
+                endif
+                if get(b:, 'zf_vim_largefile_saved_relativenumber', 0)
+                    set relativenumber
+                endif
                 doautocmd User ZFVimLargeFile
             endif
         endfunction
@@ -1743,6 +1771,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                             \| xnoremap <leader>v/ "ty:%S/<c-r>t//gn<left><left><left><left>
                             \| nnoremap <leader>z/ :%S/\<<c-r><c-w>\>//gn<left><left><left><left>
                             \| xnoremap <leader>z/ "ty:%S/\<<c-r>t\>//gn<left><left><left><left>
+                autocmd User ZFVimLargeFile let b:eregex_incsearch=!b:zf_vim_largefile
             augroup END
             " sed -E 's/from/to/g' file > file
         endif
