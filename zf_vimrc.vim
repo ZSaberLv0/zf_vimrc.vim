@@ -1646,7 +1646,6 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 let cmd = substitute(a:cmdline, ' .*', '', '')
                 if cmd == 'ZFGrep' || cmd == 'ZFGrepExt'
                     return {
-                                \   'method' : cmd,
                                 \   'delim' : '/',
                                 \   'modifiers' : '',
                                 \   'pattern' : substitute(a:cmdline, '^ *[^ ]\+ \+', '', ''),
@@ -1660,7 +1659,6 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                         return {}
                     endif
                     return {
-                                \   'method' : cmd,
                                 \   'delim' : '/',
                                 \   'modifiers' : '',
                                 \   'pattern' : substitute(items[0], slashToken, '\\/', 'g'),
