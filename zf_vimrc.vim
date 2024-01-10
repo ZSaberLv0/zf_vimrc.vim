@@ -3,15 +3,29 @@
 " ============================================================
 
 " global configs:
-" let g:zf_no_global_setting = 1
-" let g:zf_no_submodule = 1
-" let g:zf_no_ext = 1
-" let g:zf_no_keymap = 1
-" let g:zf_no_common_setting = 1
-" let g:zf_no_plugin = 1
-" let g:zf_no_theme = 1
+if !exists(g:zf_no_global_setting)
+    let g:zf_no_global_setting = 0
+endif
+if !exists(g:zf_no_submodule)
+    let g:zf_no_submodule = 0
+endif
+if !exists(g:zf_no_ext)
+    let g:zf_no_ext = 0
+endif
+if !exists(g:zf_no_keymap)
+    let g:zf_no_keymap = 0
+endif
+if !exists(g:zf_no_common_setting)
+    let g:zf_no_common_setting = 0
+endif
+if !exists(g:zf_no_plugin)
+    let g:zf_no_plugin = 0
+endif
+if !exists(g:zf_no_theme)
+    let g:zf_no_theme = 0
+endif
 
-if 1 && !get(g:, 'zf_no_global_setting', 0) " global settings
+if 1 && !g:zf_no_global_setting " global settings
     filetype plugin indent on
     syntax on
     set nocompatible
@@ -175,7 +189,7 @@ if 1 && !get(g:, 'zf_no_global_setting', 0) " global settings
 endif " global settings
 
 
-if 1 && !get(g:, 'zf_no_submodule', 0) " source local config before ext
+if 1 && !g:zf_no_submodule " source local config before ext
     for f in sort(split(globpath(g:zf_vim_data_path . '/ZFVimModule', '*.vim'), "\n"))
         execute 'source ' . fnameescape(f)
     endfor
@@ -185,7 +199,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " source local config before ext
 endif
 
 
-if 1 && !get(g:, 'zf_no_ext', 0)
+if 1 && !g:zf_no_ext
     let g:zf_vimrc_ext_path = g:zf_vim_data_path . '/ZFVimModule/zf_vimrc.ext'
     if !filereadable(g:zf_vimrc_ext_path . '/README.md')
         call ZF_system('git clone --depth=1 ' . g:zf_githost . '/ZSaberLv0/zf_vimrc.ext "' . g:zf_vimrc_ext_path . '"')
@@ -216,7 +230,7 @@ if 1 && !get(g:, 'zf_no_ext', 0)
 endif
 
 
-if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
+if 1 && !g:zf_no_submodule " sub modules
     " extra install steps for sub modules
     let g:zfmoduleInstallerList = []
     function! ZF_ModuleInstaller(name, cmd, ...)
@@ -472,7 +486,7 @@ endif " sub modules
 
 
 " ==================================================
-if 1 && !get(g:, 'zf_no_keymap', 0) " custom key mapping
+if 1 && !g:zf_no_keymap " custom key mapping
     " esc
     if !g:zf_fakevim
         function! ZF_Setting_ijk()
@@ -890,7 +904,7 @@ endif " custom key mapping
 
 
 " ==================================================
-if 1 && !get(g:, 'zf_no_common_setting', 0) " common settings
+if 1 && !g:zf_no_common_setting " common settings
     " common
     if !empty(g:zf_vim_viminfo_path)
         let zf_vim_viminfo_path = substitute(substitute(g:zf_vim_viminfo_path, '\\', '/', 'g'), ' ', '\\ ', 'g')
@@ -1230,7 +1244,7 @@ endif " common settings
 " all plugins
 "     vim-plug
 "     git clone --depth=1 https://github.com/junegunn/vim-plug ~/.vim/bundle/vim-plug
-if 1 && !get(g:, 'zf_no_plugin', 0)
+if 1 && !g:zf_no_plugin
     " ==================================================
     " plug setting
     let g:plug_home = g:zf_vim_plugin_path
@@ -1291,7 +1305,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
     call s:subModule('ZFPlugPrev')
 
     " ==================================================
-    if 1 && !get(g:, 'zf_no_theme', 0) " themes
+    if 1 && !g:zf_no_theme " themes
         " ==================================================
         " let g:zf_color_plugin_(256|default) = 'YourSchemePlugin'
         " let g:zf_color_name_(256|default) = 'YourSchemeName'
@@ -2770,7 +2784,7 @@ endif
 
 
 " ==================================================
-if 1 && !get(g:, 'zf_fakevim', 0) && !get(g:, 'zf_no_theme', 0) " theme
+if 1 && !g:zf_fakevim && !g:zf_no_theme " theme
     augroup ZF_colorscheme_augroup
         autocmd!
         autocmd User ZFVimrcColorscheme silent
@@ -2795,7 +2809,7 @@ endif
 
 
 " ==================================================
-if 1 && !get(g:, 'zf_fakevim', 0) " final setup
+if 1 && !g:zf_fakevim " final setup
     augroup ZF_VimrcPost_augroup
         autocmd!
         autocmd User ZFVimrcPostLow silent
