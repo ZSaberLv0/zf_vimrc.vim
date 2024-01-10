@@ -1021,7 +1021,7 @@ if 1 && !get(g:, 'zf_no_common_setting', 0) " common settings
     set fileformat=unix
     set encoding=utf-8
     set fileencoding=utf-8
-    set fileencodings=utf-8,ucs-bom,chinese
+    set fileencodings=utf-8,ucs-bom,chinese,sjis
     " search
     set ignorecase
     set smartcase
