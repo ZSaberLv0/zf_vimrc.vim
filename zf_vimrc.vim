@@ -3,25 +3,25 @@
 " ============================================================
 
 " global configs:
-if !exists(g:zf_no_global_setting)
+if !exists('g:zf_no_global_setting')
     let g:zf_no_global_setting = 0
 endif
-if !exists(g:zf_no_submodule)
+if !exists('g:zf_no_submodule')
     let g:zf_no_submodule = 0
 endif
-if !exists(g:zf_no_ext)
+if !exists('g:zf_no_ext')
     let g:zf_no_ext = 0
 endif
-if !exists(g:zf_no_keymap)
+if !exists('g:zf_no_keymap')
     let g:zf_no_keymap = 0
 endif
-if !exists(g:zf_no_common_setting)
+if !exists('g:zf_no_common_setting')
     let g:zf_no_common_setting = 0
 endif
-if !exists(g:zf_no_plugin)
+if !exists('g:zf_no_plugin')
     let g:zf_no_plugin = 0
 endif
-if !exists(g:zf_no_theme)
+if !exists('g:zf_no_theme')
     let g:zf_no_theme = 0
 endif
 
