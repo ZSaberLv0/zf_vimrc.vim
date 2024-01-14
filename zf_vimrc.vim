@@ -268,18 +268,18 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         if !exists('s:ZF_ModuleGetApt')
             let s:ZF_ModuleGetApt = ''
             if !empty(globpath(substitute($PATH, ';', ',', 'g'), 'apt-cyg'))
-                let s:ZF_ModuleGetApt = 'sh -c "yes | apt-cyg install %s"'
+                let s:ZF_ModuleGetApt = 'sh -c "yes | apt-cyg install \"%s\""'
             elseif executable('apt-get')
-                let s:ZF_ModuleGetApt = 'yes | apt-get install %s'
+                let s:ZF_ModuleGetApt = 'yes | apt-get install "%s"'
             elseif executable('yum')
-                let s:ZF_ModuleGetApt = 'yes | yum install %s'
+                let s:ZF_ModuleGetApt = 'yes | yum install "%s"'
             elseif executable('brew')
-                let s:ZF_ModuleGetApt = 'yes | brew install %s'
+                let s:ZF_ModuleGetApt = 'yes | brew install "%s"'
             elseif executable('apt')
-                let s:ZF_ModuleGetApt = 'yes | apt install %s'
+                let s:ZF_ModuleGetApt = 'yes | apt install "%s"'
             elseif executable('sh') " other special
                 if !empty(globpath(substitute($PATH, g:zf_windows ? ';' : ':', ',', 'g'), 'apt-get'))
-                    let s:ZF_ModuleGetApt = 'sh -c "yes | apt-get install %s"'
+                    let s:ZF_ModuleGetApt = 'sh -c "yes | apt-get install \"%s\""'
                 endif
             endif
         endif
@@ -291,9 +291,9 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
     function! ZF_ModuleGetPip()
         if !exists('s:ZF_ModuleGetPip')
             if executable('pip3')
-                let s:ZF_ModuleGetPip = 'pip3 install %s'
+                let s:ZF_ModuleGetPip = 'pip3 install "%s"'
             elseif executable('pip')
-                let s:ZF_ModuleGetPip = 'pip install %s'
+                let s:ZF_ModuleGetPip = 'pip install "%s"'
             else
                 let s:ZF_ModuleGetPip = ''
             endif
@@ -306,7 +306,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
     function! ZF_ModuleGetNpm()
         if !exists('s:ZF_ModuleGetNpm')
             if executable('npm')
-                let s:ZF_ModuleGetNpm = 'npm install -g %s'
+                let s:ZF_ModuleGetNpm = 'npm install -g "%s"'
             else
                 let s:ZF_ModuleGetNpm = ''
             endif
