@@ -1443,6 +1443,18 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
 
         " ==================================================
+        if !exists('g:ZF_Plugin_context')
+            let g:ZF_Plugin_context = exists('*nvim_open_win') || exists('*popup_create')
+        endif
+        if g:ZF_Plugin_context
+            ZFPlug 'wellle/context.vim'
+            let g:context_add_mappings = 0
+            let g:context_highlight_normal = 'Pmenu'
+            let g:context_highlight_border = '<hide>'
+            let g:context_highlight_tag    = '<hide>'
+        endif
+
+        " ==================================================
         if !exists('g:ZF_Plugin_diff_enhanced')
             let g:ZF_Plugin_diff_enhanced = 1
         endif
