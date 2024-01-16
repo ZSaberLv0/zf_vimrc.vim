@@ -1166,16 +1166,24 @@ if 1 " common settings
     " complete
     if !g:zf_fakevim
         inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<cr>"
-        inoremap <expr> <c-p> pumvisible() ? '<c-p>' : '<c-p><c-r>=pumvisible() ? "\<lt>Up>" : ""<cr>'
-        inoremap <expr> <c-n> pumvisible() ? '<c-n>' : '<c-n><c-r>=pumvisible() ? "\<lt>Down>" : ""<cr>'
+        inoremap <expr> <c-p> pumvisible()
+                    \ ? '<c-p>'
+                    \ : '<c-p><c-r>=pumvisible() && match(&completeopt, "longest") >= 0 ? "\<lt>Up>" : ""<cr>'
+        inoremap <expr> <c-n> pumvisible()
+                    \ ? '<c-n>'
+                    \ : '<c-n><c-r>=pumvisible() && match(&completeopt, "longest") >= 0 ? "\<lt>Down>" : ""<cr>'
         inoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
         inoremap <expr> <c-j> pumvisible() ? '<c-n>' : '<down>'
+        inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+        inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
     else
         inoremap <cr> <cr>
         inoremap <c-p> <c-p>
         inoremap <c-n> <c-n>
         inoremap <c-k> <c-k>
         inoremap <c-j> <c-j>
+        inoremap <tab> <tab>
+        inoremap <s-tab> <s-tab>
     endif
     set completeopt=menuone
     set complete=.,w,b,u,k,t
