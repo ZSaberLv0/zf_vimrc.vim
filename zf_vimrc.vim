@@ -1449,6 +1449,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         if g:ZF_Plugin_context
             ZFPlug 'wellle/context.vim'
             let g:context_add_mappings = 0
+            let g:context_max_height = 5
             let g:context_highlight_normal = 'Pmenu'
             let g:context_highlight_border = '<hide>'
             let g:context_highlight_tag    = '<hide>'
