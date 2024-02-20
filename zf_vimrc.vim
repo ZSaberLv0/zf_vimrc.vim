@@ -559,8 +559,13 @@ if 1 " custom key mapping
     imap <c-k> <up>
     cnoremap <c-h> <left>
     cnoremap <c-l> <right>
-    cnoremap <c-j> <down>
-    cnoremap <c-k> <up>
+    if !g:zf_fakevim
+        cnoremap <expr> <c-j> wildmenumode() ? "\<c-n>" : "\<down>"
+        cnoremap <expr> <c-k> wildmenumode() ? "\<c-p>" : "\<up>"
+    else
+        cnoremap <c-j> <up>
+        cnoremap <c-k> <down>
+    endif
     nnoremap H :bp<cr>
     nnoremap L :bn<cr>
     if !g:zf_fakevim
