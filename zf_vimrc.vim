@@ -1466,17 +1466,23 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             " only enable for current window, solve many issue caused by quick fix window jumping
             augroup ZF_Plugin_context_augroup
                 autocmd!
-                autocmd WinEnter * call ZF_Plugin_context_WinEnter()
-                autocmd WinLeave * call ZF_Plugin_context_WinLeave()
+                autocmd BufEnter * call ZF_Plugin_context_OnEnter()
+                autocmd BufLeave * call ZF_Plugin_context_OnLeave()
             augroup END
-            function! ZF_Plugin_context_WinEnter()
+            function! ZF_Plugin_context_OnEnter()
                 if exists(':ContextActivate')
-                    ContextEnable
+                    try
+                        silent! ContextEnable
+                    catch
+                    endtry
                 endif
             endfunction
-            function! ZF_Plugin_context_WinLeave()
+            function! ZF_Plugin_context_OnLeave()
                 if exists(':ContextActivate')
-                    ContextDisable
+                    try
+                        silent! ContextDisable
+                    catch
+                    endtry
                 endif
             endfunction
         endif
