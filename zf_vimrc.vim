@@ -1463,6 +1463,22 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:context_highlight_normal = 'Pmenu'
             let g:context_highlight_border = '<hide>'
             let g:context_highlight_tag    = '<hide>'
+            " only enable for current window, solve many issue caused by quick fix window jumping
+            augroup ZF_Plugin_context_augroup
+                autocmd!
+                autocmd WinEnter * call ZF_Plugin_context_WinEnter()
+                autocmd WinLeave * call ZF_Plugin_context_WinLeave()
+            augroup END
+            function! ZF_Plugin_context_WinEnter()
+                if exists(':ContextActivate')
+                    ContextEnable
+                endif
+            endfunction
+            function! ZF_Plugin_context_WinLeave()
+                if exists(':ContextActivate')
+                    ContextDisable
+                endif
+            endfunction
         endif
 
         " ==================================================
