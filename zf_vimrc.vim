@@ -1467,6 +1467,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             augroup ZF_Plugin_context_augroup
                 autocmd!
                 autocmd BufEnter * call ZF_Plugin_context_OnEnter()
+                autocmd WinLeave * call ZF_Plugin_context_OnLeave()
                 autocmd BufLeave * call ZF_Plugin_context_OnLeave()
             augroup END
             function! ZF_Plugin_context_OnEnter()
