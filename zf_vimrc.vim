@@ -559,7 +559,7 @@ if 1 " custom key mapping
     imap <c-k> <up>
     cnoremap <c-h> <left>
     cnoremap <c-l> <right>
-    if !g:zf_fakevim
+    if !g:zf_fakevim && exists('*wildmenumode')
         cnoremap <expr> <c-j> wildmenumode() ? "\<c-n>" : "\<down>"
         cnoremap <expr> <c-k> wildmenumode() ? "\<c-p>" : "\<up>"
     else
@@ -910,6 +910,10 @@ if 1 " common settings
     set showcmd
     set showmatch
     set wildmenu
+    try
+        silent! set wildoptions+=pum
+    catch
+    endtry
     set autoread
     set nobackup
     set nowritebackup
