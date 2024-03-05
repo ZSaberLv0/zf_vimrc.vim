@@ -27,7 +27,7 @@ fi
 if test "x-$ZFVim_githost" = "x-" ; then
     echo "[ZFVim] possible host:"
     echo "    https://github.com               (default)"
-    echo "    https://hub.fastgit.xyz"
+    echo "    https://githubfast.com"
     read -p "[ZFVim] enter git host or empty for default: " ZFVim_githost </dev/tty
 fi
 
