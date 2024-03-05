@@ -1374,11 +1374,12 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         if !exists('g:ZF_Plugin_agit')
             let g:ZF_Plugin_agit = 1
         endif
-        if v:version < 704
-            let g:ZF_Plugin_agit = 0
-        endif
         if g:ZF_Plugin_agit
-            ZFPlug 'cohama/agit.vim'
+            if v:version < 704
+                ZFPlug 'ZSaberLv0/agit.vim'
+            else
+                ZFPlug 'cohama/agit.vim'
+            endif
             ZFPlug 'ZSaberLv0/agit.vim.config'
             command! -nargs=* -complete=dir ZFGitDiff :call AGIT_main(<q-args>)
             command! -nargs=* -complete=file ZFGitDiffFile :call AGIT_file(<q-args>)
