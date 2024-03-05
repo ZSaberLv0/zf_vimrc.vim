@@ -560,8 +560,13 @@ if 1 " custom key mapping
     cnoremap <c-h> <left>
     cnoremap <c-l> <right>
     if !g:zf_fakevim
-        cnoremap <expr> <c-j> wildmenumode() ? "\<c-n>" : "\<down>"
-        cnoremap <expr> <c-k> wildmenumode() ? "\<c-p>" : "\<up>"
+        if exists('*wildmenumode')
+            cnoremap <expr> <c-j> wildmenumode() ? "\<c-n>" : "\<down>"
+            cnoremap <expr> <c-k> wildmenumode() ? "\<c-p>" : "\<up>"
+        else
+            cnoremap <c-j> <up>
+            cnoremap <c-k> <down>
+        endif
     else
         cnoremap <c-j> <up>
         cnoremap <c-k> <down>
@@ -932,8 +937,10 @@ if 1 " common settings
     endif
     function! ZF_Setting_common_action()
         set number
-        set textwidth=0
         set iskeyword=@,48-57,_,128-167,224-235
+        if !g:zf_fakevim
+            set textwidth=0
+        endif
     endfunction
     call ZF_Setting_common_action()
     augroup ZF_Setting_common_augroup
