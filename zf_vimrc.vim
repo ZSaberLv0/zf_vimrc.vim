@@ -559,7 +559,7 @@ if 1 " custom key mapping
     imap <c-k> <up>
     cnoremap <c-h> <left>
     cnoremap <c-l> <right>
-    if !g:zf_fakevim && exists('*wildmenumode')
+    if !g:zf_fakevim
         cnoremap <expr> <c-j> wildmenumode() ? "\<c-n>" : "\<down>"
         cnoremap <expr> <c-k> wildmenumode() ? "\<c-p>" : "\<up>"
     else
