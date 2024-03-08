@@ -1118,7 +1118,11 @@ if 1 " common settings
     " set selection=exclusive
     set guicursor=a:block-blinkon0
     set backspace=indent,eol,start
+    set formatoptions+=j
     set scrolloff=5
+    set sidescroll=1
+    set sidescrolloff=5
+    set smarttab
     set nostartofline
     set sidescrolloff=5
     set selectmode=key
