@@ -446,22 +446,23 @@ recommended to:
     nmap <leader>ze :NERDTreeFind<cr>
 
     set easymotion
+    nmap f <plug>(easymotion-fl)
+    xmap f <plug>(easymotion-fl)
+    nmap F <plug>(easymotion-Fl)
+    xmap F <plug>(easymotion-Fl)
     nmap s <plug>(easymotion-s)
     xmap s <plug>(easymotion-s)
     nmap S <plug>(easymotion-bd-jk)
     xmap S <plug>(easymotion-bd-jk)
-    nmap f <plug>(easymotion-bd-fl)
-    xmap f <plug>(easymotion-bd-fl)
-    nmap F <plug>(easymotion-Fl)
-    xmap F <plug>(easymotion-Fl)
     let g:EasyMotion_startofline = 1
 
     set surround
-    nmap rd ds
-    nmap RD ds
-    nmap rc cs
-    nmap RC cs
-    xmap r S
-    xmap R S
+    let g:surround_no_mappings = 1
+    nmap rd <plug>Dsurround
+    nmap RD <plug>Dsurround
+    nmap rc <plug>Csurround
+    nmap RC <plug>CSurround
+    xmap r <plug>VSurround
+    " xmap R <plug>VgSurround
     ```
 
