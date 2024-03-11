@@ -1118,7 +1118,10 @@ if 1 " common settings
     " set selection=exclusive
     set guicursor=a:block-blinkon0
     set backspace=indent,eol,start
-    set formatoptions+=j
+    try
+        silent! set formatoptions+=j
+    catch
+    endtry
     set scrolloff=5
     set sidescroll=1
     set sidescrolloff=5
