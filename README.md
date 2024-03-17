@@ -458,11 +458,11 @@ recommended to:
 
     set surround
     let g:surround_no_mappings = 1
-    nmap rd <plug>Dsurround
-    nmap RD <plug>Dsurround
-    nmap rc <plug>Csurround
+    nmap rd <plug>DSurround
+    nmap RD <plug>DSurround
+    nmap rc <plug>CSurround
     nmap RC <plug>CSurround
     xmap r <plug>VSurround
-    " xmap R <plug>VgSurround
+    xmap R <plug>VSurround
     ```
 
