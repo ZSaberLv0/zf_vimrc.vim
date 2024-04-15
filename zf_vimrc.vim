@@ -1480,8 +1480,9 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:context_add_mappings = 0
             let g:context_max_height = 5
             let g:context_highlight_normal = 'Pmenu'
-            let g:context_highlight_border = '<hide>'
+            let g:context_highlight_border = 'PmenuSel'
             let g:context_highlight_tag    = '<hide>'
+            let g:context_border_char = '_'
             " only enable for current window, solve many issue caused by quick fix window jumping
             augroup ZF_Plugin_context_augroup
                 autocmd!
