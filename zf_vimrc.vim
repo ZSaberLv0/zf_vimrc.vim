@@ -1363,11 +1363,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         if !exists('g:zf_colorscheme_256')
             let g:zf_colorscheme_256 = 1
         endif
-        if exists('*ZF_shellcache')
-            let tput_colors = ZF_shellcache('tput colors')
-        else
-            let tput_colors = ZF_system('tput colors')
-        endif
+        let tput_colors = ZF_system('tput colors')
         if g:zf_colorscheme_256 == 1 && !has('gui') && substitute(tput_colors, "[\r\n]", '', 'g') < 256
             let g:zf_colorscheme_256 = 0
         endif
