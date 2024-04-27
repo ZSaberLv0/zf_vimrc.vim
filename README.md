@@ -440,6 +440,8 @@ recommended to:
     xmap t :action EditorSelectWord<cr>
     nmap T :action EditorUnSelectWord<cr>
     xmap T :action EditorUnSelectWord<cr>
+    nmap DB :action ToggleLineBreakpoint<cr>
+    nmap DC :action ViewBreakpoints<cr>
 
     set NERDTree
     nmap <leader>ve :NERDTreeToggle<cr>
