@@ -448,10 +448,6 @@ recommended to:
     nmap <leader>ze :NERDTreeFind<cr>
 
     set easymotion
-    nmap f <plug>(easymotion-fl)
-    xmap f <plug>(easymotion-fl)
-    nmap F <plug>(easymotion-Fl)
-    xmap F <plug>(easymotion-Fl)
     nmap s <plug>(easymotion-s)
     xmap s <plug>(easymotion-s)
     nmap S <plug>(easymotion-bd-jk)
