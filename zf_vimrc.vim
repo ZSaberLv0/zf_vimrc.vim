@@ -1786,7 +1786,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             augroup ZF_Plugin_easymotion_augroup
                 autocmd!
                 autocmd User ZFVimrcPostNormal
-                            \| nmap s <plug>(easymotion-s)
+                            \  nmap s <plug>(easymotion-s)
                             \| xmap s <plug>(easymotion-s)
                             \| nmap S <plug>(easymotion-sol-bd-jk)
                             \| xmap S <plug>(easymotion-sol-bd-jk)
