@@ -480,26 +480,6 @@ if 1 " custom key mapping
         inoremap jk <esc>l
         cnoremap jk <esc>
     endif
-    if has('terminal') || has('nvim')
-        tnoremap jk <c-\><c-n>
-        tnoremap <esc> <c-\><c-n>
-        if has('nvim')
-            command! -nargs=0 Shell :terminal
-        endif
-        augroup ZF_Setting_terminal
-            autocmd!
-            if has('nvim')
-                if exists('##TermOpen')
-                    autocmd TermOpen * startinsert
-                    autocmd TermOpen * nnoremap <buffer><silent> q :bd!<cr>
-                endif
-            else
-                if exists('##TerminalOpen')
-                    autocmd TerminalOpen * nnoremap <buffer><silent> q :bd!<cr>
-                endif
-            endif
-        augroup END
-    endif
     if !g:zf_fakevim
         nnoremap <space> <esc>
         xnoremap <space> <esc>
@@ -1247,6 +1227,33 @@ if 1 " common settings
         autocmd FileType help
                     \ nnoremap <buffer> <silent> q :q<cr>
     augroup END
+    " other spec
+    if has('terminal') || has('nvim')
+        tnoremap jk <c-\><c-n>
+        tnoremap <esc> <c-\><c-n>
+        if has('nvim')
+            command! -nargs=0 Shell :terminal
+        endif
+        augroup ZF_Setting_terminal
+            autocmd!
+            if has('nvim')
+                if exists('##TermOpen')
+                    autocmd TermOpen * startinsert
+                    autocmd TermOpen * nnoremap <buffer><silent> q :bd!<cr>
+                endif
+            else
+                if exists('##TerminalOpen')
+                    autocmd TerminalOpen * nnoremap <buffer><silent> q :bd!<cr>
+                endif
+            endif
+        augroup END
+    endif
+    if exists(':EditQuery')
+        function! Edit(bang, path)
+            execute printf('edit%s %s', a:bang, substitute(a:path, ' ', '\\ ', 'g'))
+        endfunction
+        command! -nargs=* -bang -complete=file Edit :call Edit(<q-bang>, <q-args>)
+    endif
 endif " common settings
 
 
