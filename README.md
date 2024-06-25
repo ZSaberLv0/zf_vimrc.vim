@@ -441,14 +441,17 @@ recommended to:
     nmap T :action EditorUnSelectWord<cr>
     xmap T :action EditorUnSelectWord<cr>
 
-    nmap <f5> :action Stop<cr>
-    nmap <f5> :action Debug<cr>
-    nmap <f8> :action Resume<cr>
-    nmap <f9> :action StepOut<cr>
-    nmap <f10> :action StepOver<cr>
-    nmap <f11> :action StepInto<cr>
     nmap DB :action ToggleLineBreakpoint<cr>
     nmap DC :action ViewBreakpoints<cr>
+    nmap DI :action ShowHoverInfo<cr>
+    nmap <f4> :action Stop<cr>
+    nmap <f5> :action Debug<cr>
+    nmap <f8> :action Resume<cr>
+    nmap z<f8> :action RunToCursor<cr>
+    nmap <f9> :action Pause<cr>
+    nmap <f10> :action StepOver<cr>
+    nmap <f11> :action StepInto<cr>
+    nmap z<f11> :action StepOut<cr>
 
     set NERDTree
     nmap <leader>ve :NERDTreeToggle<cr>
