@@ -452,6 +452,7 @@ recommended to:
     nmap <f10> :action StepOver<cr>
     nmap <f11> :action StepInto<cr>
     nmap z<f11> :action StepOut<cr>
+    nmap <f12> <Plug>VimspectorStepOut
 
     set NERDTree
     nmap <leader>ve :NERDTreeToggle<cr>
