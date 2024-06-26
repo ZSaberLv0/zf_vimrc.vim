@@ -447,12 +447,11 @@ recommended to:
     nmap <f4> :action Stop<cr>
     nmap <f5> :action Debug<cr>
     nmap <f8> :action Resume<cr>
-    nmap z<f8> :action RunToCursor<cr>
-    nmap <f9> :action Pause<cr>
+    nmap z<f8> :action Pause<cr>
+    nmap <f9> :action StepOut<cr>
     nmap <f10> :action StepOver<cr>
     nmap <f11> :action StepInto<cr>
     nmap z<f11> :action StepOut<cr>
-    nmap <f12> <Plug>VimspectorStepOut
 
     set NERDTree
     nmap <leader>ve :NERDTreeToggle<cr>
