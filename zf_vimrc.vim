@@ -1853,6 +1853,11 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
         if g:ZF_Plugin_expand_region
             ZFPlug 'terryma/vim-expand-region'
+            let g:expand_region_text_objects = {
+                        \   "i'":0, 'i"':0, 'i`':0, 'i)':1, 'i]':1, 'i}':1, 'i>':1,
+                        \   "2i'":0, '2i"':0, '2i`':0, 'a)':1, 'a]':1, 'a}':1, 'a>':1,
+                        \ }
+            let g:expand_region_singleline = 1
             if 0 " https://github.com/vim/vim/issues/4024
                 nmap t <Plug>(expand_region_expand)
                 xmap t <Plug>(expand_region_expand)
@@ -1879,10 +1884,6 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 xnoremap <silent> t :<c-u>call ZF_Plugin_expand_region('v', '+')<cr>
                 xnoremap <silent> T :<c-u>call ZF_Plugin_expand_region('v', '-')<cr>
             endif
-            let g:expand_region_text_objects = {
-                        \   "i'":0, 'i"':0, 'i`':0, 'i)':1, 'i]':1, 'i}':1, 'i>':1,
-                        \   "2i'":0, '2i"':0, '2i`':0, 'a)':1, 'a]':1, 'a}':1, 'a>':1,
-                        \ }
         endif
 
         " ==================================================
