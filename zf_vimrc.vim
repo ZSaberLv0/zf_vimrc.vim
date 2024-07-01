@@ -1491,8 +1491,8 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:context_highlight_border = 'Pmenu'
             let g:context_highlight_tag    = '<hide>'
             let g:context_border_char = '*'
-            " ^[ \t]*$
-            let g:context_skip_regex = '^[ \t]*$'
+            " ^[ \t]*($|#|public:|protected:|private:)
+            let g:context_skip_regex = '^[ \t]*\($\|#\|public:\|protected:\|private:\)'
             " only enable for current window, solve many issue caused by quick fix window jumping
             augroup ZF_Plugin_context_augroup
                 autocmd!
