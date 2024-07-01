@@ -1480,6 +1480,43 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
 
         " ==================================================
+        if !exists('g:ZF_Plugin_context')
+            let g:ZF_Plugin_context = exists('*nvim_open_win') || exists('*popup_create')
+        endif
+        if g:ZF_Plugin_context
+            ZFPlug 'ZSaberLv0/context.vim'
+            let g:context_add_mappings = 0
+            let g:context_max_height = 1
+            let g:context_highlight_normal = 'Pmenu'
+            let g:context_highlight_border = 'Pmenu'
+            let g:context_highlight_tag    = '<hide>'
+            let g:context_border_char = '*'
+            " only enable for current window, solve many issue caused by quick fix window jumping
+            augroup ZF_Plugin_context_augroup
+                autocmd!
+                autocmd BufEnter * call ZF_Plugin_context_OnEnter()
+                autocmd WinLeave * call ZF_Plugin_context_OnLeave()
+                autocmd BufLeave * call ZF_Plugin_context_OnLeave()
+            augroup END
+            function! ZF_Plugin_context_OnEnter()
+                if exists(':ContextActivate')
+                    try
+                        silent! ContextEnable
+                    catch
+                    endtry
+                endif
+            endfunction
+            function! ZF_Plugin_context_OnLeave()
+                if exists(':ContextActivate')
+                    try
+                        silent! ContextDisable
+                    catch
+                    endtry
+                endif
+            endfunction
+        endif
+
+        " ==================================================
         if !exists('g:ZF_Plugin_diff_enhanced')
             let g:ZF_Plugin_diff_enhanced = 1
         endif
