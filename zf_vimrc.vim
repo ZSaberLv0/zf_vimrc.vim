@@ -544,12 +544,12 @@ if 1 " custom key mapping
             cnoremap <expr> <c-j> wildmenumode() ? "\<c-n>" : "\<down>"
             cnoremap <expr> <c-k> wildmenumode() ? "\<c-p>" : "\<up>"
         else
-            cnoremap <c-j> <up>
-            cnoremap <c-k> <down>
+            cnoremap <c-j> <down>
+            cnoremap <c-k> <up>
         endif
     else
-        cnoremap <c-j> <up>
-        cnoremap <c-k> <down>
+        cnoremap <c-j> <down>
+        cnoremap <c-k> <up>
     endif
     nnoremap H :bp<cr>
     nnoremap L :bn<cr>
