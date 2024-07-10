@@ -1511,7 +1511,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:ZF_Plugin_context = exists('*nvim_open_win') || exists('*popup_create')
         endif
         if g:ZF_Plugin_context
-            ZFPlug 'ZSaberLv0/context.vim'
+            ZFPlug 'wellle/context.vim'
             let g:context_add_mappings = 0
             let g:context_max_height = 1
             let g:context_highlight_normal = 'Pmenu'
