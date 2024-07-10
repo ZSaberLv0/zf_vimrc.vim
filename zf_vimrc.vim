@@ -1841,6 +1841,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
         if g:ZF_Plugin_eregex
             " ZFPlug 'othree/eregex.vim'
+            " modified: support incsearch
             ZFPlug 'ZSaberLv0/eregex.vim'
             let g:eregex_default_enable = 0
             function! ZF_Plugin_eregex_sort(bang, line1, line2, args)
@@ -1881,6 +1882,8 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:ZF_Plugin_expand_region = 1
         endif
         if g:ZF_Plugin_expand_region
+            " ZFPlug 'terryma/vim-expand-region'
+            " modified: support singline mode
             ZFPlug 'ZSaberLv0/vim-expand-region'
             let g:expand_region_text_objects = {
                         \   "i'":0, 'i"':0, 'i`':0, 'i)':1, 'i]':1, 'i}':1, 'i>':1,
@@ -2334,6 +2337,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
         if g:ZF_Plugin_searchindex
             " ZFPlug 'google/vim-searchindex'
+            " modified: magic chars
             ZFPlug 'ZSaberLv0/vim-searchindex'
             let g:searchindex_improved_star = 0
             augroup ZF_Plugin_searchindex_augroup
