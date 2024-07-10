@@ -1480,6 +1480,33 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
 
         " ==================================================
+        if !exists('g:ZF_Plugin_Colorizer')
+            let g:ZF_Plugin_Colorizer = 1
+        endif
+        if g:ZF_Plugin_Colorizer
+            ZFPlug 'chrisbra/Colorizer'
+            function! ZF_Plugin_Colorizer(line1, line2)
+                if a:line1 < 0
+                    let s:ColorizerFlag = 1 - get(s:, 'ColorizerFlag', 0)
+                    if s:ColorizerFlag
+                        silent! ColorHighlight
+                        echo '[Colorizer] on'
+                    else
+                        silent! ColorClear
+                        echo '[Colorizer] off'
+                    endif
+                else
+                    let s:ColorizerFlag = 1
+                    silent! execute printf('silent! %s,%sColorHighlight', a:line1, a:line2)
+                    echo '[Colorizer] on'
+                endif
+            endfunction
+            command! -nargs=0 -bang -range ZFColorizer :call ZF_Plugin_Colorizer(<q-bang>=='!'?-1:<line1>, <q-bang>=='!'?-1:<line2>)
+            nnoremap <leader>ctc :ZFColorizer!<cr>
+            xnoremap <leader>ctc :ZFColorizer<cr>
+        endif
+
+        " ==================================================
         if !exists('g:ZF_Plugin_context')
             let g:ZF_Plugin_context = exists('*nvim_open_win') || exists('*popup_create')
         endif
