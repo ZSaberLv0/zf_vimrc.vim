@@ -1485,6 +1485,8 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
         if g:ZF_Plugin_Colorizer
             ZFPlug 'chrisbra/Colorizer'
+            let g:colorizer_colornames = 0
+            let g:colorizer_auto_map = 0
             function! ZF_Plugin_Colorizer(line1, line2)
                 if a:line1 < 0
                     let s:ColorizerFlag = 1 - get(s:, 'ColorizerFlag', 0)
