@@ -874,6 +874,8 @@ if 1 " custom key mapping
     cnoremap <expr> %% getcmdtype() == ':' ? substitute(expand('%:p'), '\\', '/', 'g') : '%%'
     " suspend is not useful and would confuse user
     nnoremap <c-z> <nop>
+    " other
+    nnoremap Y J
 endif " custom key mapping
 
 
