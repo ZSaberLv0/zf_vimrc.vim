@@ -874,8 +874,20 @@ if 1 " custom key mapping
     cnoremap <expr> %% getcmdtype() == ':' ? substitute(expand('%:p'), '\\', '/', 'g') : '%%'
     " suspend is not useful and would confuse user
     nnoremap <c-z> <nop>
-    " other
-    nnoremap Y J
+    " join
+    function! ZF_Setting_join(bang) range
+        let lastline = (a:firstline == a:lastline) ? a:lastline + 1 : a:lastline
+        if a:bang != '!'
+            execute printf('%d,%djoin', a:firstline, lastline)
+        else
+            " (^.*?)[ \t]*\n[ \t]*(.*?)$
+            execute printf('%d,%ds/\(^.\{-}\)[ \t]*\n[ \t]*\(.\{-}\)$/\1\2/ge', a:firstline, lastline)
+        endif
+    endfunction
+    nnoremap Y :call ZF_Setting_join('')<cr>
+    xnoremap Y :call ZF_Setting_join('')<cr>
+    nnoremap gY :call ZF_Setting_join('!')<cr>
+    xnoremap gY :call ZF_Setting_join('!')<cr>
 endif " custom key mapping
 
 
@@ -1489,6 +1501,16 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             ZFPlug 'chrisbra/Colorizer'
             let g:colorizer_colornames = 0
             let g:colorizer_auto_map = 0
+            augroup ZF_Plugin_Colorizer_augroup
+                autocmd!
+                autocmd WinLeave * call ZF_Plugin_Colorizer_clear()
+            augroup END
+            function! ZF_Plugin_Colorizer_clear()
+                if get(s:, 'ColorizerFlag', 0)
+                    ColorClear
+                    let s:ColorizerFlag = 0
+                endif
+            endfunction
             function! ZF_Plugin_Colorizer(line1, line2)
                 if a:line1 < 0
                     let s:ColorizerFlag = 1 - get(s:, 'ColorizerFlag', 0)
