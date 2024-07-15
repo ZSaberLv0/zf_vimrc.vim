@@ -875,19 +875,31 @@ if 1 " custom key mapping
     " suspend is not useful and would confuse user
     nnoremap <c-z> <nop>
     " join
-    function! ZF_Setting_join(bang) range
-        let lastline = (a:firstline == a:lastline) ? a:lastline + 1 : a:lastline
-        if a:bang != '!'
-            execute printf('%d,%djoin', a:firstline, lastline)
-        else
-            " (^.*?)[ \t]*\n[ \t]*(.*?)$
-            execute printf('%d,%ds/\(^.\{-}\)[ \t]*\n[ \t]*\(.\{-}\)$/\1\2/ge', a:firstline, lastline)
-        endif
-    endfunction
-    nnoremap Y :call ZF_Setting_join('')<cr>
-    xnoremap Y :call ZF_Setting_join('')<cr>
-    nnoremap gY :call ZF_Setting_join('!')<cr>
-    xnoremap gY :call ZF_Setting_join('!')<cr>
+    if !g:zf_fakevim
+        function! ZF_Setting_join(bang) range
+            let lastline = (a:firstline == a:lastline) ? a:lastline + 1 : a:lastline
+            if a:bang != '!'
+                execute printf('%d,%djoin', a:firstline, lastline)
+            else
+                let pos = getpos('.')
+                " (^.*?)[ \t]*\n[ \t]*(.*?)$
+                call setpos('.', [pos[0], a:firstline, pos[2], pos[3]])
+                for i in range(a:firstline, lastline - 1)
+                    execute printf('%d,%ds/\(^.\{-}\)[ \t]*\n[ \t]*\(.\{-}\)$/\1\2/ge', a:firstline, a:firstline)
+                endfor
+                call setpos('.', pos)
+            endif
+        endfunction
+        nnoremap gY :call ZF_Setting_join('')<cr>
+        xnoremap gY :call ZF_Setting_join('')<cr>
+        nnoremap Y :call ZF_Setting_join('!')<cr>
+        xnoremap Y :call ZF_Setting_join('!')<cr>
+    else
+        nnoremap gY J
+        xnoremap gY J
+        nnoremap Y J
+        xnoremap Y J
+    endif
 endif " custom key mapping
 
 
