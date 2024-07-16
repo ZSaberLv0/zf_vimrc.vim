@@ -890,10 +890,10 @@ if 1 " custom key mapping
                 call setpos('.', pos)
             endif
         endfunction
-        nnoremap Y :call ZF_Setting_join('')<cr>
-        xnoremap Y :call ZF_Setting_join('')<cr>
-        nnoremap gY :call ZF_Setting_join('!')<cr>
-        xnoremap gY :call ZF_Setting_join('!')<cr>
+        nnoremap <silent> Y :call ZF_Setting_join('')<cr>
+        xnoremap <silent> Y :call ZF_Setting_join('')<cr>
+        nnoremap <silent> gY :call ZF_Setting_join('!')<cr>
+        xnoremap <silent> gY :call ZF_Setting_join('!')<cr>
     else
         nnoremap gY J
         xnoremap gY J
