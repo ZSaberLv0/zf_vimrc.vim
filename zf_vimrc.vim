@@ -1515,7 +1515,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:colorizer_auto_map = 0
             augroup ZF_Plugin_Colorizer_augroup
                 autocmd!
-                autocmd WinLeave * call ZF_Plugin_Colorizer_clear()
+                autocmd WinLeave,BufLeave * call ZF_Plugin_Colorizer_clear()
             augroup END
             function! ZF_Plugin_Colorizer_clear()
                 if get(s:, 'ColorizerFlag', 0)
