@@ -866,9 +866,9 @@ if 1 " custom key mapping
         vnoremap <leader>zr y:.,$s/\<<c-r>0\>//gec<left><left><left><left>
 
         nnoremap <leader>v/ :%s///gn<left><left><left><left>
-        xnoremap <leader>v/ y:%s/<c-r>0//gn<left><left><left><left>
+        vnoremap <leader>v/ y:%s/<c-r>0//gn<left><left><left><left>
         nnoremap <leader>z/ :%s/\<<c-r>0\>//gn<left><left><left><left>
-        xnoremap <leader>z/ y:%s/\<<c-r>0\>//gn<left><left><left><left>
+        vnoremap <leader>z/ y:%s/\<<c-r>0\>//gn<left><left><left><left>
     endif
     " command line utils
     cnoremap <expr> %% getcmdtype() == ':' ? substitute(expand('%:p'), '\\', '/', 'g') : '%%'
@@ -895,10 +895,8 @@ if 1 " custom key mapping
         nnoremap <silent> gY :call ZF_Setting_join('!')<cr>
         xnoremap <silent> gY :call ZF_Setting_join('!')<cr>
     else
-        nnoremap gY J
-        xnoremap gY J
-        nnoremap Y J
-        xnoremap Y J
+        noremap gY J
+        noremap Y J
     endif
 endif " custom key mapping
 
@@ -1082,9 +1080,9 @@ if 1 " common settings
         xnoremap zm "ty/\<<c-r>t\><cr>N
     else
         nnoremap zn viwy/<c-r>0<cr>N
-        xnoremap zn y/<c-r>0<cr>N
+        vnoremap zn y/<c-r>0<cr>N
         nnoremap zm viwy/\<<c-r>0\><cr>N
-        xnoremap zm y/\<<c-r>0\><cr>N
+        vnoremap zm y/\<<c-r>0\><cr>N
     endif
     " tab and indent
     set expandtab
