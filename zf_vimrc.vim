@@ -290,7 +290,9 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
     endfunction
     function! ZF_ModuleGetPip()
         if !exists('s:ZF_ModuleGetPip')
-            if executable('pip3')
+            if executable('pipx')
+                let s:ZF_ModuleGetPip = 'pipx install "%s"'
+            elseif executable('pip3')
                 let s:ZF_ModuleGetPip = 'pip3 install "%s"'
             elseif executable('pip')
                 let s:ZF_ModuleGetPip = 'pip install "%s"'
