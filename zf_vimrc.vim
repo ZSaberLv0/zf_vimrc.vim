@@ -1429,7 +1429,15 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 ZFPlug 'cohama/agit.vim'
             endif
             ZFPlug 'ZSaberLv0/agit.vim.config'
-            command! -nargs=* -complete=dir ZFGitDiff :call AGIT_main(<q-args>)
+            function! ZF_Plugin_agit(bang, args)
+                if a:bang == '!'
+                    let g:agit_max_log_lines = 99999999
+                else
+                    let g:agit_max_log_lines = 1000
+                endif
+                call AGIT_main(a:args)
+            endfunction
+            command! -nargs=* -complete=dir -bang ZFGitDiff :call ZF_Plugin_agit(<q-bang>, <q-args>)
             command! -nargs=* -complete=file ZFGitDiffFile :call AGIT_file(<q-args>)
         endif
 
