@@ -716,11 +716,23 @@ if 1 " custom key mapping
     nnoremap ZS :wa<cr>
     nnoremap zx :w<cr>:bd<cr>
     nnoremap ZX :wa<cr>:bufdo bd<cr>
-    nnoremap cx :bd!<cr>
     nnoremap CX :bufdo bd!<cr>
     if !g:zf_fakevim
+        function! ZF_Setting_cx()
+            let bufnr = bufnr('%')
+            let bufhidden = &bufhidden
+            bp
+            if 1
+                        \ && bufhidden != 'unload'
+                        \ && bufhidden != 'delete'
+                        \ && bufhidden != 'wipe'
+                execute 'bd! ' . bufnr
+            endif
+        endfunction
+        nnoremap <silent> cx :call ZF_Setting_cx()<cr>
         nnoremap x :bd<cr>
     else
+        nnoremap cx :bd!<cr>
         nnoremap x :q<cr>
     endif
     command! W w !sudo tee % > /dev/null
