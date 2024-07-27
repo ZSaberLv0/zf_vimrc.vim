@@ -1536,6 +1536,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             augroup ZF_Plugin_Colorizer_augroup
                 autocmd!
                 autocmd WinLeave,BufLeave * call ZF_Plugin_Colorizer_clear()
+                autocmd User ZFVimrcPostNormal delcommand HSL2RGB
             augroup END
             function! ZF_Plugin_Colorizer_clear()
                 if get(s:, 'ColorizerFlag', 0)
@@ -2019,31 +2020,6 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 autocmd!
                 autocmd User ZFVimrcPostHigh call ZF_Plugin_incsearch_setting()
             augroup END
-        endif
-
-        " ==================================================
-        if !exists('g:ZF_Plugin_inline_edit')
-            let g:ZF_Plugin_inline_edit = 1
-        endif
-        if g:ZF_Plugin_inline_edit
-            ZFPlug 'AndrewRadev/inline_edit.vim'
-            let g:inline_edit_proxy_type = "tempfile"
-            let g:inline_edit_modify_statusline = 0
-            function! ZF_Plugin_inline_edit_entry(count, filetype) range
-                let winnrOld = winnr('$')
-                execute "'<,'>InlineEdit " . a:filetype
-                if winnrOld == winnr('$')
-                    return
-                endif
-                let undolevelsOld = &undolevels
-                set undolevels=-1
-                silent! execute "normal! a \<bs>\<esc>gg0"
-                let &undolevels = undolevelsOld
-                set nomodified
-                nnoremap <buffer><expr> q &modified?':w<cr>:bd<cr>':':bd<cr>'
-            endfunction
-            command! -range=0 -nargs=* -complete=filetype E
-                        \ call ZF_Plugin_inline_edit_entry(<count>, <q-args>)
         endif
 
         " ==================================================
