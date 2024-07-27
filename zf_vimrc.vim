@@ -1536,7 +1536,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             augroup ZF_Plugin_Colorizer_augroup
                 autocmd!
                 autocmd WinLeave,BufLeave * call ZF_Plugin_Colorizer_clear()
-                autocmd User ZFVimrcPostNormal delcommand HSL2RGB
+                autocmd User ZFVimrcPostNormal try | silent! delcommand HSL2RGB | catch | endtry
             augroup END
             function! ZF_Plugin_Colorizer_clear()
                 if get(s:, 'ColorizerFlag', 0)
