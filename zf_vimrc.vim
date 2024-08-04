@@ -731,9 +731,13 @@ if 1 " custom key mapping
         endfunction
         nnoremap <silent> cx :call ZF_Setting_cx()<cr>
         nnoremap x :bd<cr>
+        nnoremap cs :noautocmd w<cr>
+        nnoremap CS :noautocmd wa<cr>
     else
         nnoremap cx :bd!<cr>
         nnoremap x :q<cr>
+        nnoremap cs :w<cr>
+        nnoremap CS :wa<cr>
     endif
     command! W w !sudo tee % > /dev/null
 
