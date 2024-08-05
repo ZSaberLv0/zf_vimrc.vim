@@ -2543,6 +2543,31 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
         if g:ZF_Plugin_ZFVimBackup
             ZFPlug 'ZSaberLv0/ZFVimBackup'
+            function! ZF_Plugin_ZFVimBackup_save()
+                call ZFBackupSave(expand('%'))
+                noautocmd w
+                call ZFBackupSave(expand('%'))
+            endfunction
+            function! ZF_Plugin_ZFVimBackup_saveAll()
+                let files = []
+                for nr in range(1, bufnr('$'))
+                    if bufexists(nr) && bufloaded(nr) && buflisted(nr)
+                        call add(files, expand(printf('#%d:p', nr)))
+                    endif
+                endfor
+                for file in files
+                    call ZFBackupSave(file)
+                endfor
+                noautocmd wa
+                for file in files
+                    call ZFBackupSave(file)
+                endfor
+            endfunction
+            augroup ZF_Plugin_ZFVimBackup_augroup
+                autocmd!
+                autocmd User ZFVimrcPostNormal nnoremap <silent> cs :call ZF_Plugin_ZFVimBackup_save()<cr>
+                autocmd User ZFVimrcPostNormal nnoremap <silent> CS :call ZF_Plugin_ZFVimBackup_saveAll()<cr>
+            augroup END
         endif
 
         " ==================================================
