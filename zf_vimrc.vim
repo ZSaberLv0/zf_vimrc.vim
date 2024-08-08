@@ -2584,7 +2584,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
         if g:ZF_Plugin_ZFVimDevDocs
             ZFPlug 'ZSaberLv0/ZFVimDevDocs'
-            command! -nargs=+ HelpDocs :call ZFDocs(ZFDocs_argParse(<f-args>))
+            command! -nargs=+ -complete=customlist,ZFDocsCmdComplete HelpDocs :call ZFDocs(ZFDocs_argParse(<f-args>))
         endif
 
         " ==================================================
