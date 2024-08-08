@@ -2579,6 +2579,15 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
 
         " ==================================================
+        if !exists('g:ZF_Plugin_ZFVimDevDocs')
+            let g:ZF_Plugin_ZFVimDevDocs = 1
+        endif
+        if g:ZF_Plugin_ZFVimDevDocs
+            ZFPlug 'ZSaberLv0/ZFVimDevDocs'
+            command! -nargs=+ HelpDocs :call ZFDocs(ZFDocs_argParse(<f-args>))
+        endif
+
+        " ==================================================
         if !exists('g:ZF_Plugin_ZFVimDirDiff')
             let g:ZF_Plugin_ZFVimDirDiff = 1
         endif
