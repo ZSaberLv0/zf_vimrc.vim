@@ -2033,6 +2033,20 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         if g:ZF_Plugin_json_ponyfill
             ZFPlug 'retorillo/json-ponyfill.vim'
         endif
+        function! Json_encode(v)
+            if exists('*json_encode')
+                return json_encode(a:v)
+            else
+                return json_ponyfill#json_encode(a:v)
+            endif
+        endfunction
+        function! Json_decode(v)
+            if exists('*json_decode')
+                return json_decode(a:v)
+            else
+                return json_ponyfill#json_decode(a:v)
+            endif
+        endfunction
 
         " ==================================================
         if !exists('g:ZF_Plugin_LeaderF')
@@ -2672,6 +2686,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
         if g:ZF_Plugin_ZFVimGitUtil
             ZFPlug 'ZSaberLv0/ZFVimGitUtil'
+            ZFPlug 'tpope/vim-fugitive'
         endif
 
         " ==================================================
