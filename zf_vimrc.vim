@@ -703,11 +703,6 @@ if 1 " custom key mapping
     else
         cnoremap <s-insert> <c-r>"
     endif
-    if !g:zf_fakevim
-        nnoremap DU "tyy"tp
-    else
-        nnoremap DU yyp
-    endif
     " window and buffer management
     nnoremap B :bufdo<space>
     nnoremap zs :w<cr>
