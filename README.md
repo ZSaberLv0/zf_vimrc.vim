@@ -443,14 +443,14 @@ recommended to:
 
     nmap DB :action ToggleLineBreakpoint<cr>
     nmap DC :action ViewBreakpoints<cr>
-    nmap DI :action ShowHoverInfo<cr>
+    nmap DF :action ShowHoverInfo<cr>
     nmap <f4> :action Stop<cr>
     nmap <f5> :action Debug<cr>
-    nmap <f8> :action Resume<cr>
-    nmap z<f8> :action Pause<cr>
-    nmap <f9> :action StepOut<cr>
-    nmap <f10> :action StepOver<cr>
-    nmap <f11> :action StepInto<cr>
+    nmap DS :action Resume<cr>
+    nmap Ds :action Pause<cr>
+    nmap DU :action StepOut<cr>
+    nmap DO :action StepOver<cr>
+    nmap DI :action StepInto<cr>
 
     set NERDTree
     nmap <leader>ve :NERDTreeToggle<cr>
