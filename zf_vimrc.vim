@@ -739,9 +739,6 @@ if 1 " custom key mapping
     nnoremap WJ <c-w>j
     nnoremap WK <c-w>k
 
-    nnoremap WO :resize<cr>:vertical resize<cr>
-    nnoremap WI :vertical resize<cr>
-    nnoremap WU :resize<cr>
     nnoremap WW <c-w>w
     nnoremap WN <c-w>=
     nnoremap Wh 30<c-w><
