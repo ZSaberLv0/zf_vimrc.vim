@@ -1571,8 +1571,8 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:context_border_char = '*'
             let g:context_add_mappings = 0
             let g:context_max_height = 5
-            " ^\s*($|#|public:|protected:|private:)
-            let g:context_skip_regex = '^\s*\($\|#\|public:\|protected:\|private:\)'
+            " ^\s*($|#\s*(if|elif|endif)|public:|protected:|private:)
+            let g:context_skip_regex = '^\s*\($\|#\s*\(if\|elif\|endif\)\|public:\|protected:\|private:\)'
             " ^\s*([\]\{\}\)]|end|else|case\>|default\>)
             let g:context_extend_regex = '^\s*\([\]{})]\|end\|else\|case\>\|default\>\)'
             " ^\W*$|end|else|case\>|default\>
