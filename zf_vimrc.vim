@@ -1565,14 +1565,18 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
         if g:ZF_Plugin_context
             ZFPlug 'wellle/context.vim'
-            let g:context_add_mappings = 0
-            let g:context_max_height = 1
             let g:context_highlight_normal = 'Pmenu'
             let g:context_highlight_border = 'Pmenu'
             let g:context_highlight_tag    = '<hide>'
             let g:context_border_char = '*'
-            " ^[ \t]*($|#|public:|protected:|private:)
-            let g:context_skip_regex = '^[ \t]*\($\|#\|public:\|protected:\|private:\)'
+            let g:context_add_mappings = 0
+            let g:context_max_height = 5
+            " ^\s*($|#|public:|protected:|private:)
+            let g:context_skip_regex = '^\s*\($\|#\|public:\|protected:\|private:\)'
+            " ^\s*([\]\{\}\)]|end|else|case\>|default\>)
+            let g:context_extend_regex = '^\s*\([\]{})]\|end\|else\|case\>\|default\>\)'
+            " ^\W*$|end|else|case\>|default\>
+            let g:context_join_regex = '^\W*$\|end\|else\|case\>\|default\>'
             " only enable for current window, solve many issue caused by quick fix window jumping
             augroup ZF_Plugin_context_augroup
                 autocmd!
