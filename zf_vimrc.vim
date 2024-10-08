@@ -2764,6 +2764,8 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             ZFPlug 'ZSaberLv0/ZFVimJob'
             nnoremap <leader>va :ZFAsyncRun<space>
             nnoremap <leader>za :ZFAsyncRunSend<space>
+            nnoremap <silent> WO :call ZFJobOutputExpand()<cr>
+            nnoremap <silent> <leader>cta :call ZFAutoScriptToggle()<cr>
         endif
 
         " ==================================================
@@ -2883,19 +2885,6 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             nnoremap <leader>vimrd :call ZF_VimrcDiff()<cr>
             nnoremap <leader>vimru :call ZF_VimrcUpdate()<cr>
             nnoremap <leader>vimrp :call ZF_VimrcPush()<cr>
-        endif
-
-        " ==================================================
-        if !exists('g:ZF_Plugin_ZFVimTagSetting')
-            let g:ZF_Plugin_ZFVimTagSetting = 1
-        endif
-        if g:ZF_Plugin_ZFVimTagSetting
-            ZFPlug 'ZSaberLv0/ZFVimTagSetting'
-            nnoremap <leader>ctagl :call ZF_TagsFileLocal()<cr>
-            nnoremap <leader>ctagg :call ZF_TagsFileGlobal()<cr>
-            nnoremap <leader>ctaga :call ZF_TagsFileGlobalAdd()<cr>
-            nnoremap <leader>ctagr :call ZF_TagsFileRemove()<cr>
-            nnoremap <leader>ctagv :execute ':edit ' . ZF_TagsFileGlobalPath()<cr>
         endif
 
         " ==================================================
