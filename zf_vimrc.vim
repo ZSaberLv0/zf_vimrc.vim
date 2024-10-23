@@ -1349,6 +1349,9 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
     "     set nocompatible
     "     let g:plug_home = $HOME . '/.vim/bundle'
     "     let g:plug_url_format = 'https://github.com/%s'
+    "     if !filereadable(g:plug_home . '/vim-plug/plug.vim')
+    "         call system(printf('git clone https://github.com/junegunn/vim-plug "%s"', g:plug_home . '/vim-plug'))
+    "     endif
     "     execute 'source ' . g:plug_home . '/vim-plug/plug.vim'
     "     silent! call plug#begin()
     "     Plug 'junegunn/vim-plug'
