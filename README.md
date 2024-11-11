@@ -442,6 +442,7 @@ recommended to:
     xmap T :action EditorUnSelectWord<cr>
 
     nmap DB :action ToggleLineBreakpoint<cr>
+    nmap DV :action ViewBreakpoints<cr>
     nmap DC :action ViewBreakpoints<cr>
     nmap DF :action ShowHoverInfo<cr>
     nmap <f4> :action Stop<cr>
