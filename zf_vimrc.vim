@@ -396,7 +396,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
                 let s:ZF_ModuleDownloadFile = 'curl -o "%s" -L "%s"'
                 let s:ZF_ModuleDownloadFile_sizeGetter = 'curl -sI "%s"'
             elseif executable('wget')
-                let s:ZF_ModuleDownloadFile = 'wget -P "%s" "%s"'
+                let s:ZF_ModuleDownloadFile = 'wget -O "%s" "%s"'
                 let s:ZF_ModuleDownloadFile_sizeGetter = 'curl -sI "%s"'
             else
                 let s:ZF_ModuleDownloadFile = ''
@@ -481,9 +481,9 @@ if 1 " custom key mapping
         cnoremap jk <esc>
     endif
     if !g:zf_fakevim
-        nnoremap <space> <esc>
-        xnoremap <space> <esc>
-        onoremap <space> <esc>
+        nmap <space> <esc>
+        xmap <space> <esc>
+        omap <space> <esc>
     else
         noremap <space> <esc>
     endif
@@ -1245,9 +1245,9 @@ if 1 " common settings
     set diffopt=filler,context:200
     " q
     if !g:zf_fakevim
-        nnoremap q <esc>
-        xnoremap q <esc>
-        onoremap q <esc>
+        nmap q <esc>
+        xmap q <esc>
+        omap q <esc>
     else
         noremap q <esc>
     endif
