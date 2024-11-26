@@ -1268,6 +1268,12 @@ if 1 " common settings
     if has('terminal') || has('nvim')
         tnoremap jk <c-\><c-n>
         tnoremap <esc> <c-\><c-n>
+        tnoremap <expr> <c-r> '<c-\><c-n>"' . nr2char(getchar()) . 'pi'
+        if has('clipboard')
+            tnoremap <c-g> <c-\><c-n>"*pi
+        else
+            tnoremap <c-g> <c-\><c-n>""pi
+        endif
         if has('nvim')
             command! -nargs=0 Shell :terminal
         endif
