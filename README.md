@@ -450,8 +450,11 @@ recommended to:
     nmap DS :action Resume<cr>
     nmap Ds :action Pause<cr>
     nmap DU :action StepOut<cr>
+    nmap <f9> :action StepOut<cr>
     nmap DO :action StepOver<cr>
+    nmap <f10> :action StepOver<cr>
     nmap DI :action StepInto<cr>
+    nmap <f11> :action StepInto<cr>
 
     set NERDTree
     nmap <leader>ve :NERDTreeToggle<cr>
