@@ -2925,7 +2925,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             nnoremap <leader>vs :ZFExecShell<space>
             nnoremap <leader>vc :ZFExecCmd<space>
             nnoremap <leader>calc :ZFCalc<space>
-            nnoremap <leader>vdb :ZFDiffBuffer<space>
+            nnoremap <leader>vdb :ZFDiffBuffer<cr>
             nnoremap <leader>vde :ZFDiffExit<cr>
             nnoremap <leader>vvo :ZFOpenAllFileInClipboard<cr>
             nnoremap <leader>vvO :ZFRunAllFileInClipboard<cr>
