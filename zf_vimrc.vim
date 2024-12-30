@@ -1439,6 +1439,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         endif
         if g:ZF_Plugin_agit
             if v:version < 704
+                " modified: support old vim
                 ZFPlug 'ZSaberLv0/agit.vim'
             else
                 ZFPlug 'cohama/agit.vim'
@@ -1665,7 +1666,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         if g:ZF_Plugin_easygrep
             set grepprg=grep\ -n\ $*\ /dev/null
             " ZFPlug 'dkprice/vim-easygrep'
-            " modified to support:
+            " modified: to support:
             " * `--exclude-from` with large exclude list
             ZFPlug 'ZSaberLv0/vim-easygrep'
             let g:EasyGrepCommand = 1
