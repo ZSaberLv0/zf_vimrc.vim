@@ -1735,7 +1735,10 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 endif
                 let tmpDir = 'easygrep_ggrep_fix'
                 if !filereadable(g:zf_vim_cache_path . '/' . tmpDir . '/grep')
-                    call mkdir(g:zf_vim_cache_path . '/' . tmpDir, 'p')
+                    try
+                        silent! call mkdir(g:zf_vim_cache_path . '/' . tmpDir, 'p')
+                    catch
+                    endtry
                     call ZF_system('ln -s "' . ggrep . '" "' . g:zf_vim_cache_path . '/' . tmpDir . '/grep"')
                 endif
                 if match($PATH, tmpDir) < 0
