@@ -1039,7 +1039,7 @@ if 1 " common settings
             endif
         endfunction
         autocmd User ZFVimLargeFile silent
-        autocmd BufReadPre,BufCreate * call s:ZF_Setting_largefile_setup(0)
+        autocmd BufReadPre * call s:ZF_Setting_largefile_setup(0)
         autocmd BufWritePost * call s:ZF_Setting_largefile_setup(1)
     augroup END
     " encodings
@@ -1593,12 +1593,16 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 autocmd BufEnter * call ZF_Plugin_context_OnEnter()
                 autocmd WinLeave * call ZF_Plugin_context_OnLeave()
                 autocmd BufLeave * call ZF_Plugin_context_OnLeave()
-                autocmd User ZFVimLargeFile call ZF_Plugin_context_OnLeave()
+                autocmd User ZFVimLargeFile call ZF_Plugin_context_OnEnter()
             augroup END
             function! ZF_Plugin_context_OnEnter()
                 if exists(':ContextActivate')
                     try
-                        silent! ContextEnable
+                        if !get(b:, 'zf_vim_largefile', 0) && get(b:, 'ZF_Plugin_context_enable', 1)
+                            silent! ContextEnable
+                        else
+                            silent! ContextDisable
+                        endif
                     catch
                     endtry
                 endif
