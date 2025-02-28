@@ -203,9 +203,9 @@ if 1 && !get(g:, 'zf_no_ext', 0)
         endif
     endfunction
     function! ZF_VimrcExtEdit()
-        execute 'edit ' . substitute(g:zf_vimrc_ext_path, ' ', '\\ ', 'g')
+        silent! execute 'edit ' . substitute(g:zf_vimrc_ext_path, ' ', '\\ ', 'g')
     endfunction
-    nnoremap <leader>vimre :call ZF_VimrcExtEdit()<cr>
+    nnoremap <silent> <leader>vimre :call ZF_VimrcExtEdit()<cr>
 endif
 
 
