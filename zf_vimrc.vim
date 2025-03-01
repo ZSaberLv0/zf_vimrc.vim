@@ -1391,7 +1391,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
 
         " ==================================================
         if !exists('g:zf_color_plugin_256')
-            let g:zf_color_plugin_256 = 'morhetz/gruvbox'
+            let g:zf_color_plugin_256 = 'lifepillar/vim-gruvbox8'
             let g:gruvbox_italic = 0
             function! ZF_Plugin_gruvbox_colorscheme()
                 if get(g:, 'ZF_colorscheme_override', 1)
@@ -1407,7 +1407,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             augroup END
         endif
         if !exists('g:zf_color_name_256')
-            let g:zf_color_name_256 = 'gruvbox'
+            let g:zf_color_name_256 = 'gruvbox8_hard'
         endif
         if !exists('g:zf_color_bg_256')
             let g:zf_color_bg_256 = g:zf_color_bg_default
