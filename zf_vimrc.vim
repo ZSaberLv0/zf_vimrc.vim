@@ -924,6 +924,9 @@ if 1 " common settings
             execute 'set shada+=n' . zf_vim_viminfo_path
         endif
     endif
+    if exists('&shada')
+        set shada-=!
+    endif
     set hidden
     set list
     set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
