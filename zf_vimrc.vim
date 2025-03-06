@@ -1397,7 +1397,10 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         " ==================================================
         if !exists('g:zf_color_plugin_256')
             let g:zf_color_plugin_256 = 'lifepillar/vim-gruvbox8'
-            let g:gruvbox_italic = 0
+            let g:gruvbox_italics = 0
+            let g:gruvbox_italicize_strings = 0
+            let g:gruvbox_filetype_hi_groups = 1
+            let g:gruvbox_plugin_hi_groups = 1
             function! ZF_Plugin_gruvbox_colorscheme()
                 if get(g:, 'ZF_colorscheme_override', 1)
                     highlight Cursor gui=BOLD guibg=Green guifg=Black
