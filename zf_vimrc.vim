@@ -2094,6 +2094,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:Lf_ShortcutB = ''
             let g:Lf_CacheDirectory = g:zf_vim_cache_path.'/leaderf'
             let g:Lf_DefaultMode = 'NameOnly'
+            let g:Lf_FollowLinks = 1
             function! ZF_Plugin_LeaderF_updateIgnore()
                 let ignore = ZFIgnoreGet()
                 let g:Lf_WildIgnore = {'file' : ignore['file'], 'dir' : ignore['dir']}
