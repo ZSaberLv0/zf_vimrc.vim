@@ -947,7 +947,6 @@ if 1 " common settings
     set noswapfile
     set nowrap
     set synmaxcol=200
-    set lazyredraw
     set guioptions=gtk
     set whichwrap=b,s,<,>,[,]
     set display=lastline
