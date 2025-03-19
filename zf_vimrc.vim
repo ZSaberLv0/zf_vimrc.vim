@@ -2828,6 +2828,10 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             nnoremap <leader>za :ZFAsyncRunSend<space>
             nnoremap <silent> WO :call ZFJobOutputExpand()<cr>
             nnoremap <silent> <leader>cta :call ZFAutoScriptToggle()<cr>
+
+            if get(g:, 'ZF_Plugin_ZFVimJob_util', 1)
+                ZFPlug 'ZSaberLv0/ZFVimJob_util'
+            endif
         endif
 
         " ==================================================
