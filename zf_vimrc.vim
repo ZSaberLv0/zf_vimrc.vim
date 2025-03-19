@@ -1594,19 +1594,32 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:context_extend_regex = '^\s*\([\]{})]\|end\|else\|case\>\|default\>\)'
             " ^\W*$|end|else|case\>|default\>
             let g:context_join_regex = '^\W*$\|end\|else\|case\>\|default\>'
+            let g:context_add_autocmds = 0
             " only enable for current window, solve many issue caused by quick fix window jumping
             augroup ZF_Plugin_context_augroup
                 autocmd!
                 autocmd BufEnter * call ZF_Plugin_context_OnEnter()
                 autocmd WinLeave * call ZF_Plugin_context_OnLeave()
                 autocmd BufLeave * call ZF_Plugin_context_OnLeave()
+                autocmd CursorMoved * call ZF_Plugin_context_update('CursorMoved')
+                autocmd VimResized * call ZF_Plugin_context_update('VimResized')
+                if exists('##WinScrolled')
+                    autocmd WinScrolled * call ZF_Plugin_context_update()
+                else
+                    nnoremap <silent> <expr> <c-y> context#util#map('<c-y>')
+                    nnoremap <silent> <expr> <c-e> context#util#map('<c-e>')
+                    nnoremap <silent> <expr> zz    context#util#map('zz')
+                    nnoremap <silent> <expr> zb    context#util#map('zb')
+                endif
                 autocmd User ZFVimLargeFile call ZF_Plugin_context_OnEnter()
+                autocmd user ZFVimrcPostNormal silent! ContextActivate
             augroup END
             function! ZF_Plugin_context_OnEnter()
                 if exists(':ContextActivate')
                     try
                         if !get(b:, 'zf_vim_largefile', 0) && get(b:, 'ZF_Plugin_context_enable', 1)
                             silent! ContextEnable
+                            call ZF_Plugin_context_update()
                         else
                             silent! ContextDisable
                         endif
@@ -1621,6 +1634,25 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                     catch
                     endtry
                 endif
+            endfunction
+            function! ZF_Plugin_context_updateAction(name, ...)
+                let s:ZF_Plugin_context_updateTaskId = -1
+                silent! call context#update(a:name)
+            endfunction
+            function! ZF_Plugin_context_update(...)
+                let name = get(a:, 1, '')
+                if empty(name)
+                    let name = 'command'
+                endif
+                if get(b:, 'zf_vim_largefile', 0) || !get(b:, 'ZF_Plugin_context_enable', 1)
+                            \ || get(s:, 'ZF_Plugin_context_updateTaskId', -1) != -1
+                    return
+                endif
+                if !exists('*ZFJobTimerAvailable') || !ZFJobTimerAvailable()
+                    silent! call context#update(name)
+                    return
+                endif
+                let s:ZF_Plugin_context_updateTaskId = ZFJobTimerStart(500, ZFJobFunc(function('ZF_Plugin_context_updateAction'), [name]))
             endfunction
         endif
 
