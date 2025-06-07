@@ -1546,33 +1546,37 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:colorizer_auto_map = 0
             augroup ZF_Plugin_Colorizer_augroup
                 autocmd!
-                autocmd WinLeave,BufLeave * call ZF_Plugin_Colorizer_clear()
+                autocmd WinLeave,BufLeave * call ZFColorizer(0)
                 autocmd User ZFVimrcPostNormal try | silent! delcommand HSL2RGB | catch | endtry
             augroup END
-            function! ZF_Plugin_Colorizer_clear()
-                if get(s:, 'ColorizerFlag', 0)
-                    ColorClear
-                    let s:ColorizerFlag = 0
-                endif
-            endfunction
-            function! ZF_Plugin_Colorizer(line1, line2)
-                if a:line1 < 0
-                    let s:ColorizerFlag = 1 - get(s:, 'ColorizerFlag', 0)
-                    if s:ColorizerFlag
-                        silent! ColorHighlight
-                        echo '[Colorizer] on'
-                    else
+            function! ZFColorizer(...)
+                let action = get(a:, 1, -1)
+                if action == 1
+                    let s:ZFColorizerState = 1
+                    if has('termguicolors')
+                        let g:termguicolorsSaved = &termguicolors
+                        silent! set termguicolors
+                    endif
+                    silent! ColorHighlight
+                    echo '[ZFColorizer] on'
+                elseif action == 0
+                    if get(s:, 'ZFColorizerState', 0)
+                        let s:ZFColorizerState = 0
+                        if has('termguicolors')
+                            if !get(g:, 'termguicolorsSaved', 0)
+                                set notermguicolors
+                            endif
+                        endif
+                        unlet! g:termguicolorsSaved
                         silent! ColorClear
-                        echo '[Colorizer] off'
+                        echo '[ZFColorizer] off'
                     endif
                 else
-                    let s:ColorizerFlag = 1
-                    silent! execute printf('silent! %s,%sColorHighlight', a:line1, a:line2)
-                    echo '[Colorizer] on'
+                    call ZFColorizer(1 - get(s:, 'ZFColorizerState', 0))
                 endif
             endfunction
-            command! -nargs=0 -bang -range ZFColorizer :call ZF_Plugin_Colorizer(<q-bang>=='!'?-1:<line1>, <q-bang>=='!'?-1:<line2>)
-            nnoremap <leader>ctc :ZFColorizer!<cr>
+            command! -nargs=0 ZFColorizer :call ZFColorizer()
+            nnoremap <leader>ctc :ZFColorizer<cr>
             xnoremap <leader>ctc :ZFColorizer<cr>
         endif
 
