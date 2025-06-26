@@ -947,7 +947,10 @@ if 1 " common settings
     set noswapfile
     set nowrap
     set synmaxcol=200
-    set guioptions=gtk
+    try
+        silent! set guioptions=gtk
+    catch
+    endtry
     set whichwrap=b,s,<,>,[,]
     set display=lastline
     set sessionoptions-=options
