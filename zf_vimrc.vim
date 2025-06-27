@@ -1508,7 +1508,9 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:ZF_Plugin_buftabline = 1
         endif
         if g:ZF_Plugin_buftabline
-            ZFPlug 'ap/vim-buftabline'
+            " ZFPlug 'ap/vim-buftabline'
+            " modified: neovim no longer support guioptions
+            ZFPlug 'ZSaberLv0/vim-buftabline'
             let g:buftabline_numbers = 1
             let g:buftabline_indicators = 1
             let g:buftabline_plug_max = 0
