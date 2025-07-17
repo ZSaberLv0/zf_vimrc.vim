@@ -746,13 +746,13 @@ if 1 " custom key mapping
     nnoremap Wj 10<c-w>+
     nnoremap Wk 10<c-w>-
     " fold
-    xnoremap ZH zf
-    nnoremap ZH zc
+    xnoremap ZH zf0
+    nnoremap ZH zc0
     nnoremap ZL zo
-    nnoremap Zh zC
+    nnoremap Zh zC0
     nnoremap Zl zO
     nnoremap ZU zE
-    nnoremap ZI zM
+    nnoremap ZI zM0
     nnoremap ZO zR
     " diff util
     nnoremap D <nop>
