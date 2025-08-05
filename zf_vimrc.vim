@@ -853,6 +853,10 @@ if 1 " custom key mapping
     "
     " match line except contains zzz:
     "     ^(?!.*zzz).*$
+    "
+    " match chinese chars:
+    "     [一-龥]
+    "     [\u4e00-\u9fa5]
     if !g:zf_fakevim
         nnoremap / /\v
         nnoremap ? /\v
