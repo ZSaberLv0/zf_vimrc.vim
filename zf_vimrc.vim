@@ -1246,7 +1246,6 @@ if 1 " common settings
         set foldmethod=manual
         normal! zE
     endfunction
-    call ZF_Setting_fold_action()
     augroup ZF_Setting_fold_augroup
         autocmd!
         autocmd FileType,BufNewFile,BufReadPost * call ZF_Setting_fold_action()
