@@ -962,6 +962,23 @@ if 1 " common settings
     if has("patch-8.1.1564")
         set signcolumn=number
     endif
+    if exists('##OptionSet')
+        augroup ZF_Setting_numberSync_augroup
+            autocmd!
+            autocmd OptionSet number call s:numberSync()
+        augroup END
+        function! s:numberSync()
+            if v:option_new
+                if exists('s:signcolumnSaved')
+                    let &signcolumn = s:signcolumnSaved
+                    unlet s:signcolumnSaved
+                endif
+            else
+                let s:signcolumnSaved = &signcolumn
+                set signcolumn=no
+            endif
+        endfunction
+    endif
     function! ZF_Setting_common_action()
         set number
         set iskeyword=@,48-57,_,128-167,224-235
