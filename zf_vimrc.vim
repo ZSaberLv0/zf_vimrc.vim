@@ -121,7 +121,7 @@ if 1 " global settings
     endif
 
     " leader should be set before other key map
-    if g:zf_fakevim != 1
+    if !g:zf_fakevim
         let mapleader = "'"
     else
         let mapleader = '\'
@@ -468,15 +468,20 @@ endif " sub modules
 if 1 " custom key mapping
     " esc
     if !g:zf_fakevim
-        function! ZF_Setting_ijk()
+        function! ZF_Setting_jk_i()
             call feedkeys((getpos('.')[2] == 1) ? "\<esc>" : "\<esc>l", 'nt')
             return ''
         endfunction
-        inoremap <esc> <esc>l
-        inoremap <expr> jk ZF_Setting_ijk()
-        cnoremap jk <c-c>
+        " tricks to bypass some limitation of fake vim
+        function! s:ZF_Setting_jk()
+            inoremap <esc> <esc>l
+            inoremap <expr> jk ZF_Setting_jk_i()
+            cnoremap jk <c-c>
+        endfunction
+        inoremap jk <esc>l
+        cnoremap jk <esc>
+        call s:ZF_Setting_jk()
     else
-        noremap <esc> <esc>
         inoremap jk <esc>l
         cnoremap jk <esc>
     endif

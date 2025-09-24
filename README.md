@@ -38,7 +38,7 @@ main feature:
 * powerful for general usage
 
 
-tested:
+should work, for almost all of real vim envs:
 
 * vim 7.3 or above
 * neovim 0.3 or above
@@ -48,12 +48,13 @@ tested:
 * Ubuntu's vim
 * Android's DroidVim
 
-may work: (search and see `g:zf_fakevim`)
+may work, on vim simulation envs: (search and see `g:zf_fakevim`)
 
-* IntelliJ IDEA's IdeaVim (good to use, some keymap doesn't work)
-* Qt Creator's FakeVim (able to use, some keymap doesn't work)
-* VisualStudio's VsVim (able to use, some keymap doesn't work, require `let g:zf_fakevim=1`)
-* XCode's XVim (not recommended, some action have unexpected behavior)
+* IntelliJ IDEA's IdeaVim (good to use)
+* Qt Creator's FakeVim (able to use)
+* VisualStudio's VsVim (able to use)
+* XCode's XVim (not recommended)
+
 
 if you like my work, [check here](https://github.com/ZSaberLv0?utf8=%E2%9C%93&tab=repositories&q=ZFVim) for a list of my vim plugins,
 or [buy me a coffee](https://github.com/ZSaberLv0/ZSaberLv0)
@@ -66,10 +67,14 @@ or [buy me a coffee](https://github.com/ZSaberLv0/ZSaberLv0)
     .vim/
         bundle/                 // all plugins placed here
         ZFVimModule/            // (optional) you may supply all your custom setting here
-                                // *.vim under this dir would be sourced automatically
-                                // files are ensured to be sourced by name order
-            vimrc.local.vim     // (optional) local setting for current machine
-            YourGitRepo/
+                                //     *.vim under this dir would be sourced automatically
+                                //     files are ensured to be sourced by name order
+
+            zf_vimrc.ext/       // (optional, but installed by default)
+                                //     contains useful but heavy dependencies, such as LSPs
+
+            vimrc.local.vim     // (optional) your custom local setting for current machine
+            YourGitRepo/        // (optional) your custom module
                 ZFInit/         //     sourced during init
                 ZFPlugPrev/     //     sourced just after `vim-plug`'s `plug#begin()`
                 ZFPlugPost/     //     sourced just before `vim-plug`'s `plug#end()`
@@ -403,7 +408,8 @@ set it directly to `.vimrc`, choose the right one for you
 ## For simulation plugins of IDE
 
 ```
-let g:zf_fakevim=1
+let g:zf_fakevim = 1
+source path/to/zf_vimrc.vim
 ```
 
 * not fully tested
