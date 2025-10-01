@@ -2643,9 +2643,9 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         if g:ZF_Plugin_ZFVimBackup
             ZFPlug 'ZSaberLv0/ZFVimBackup'
             function! ZF_Plugin_ZFVimBackup_save()
-                call ZFBackupSave(expand('%'))
+                call ZFBackup_saveAction(expand('%'))
                 noautocmd w
-                call ZFBackupSave(expand('%'))
+                call ZFBackup_saveAction(expand('%'))
             endfunction
             function! ZF_Plugin_ZFVimBackup_saveAll()
                 let files = []
@@ -2655,11 +2655,11 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                     endif
                 endfor
                 for file in files
-                    call ZFBackupSave(file)
+                    call ZFBackup_saveAction(file)
                 endfor
                 noautocmd wa
                 for file in files
-                    call ZFBackupSave(file)
+                    call ZFBackup_saveAction(file)
                 endfor
             endfunction
             augroup ZF_Plugin_ZFVimBackup_augroup
