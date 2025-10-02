@@ -483,3 +483,45 @@ recommended to:
     xmap R <plug>VSurround
     ```
 
+### VSVim
+
+recommended to:
+
+* add these configs to your `~/_vimrc`
+
+    ```
+    let g:zf_fakevim=1
+    source ~/zf_vimrc.vim
+
+    nnoremap <esc> <esc>:vsc Window.HideShowAllToolWindows<cr>
+    nmap <c-o> :vsc Edit.NavigateTo<cr>
+    nmap zj :vsc Edit.GoToDefinition<cr>
+    nmap zk :vsc View.NavigateBackward<cr>
+    nmap zu :vsc View.ErrorList<cr>
+    nmap zi :vsc View.QuickActions<cr>
+    nmap X :vsc File.CloseOtherTabs<cr>
+    nmap H :vsc Window.PreviousTab<cr>
+    nmap L :vsc Window.NextTab<cr>
+    nmap CC :vsc Edit.ToggleLineComment<cr>
+    xmap CC :vsc Edit.ToggleLineComment<cr>
+    nmap t :vsc Edit.ExpandSelection<cr>
+    xmap t :vsc Edit.ExpandSelection<cr>
+    nmap T :vsc Edit.SelectionCancel<cr>
+    xmap T :vsc Edit.SelectionCancel<cr>
+
+    nmap DB :vsc Debug.ToggleBreakpoint<cr>
+    nmap DV :vsc Debug.Breakpoints<cr>
+    nmap DC :vsc Debug.DeleteAllBreakpoints<cr>
+    nmap DF :vsc Debug.QuickWatch<cr>
+    nmap <f4> :vsc Debug.StopDebugging<cr>
+    nmap <f5> :vsc Debug.Start<cr>
+    nmap DS :vsc Debug.RunToCursor<cr>
+    nmap Ds :vsc Debug.BreakAll<cr>
+    nmap DU :vsc Debug.StepOut<cr>
+    nmap <f9> :vsc Debug.StepOut<cr>
+    nmap DO :vsc Debug.StepOver<cr>
+    nmap <f10> :vsc Debug.StepOver<cr>
+    nmap DI :vsc Debug.StepInto<cr>
+    nmap <f11> :vsc Debug.StepOver<cr>
+    ```
+
