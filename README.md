@@ -516,6 +516,7 @@ recommended to:
     nmap <f4> :vsc Debug.StopDebugging<cr>
     nmap <f5> :vsc Debug.Start<cr>
     nmap DS :vsc Debug.RunToCursor<cr>
+    nmap <f8> :vsc Debug.RunToCursor<cr>
     nmap Ds :vsc Debug.BreakAll<cr>
     nmap DU :vsc Debug.StepOut<cr>
     nmap <f9> :vsc Debug.StepOut<cr>
