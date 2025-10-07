@@ -1642,7 +1642,6 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                     nnoremap <silent> <expr> <c-y> context#util#map('<c-y>')
                     nnoremap <silent> <expr> <c-e> context#util#map('<c-e>')
                     nnoremap <silent> <expr> zz    context#util#map('zz')
-                    nnoremap <silent> <expr> zb    context#util#map('zb')
                 endif
                 autocmd User ZFVimLargeFile call ZF_Plugin_context_OnEnter()
                 autocmd user ZFVimrcPostNormal silent! ContextActivate
