@@ -1650,6 +1650,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 if exists(':ContextActivate')
                     try
                         if !get(b:, 'zf_vim_largefile', 0) && get(b:, 'ZF_Plugin_context_enable', 1)
+                                    \ && winheight(0) > get(g:, 'ZF_Plugin_context_winheight', 34)
                             silent! ContextEnable
                             call ZF_Plugin_context_update()
                         else
