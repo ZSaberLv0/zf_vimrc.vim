@@ -888,7 +888,14 @@ if 1 " custom key mapping
         vnoremap <leader>z/ y:%s/\<<c-r>0\>//gn<left><left><left><left>
     endif
     " command line utils
-    cnoremap <expr> %% getcmdtype() == ':' ? substitute(expand('%:p'), '\\', '/', 'g') : '%%'
+    function! ZF_Setting_curFile()
+        if getcmdtype() != ':'
+            return '%%'
+        endif
+        let ret = substitute(expand('%:p'), '\\', '/', 'g')
+        return !empty(ret) ? ret : getcwd()
+    endfunction
+    cnoremap <expr> %% ZF_Setting_curFile()
     " suspend is not useful and would confuse user
     nnoremap <c-z> <nop>
     " join
