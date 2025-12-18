@@ -769,6 +769,7 @@ if 1 " custom key mapping
     xnoremap DL :diffput<cr>
     nnoremap DD :diffupdate<cr>
     " quick move lines
+    xnoremap C r
     nnoremap C <nop>
 
     if !g:zf_fakevim
