@@ -1654,11 +1654,14 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 autocmd User ZFVimLargeFile call ZF_Plugin_context_OnEnter()
                 autocmd user ZFVimrcPostNormal silent! ContextActivate
             augroup END
+            function! ZF_Plugin_context_shouldEnable()
+                return !get(b:, 'zf_vim_largefile', 0) && get(b:, 'ZF_Plugin_context_enable', 1)
+                            \ && winheight(0) > get(g:, 'ZF_Plugin_context_winheight', 34)
+            endfunction
             function! ZF_Plugin_context_OnEnter()
                 if exists(':ContextActivate')
                     try
-                        if !get(b:, 'zf_vim_largefile', 0) && get(b:, 'ZF_Plugin_context_enable', 1)
-                                    \ && winheight(0) > get(g:, 'ZF_Plugin_context_winheight', 34)
+                        if ZF_Plugin_context_shouldEnable()
                             silent! ContextEnable
                             call ZF_Plugin_context_update()
                         else
@@ -1678,20 +1681,34 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             endfunction
             function! ZF_Plugin_context_updateAction(name, ...)
                 let s:ZF_Plugin_context_updateTaskId = -1
-                silent! call context#update(a:name)
+                if ZF_Plugin_context_shouldEnable()
+                    try
+                        silent! ContextEnableWindow
+                        silent! call context#update(a:name)
+                    catch
+                    endtry
+                endif
             endfunction
             function! ZF_Plugin_context_update(...)
                 let name = get(a:, 1, '')
                 if empty(name)
                     let name = 'command'
                 endif
-                if get(b:, 'zf_vim_largefile', 0) || !get(b:, 'ZF_Plugin_context_enable', 1)
-                            \ || get(s:, 'ZF_Plugin_context_updateTaskId', -1) != -1
+                if !ZF_Plugin_context_shouldEnable()
+                            \ || !exists(':ContextActivate')
                     return
                 endif
                 if !exists('*ZFJobTimerAvailable') || !ZFJobTimerAvailable()
                     silent! call context#update(name)
                     return
+                endif
+                if get(s:, 'ZF_Plugin_context_updateTaskId', -1) != -1
+                    call ZFJobTimerStop(s:ZF_Plugin_context_updateTaskId)
+                else
+                    try
+                        silent! ContextDisableWindow
+                    catch
+                    endtry
                 endif
                 let s:ZF_Plugin_context_updateTaskId = ZFJobTimerStart(500, ZFJobFunc(function('ZF_Plugin_context_updateAction'), [name]))
             endfunction
