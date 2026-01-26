@@ -53,7 +53,8 @@ may work, on vim simulation envs: (search and see `g:zf_fakevim`)
 * IntelliJ IDEA's IdeaVim (good to use)
 * Qt Creator's FakeVim (able to use)
 * VisualStudio's VsVim (able to use)
-* XCode's XVim (not recommended)
+* VSCode's VSCodeVim (NOT work)
+* XCode's XVim (NOT work)
 
 
 if you like my work, [check here](https://github.com/ZSaberLv0?utf8=%E2%9C%93&tab=repositories&q=ZFVim) for a list of my vim plugins,
@@ -524,5 +525,150 @@ recommended to:
     nmap <f10> :vsc Debug.StepOver<cr>
     nmap DI :vsc Debug.StepInto<cr>
     nmap <f11> :vsc Debug.StepOver<cr>
+    ```
+
+### VSCodeVim
+
+NOT work, recommended to add custom keymap:
+
+* add these configs to your `~/.vscodevimrc`
+
+    ```
+    noremap <esc> <esc>
+    inoremap jk <esc>l
+    cnoremap jk <esc>
+    noremap <space> <esc>
+    noremap V <c-v>
+    noremap <c-v> V
+    nnoremap <c-h> zh
+    nnoremap <c-l> zl
+    nnoremap <c-j> <c-e>
+    nnoremap <c-k> <c-y>
+    imap <c-h> <left>
+    imap <c-l> <right>
+    imap <c-j> <down>
+    imap <c-k> <up>
+    cnoremap <c-h> <left>
+    cnoremap <c-l> <right>
+    cnoremap <c-j> <down>
+    cnoremap <c-k> <up>
+    nnoremap H :bp<cr>
+    nnoremap L :bn<cr>
+    noremap J <c-f>
+    noremap K <c-b>
+    map z, %
+    noremap , $
+    noremap g, $
+    noremap j gj
+    noremap k gk
+    nnoremap zg <nop>
+    nnoremap zg) va)<esc>h%
+    nnoremap z) va)<esc>h
+    xnoremap zg) <esc>`<mz`>va)<esc>h%m>`zm<:delmarks z<cr>gv
+    xnoremap z) <esc>`<mz`>va)<esc>`zm<:delmarks z<cr>gvh
+    nnoremap zg] va]<esc>h%
+    nnoremap z] va]<esc>h
+    xnoremap zg] <esc>`<mz`>va]<esc>h%m>`zm<:delmarks z<cr>gv
+    xnoremap z] <esc>`<mz`>va]<esc>`zm<:delmarks z<cr>gvh
+    nnoremap zg} va}<esc>h%
+    nnoremap z} va}<esc>h
+    xnoremap zg} <esc>`<mz`>va}<esc>h%m>`zm<:delmarks z<cr>gv
+    xnoremap z} <esc>`<mz`>va}<esc>`zm<:delmarks z<cr>gvh
+    nnoremap zg> va><esc>h%
+    nnoremap z> va><esc>h
+    xnoremap zg> <esc>`<mz`>va><esc>h%m>`zm<:delmarks z<cr>gv
+    xnoremap z> <esc>`<mz`>va><esc>`zm<:delmarks z<cr>gvh
+    nnoremap zg" vi"<esc>`<h
+    nnoremap z" vi"<esc>
+    xnoremap zg" <esc>`<mz`>vi"<esc>`<m>`zm<:delmarks z<cr>gv
+    xnoremap z" <esc>`<mz`>vi"<esc>`zm<:delmarks z<cr>gv
+    nnoremap zg' vi'<esc>`<h
+    nnoremap z' vi'<esc>
+    xnoremap zg' <esc>`<mz`>vi'<esc>`<m>`zm<:delmarks z<cr>gv
+    xnoremap z' <esc>`<mz`>vi'<esc>`zm<:delmarks z<cr>gv
+    nmap zg; va}<esc>h%
+    nmap z; va}<esc>h
+    xmap zg; <esc>`<mz`>va}<esc>h%m>`zm<:delmarks z<cr>gv
+    xmap z; <esc>`<mz`>va}<esc>`zm<:delmarks z<cr>gvh
+    nnoremap zj <c-]>
+    nnoremap zk <c-t>
+    nnoremap zh :tprevious<cr>
+    nnoremap zl :tnext<cr>
+    nnoremap U <c-r>
+    nnoremap <del> "_dl
+    vnoremap <del> "_d
+    inoremap <del> <right><bs>
+    nnoremap p gP
+    xnoremap p "_dgP
+    nnoremap P gp
+    xnoremap P "_dgp
+    nmap <c-g> p
+    xmap <c-g> p
+    inoremap <c-g> <c-r>0
+    cnoremap <c-g> <c-r>0
+    snoremap <c-g> <c-o>"_c<c-r>0
+    cnoremap <s-insert> <c-r>"
+    nnoremap B :bufdo<space>
+    nnoremap zs :w<cr>
+    nnoremap ZS :wa<cr>
+    nnoremap zx :w<cr>:bd<cr>
+    nnoremap ZX :wa<cr>:bufdo bd<cr>
+    nnoremap CX :bufdo bd!<cr>
+    nnoremap cx :bd!<cr>
+    nnoremap x :q<cr>
+    nnoremap cs :w<cr>
+    nnoremap CS :wa<cr>
+    nnoremap WH <c-w>h
+    nnoremap WL <c-w>l
+    nnoremap WJ <c-w>j
+    nnoremap WK <c-w>k
+    nnoremap WW <c-w>w
+    nnoremap WN <c-w>=
+    nnoremap Wh 30<c-w><
+    nnoremap Wl 30<c-w>>
+    nnoremap Wj 10<c-w>+
+    nnoremap Wk 10<c-w>-
+    xnoremap ZH zf
+    nnoremap ZH zc
+    nnoremap ZL zo
+    nnoremap Zh zC
+    nnoremap Zl zO
+    nnoremap ZU zE
+    nnoremap ZI zM
+    nnoremap ZO zR
+    nnoremap D <nop>
+    nnoremap DJ ]czz
+    nnoremap DK [czz
+    nnoremap DH do
+    xnoremap DH :diffget<cr>
+    nnoremap DL dp
+    xnoremap DL :diffput<cr>
+    nnoremap DD :diffupdate<cr>
+    nnoremap C <nop>
+    nnoremap CH vxhhp
+    nnoremap CL vxp
+    nnoremap CJ :m+<cr>
+    nnoremap CK :m-2<cr>
+    vnoremap CH xhhp`<hm<`>hm>gv
+    vnoremap CL xp`<lm<`>lm>gv
+    vnoremap CJ :m'>+<cr>gv
+    vnoremap CK :m'<-2<cr>gv
+    nnoremap < <<
+    nnoremap > >>
+    nnoremap CI <c-a>
+    nnoremap CU <c-x>
+    nnoremap / /
+    nnoremap ? /
+    nnoremap <leader>vr :.,$s//gec<left><left><left><left>
+    vnoremap <leader>vr y:.,$s/<c-r>0//gec<left><left><left><left>
+    nnoremap <leader>zr :.,$s//gec<left><left><left><left>\<<c-r><c-w>\>/
+    vnoremap <leader>zr y:.,$s/\<<c-r>0\>//gec<left><left><left><left>
+    nnoremap <leader>v/ :%s///gn<left><left><left><left>
+    vnoremap <leader>v/ y:%s/<c-r>0//gn<left><left><left><left>
+    nnoremap <leader>z/ :%s/\<<c-r>0\>//gn<left><left><left><left>
+    vnoremap <leader>z/ y:%s/\<<c-r>0\>//gn<left><left><left><left>
+    nnoremap <c-z> <nop>
+    noremap gY J
+    noremap Y J
     ```
 
