@@ -1578,7 +1578,10 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:ZF_Plugin_Colorizer = 1
         endif
         if g:ZF_Plugin_Colorizer
-            ZFPlug 'chrisbra/Colorizer'
+            " ZFPlug 'chrisbra/Colorizer'
+            " modified: support #argb and #aarrggbb format
+            ZFPlug 'ZSaberLv0/Colorizer'
+            let g:colorizer_alpha_first = 1
             let g:colorizer_colornames = 0
             let g:colorizer_auto_map = 0
             augroup ZF_Plugin_Colorizer_augroup
