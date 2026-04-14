@@ -2591,8 +2591,10 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             let g:ZF_Plugin_ultisnips = 0
         endif
         if g:ZF_Plugin_ultisnips
-            if has('python3')
+            if has('python3') && v:version >= 901
                 ZFPlug 'SirVer/ultisnips'
+            elseif has('python3')
+                ZFPlug 'ZSaberLv0/ultisnips_py3'
             else
                 ZFPlug 'ZSaberLv0/ultisnips_py2'
             endif
