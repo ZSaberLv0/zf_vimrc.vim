@@ -2802,6 +2802,15 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
         if g:ZF_Plugin_ZFVimGitUtil
             ZFPlug 'ZSaberLv0/ZFVimGitUtil'
             ZFPlug 'tpope/vim-fugitive'
+            function! ZF_Setting_fugitive()
+                if exists(':Git')
+                    command! -bang -nargs=? -range=-1 -complete=customlist,fugitive#Complete ZFGit exe fugitive#Command(<line1>, <count>, +"<range>", <bang>0, "<mods>", <q-args>)
+                endif
+            endfunction
+            augroup ZF_Setting_fugitive_augroup
+                autocmd!
+                autocmd User ZFVimrcPostNormal call ZF_Setting_fugitive()
+            augroup END
         endif
 
         " ==================================================
