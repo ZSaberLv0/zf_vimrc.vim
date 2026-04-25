@@ -2860,6 +2860,8 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             endif
             if get(g:, 'ZF_Plugin_ZFVimIM_openapi', 1)
                 ZFPlug 'ZSaberLv0/ZFVimIM_openapi'
+                " let g:ZFVimIM_openapi_baidu = 1
+                let g:ZFVimIM_openapi_sougou = 1
             endif
 
             function! ZF_Plugin_ZFVimIM_statusline_setup()
