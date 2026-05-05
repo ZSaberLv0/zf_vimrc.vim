@@ -1660,6 +1660,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             function! ZF_Plugin_context_shouldEnable()
                 return !get(b:, 'zf_vim_largefile', 0) && get(b:, 'ZF_Plugin_context_enable', 1)
                             \ && winheight(0) > get(g:, 'ZF_Plugin_context_winheight', 34)
+                            \ && get(get(g:, 'context', {}), 'enabled', 1)
             endfunction
             function! ZF_Plugin_context_OnEnter()
                 if exists(':ContextActivate')
