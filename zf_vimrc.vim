@@ -1666,10 +1666,10 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 if exists(':ContextActivate')
                     try
                         if ZF_Plugin_context_shouldEnable()
-                            silent! ContextEnable
+                            silent! ContextEnableWindow
                             call ZF_Plugin_context_update()
                         else
-                            silent! ContextDisable
+                            silent! ContextDisableWindow
                         endif
                     catch
                     endtry
@@ -1678,7 +1678,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             function! ZF_Plugin_context_OnLeave()
                 if exists(':ContextActivate')
                     try
-                        silent! ContextDisable
+                        silent! ContextDisableWindow
                     catch
                     endtry
                 endif
