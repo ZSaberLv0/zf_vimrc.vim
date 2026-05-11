@@ -923,6 +923,26 @@ if 1 " custom key mapping
         noremap gY J
         noremap Y J
     endif
+
+    if !g:zf_fakevim
+        nnoremap zn viw"ty/<c-r>t<cr>N
+        xnoremap zn "ty/<c-r>t<cr>N
+        nnoremap zm viw"ty/\<<c-r>t\><cr>N
+        xnoremap zm "ty/\<<c-r>t\><cr>N
+    else
+        nnoremap zn viwy/<c-r>0<cr>N
+        vnoremap zn y/<c-r>0<cr>N
+        nnoremap zm viwy/\<<c-r>0\><cr>N
+        vnoremap zm y/\<<c-r>0\><cr>N
+    endif
+
+    if !g:zf_fakevim
+        nmap q <esc>
+        xmap q <esc>
+        omap q <esc>
+    else
+        noremap q <esc>
+    endif
 endif " custom key mapping
 
 
@@ -1026,62 +1046,64 @@ if 1 " common settings
         endtry
         return 0
     endfunction
-    augroup ZF_Setting_largefile_augroup
-        autocmd!
-        function! s:ZF_Setting_largefile_restore(...)
-            set eventignore-=FileType
-        endfunction
-        function! s:ZF_Setting_largefile_setup(notifyRestore)
-            if !get(b:, 'zf_vim_largefile', 0) && ZF_Setting_isLargeFile(expand('<afile>'))
-                set eventignore+=FileType
-                if has('timers')
-                    call timer_start(1, function('s:ZF_Setting_largefile_restore'))
+    if !g:zf_fakevim
+        augroup ZF_Setting_largefile_augroup
+            autocmd!
+            function! s:ZF_Setting_largefile_restore(...)
+                set eventignore-=FileType
+            endfunction
+            function! s:ZF_Setting_largefile_setup(notifyRestore)
+                if !get(b:, 'zf_vim_largefile', 0) && ZF_Setting_isLargeFile(expand('<afile>'))
+                    set eventignore+=FileType
+                    if has('timers')
+                        call timer_start(1, function('s:ZF_Setting_largefile_restore'))
+                    endif
+                    " unload would cause buffer reload when enter again,
+                    " would save some memory but not handy for general usage
+                    " setlocal bufhidden=unload
+                    let b:zf_vim_largefile_saved_foldmethod=&foldmethod
+                    setlocal foldmethod=manual
+                    let b:zf_vim_largefile_saved_foldenable=&foldenable
+                    setlocal nofoldenable
+                    let b:zf_vim_largefile_saved_swapfile=&swapfile
+                    setlocal noswapfile
+                    let b:zf_vim_largefile_saved_cursorline=&cursorline
+                    setlocal nocursorline
+                    let b:zf_vim_largefile_saved_cursorcolumn=&cursorcolumn
+                    setlocal nocursorcolumn
+                    let b:zf_vim_largefile_saved_relativenumber=&relativenumber
+                    setlocal norelativenumber
+                    let b:zf_vim_largefile = 1
+                    doautocmd User ZFVimLargeFile
+                elseif get(b:, 'zf_vim_largefile', 0) && a:notifyRestore
+                    let b:zf_vim_largefile = 0
+                    if exists('b:zf_vim_largefile_saved_foldmethod')
+                        execute 'setlocal foldmethod=' . b:zf_vim_largefile_saved_foldmethod
+                        unlet b:zf_vim_largefile_saved_foldmethod
+                    endif
+                    if get(b:, 'zf_vim_largefile_saved_foldenable', 0)
+                        set foldenable
+                    endif
+                    if get(b:, 'zf_vim_largefile_saved_swapfile', 0)
+                        set swapfile
+                    endif
+                    if get(b:, 'zf_vim_largefile_saved_cursorline', 0)
+                        set cursorline
+                    endif
+                    if get(b:, 'zf_vim_largefile_saved_cursorcolumn', 0)
+                        set cursorcolumn
+                    endif
+                    if get(b:, 'zf_vim_largefile_saved_relativenumber', 0)
+                        set relativenumber
+                    endif
+                    doautocmd User ZFVimLargeFile
                 endif
-                " unload would cause buffer reload when enter again,
-                " would save some memory but not handy for general usage
-                " setlocal bufhidden=unload
-                let b:zf_vim_largefile_saved_foldmethod=&foldmethod
-                setlocal foldmethod=manual
-                let b:zf_vim_largefile_saved_foldenable=&foldenable
-                setlocal nofoldenable
-                let b:zf_vim_largefile_saved_swapfile=&swapfile
-                setlocal noswapfile
-                let b:zf_vim_largefile_saved_cursorline=&cursorline
-                setlocal nocursorline
-                let b:zf_vim_largefile_saved_cursorcolumn=&cursorcolumn
-                setlocal nocursorcolumn
-                let b:zf_vim_largefile_saved_relativenumber=&relativenumber
-                setlocal norelativenumber
-                let b:zf_vim_largefile = 1
-                doautocmd User ZFVimLargeFile
-            elseif get(b:, 'zf_vim_largefile', 0) && a:notifyRestore
-                let b:zf_vim_largefile = 0
-                if exists('b:zf_vim_largefile_saved_foldmethod')
-                    execute 'setlocal foldmethod=' . b:zf_vim_largefile_saved_foldmethod
-                    unlet b:zf_vim_largefile_saved_foldmethod
-                endif
-                if get(b:, 'zf_vim_largefile_saved_foldenable', 0)
-                    set foldenable
-                endif
-                if get(b:, 'zf_vim_largefile_saved_swapfile', 0)
-                    set swapfile
-                endif
-                if get(b:, 'zf_vim_largefile_saved_cursorline', 0)
-                    set cursorline
-                endif
-                if get(b:, 'zf_vim_largefile_saved_cursorcolumn', 0)
-                    set cursorcolumn
-                endif
-                if get(b:, 'zf_vim_largefile_saved_relativenumber', 0)
-                    set relativenumber
-                endif
-                doautocmd User ZFVimLargeFile
-            endif
-        endfunction
-        autocmd User ZFVimLargeFile silent
-        autocmd BufReadPre * call s:ZF_Setting_largefile_setup(0)
-        autocmd BufWritePost * call s:ZF_Setting_largefile_setup(1)
-    augroup END
+            endfunction
+            autocmd User ZFVimLargeFile silent
+            autocmd BufReadPre * call s:ZF_Setting_largefile_setup(0)
+            autocmd BufWritePost * call s:ZF_Setting_largefile_setup(1)
+        augroup END
+    endif
     " encodings
     set fileformats=unix,dos
     set fileformat=unix
@@ -1121,17 +1143,6 @@ if 1 " common settings
     endfunction
     nnoremap zb :call ZF_Setting_ToggleSearch()<cr>
 
-    if !g:zf_fakevim
-        nnoremap zn viw"ty/<c-r>t<cr>N
-        xnoremap zn "ty/<c-r>t<cr>N
-        nnoremap zm viw"ty/\<<c-r>t\><cr>N
-        xnoremap zm "ty/\<<c-r>t\><cr>N
-    else
-        nnoremap zn viwy/<c-r>0<cr>N
-        vnoremap zn y/<c-r>0<cr>N
-        nnoremap zm viwy/\<<c-r>0\><cr>N
-        vnoremap zm y/\<<c-r>0\><cr>N
-    endif
     " tab and indent
     set expandtab
     set nosmarttab
@@ -1283,13 +1294,6 @@ if 1 " common settings
     " diff
     set diffopt=filler,context:200
     " q
-    if !g:zf_fakevim
-        nmap q <esc>
-        xmap q <esc>
-        omap q <esc>
-    else
-        noremap q <esc>
-    endif
     augroup ZF_Setting_qToEsc_augroup
         autocmd!
         autocmd CmdwinEnter *
