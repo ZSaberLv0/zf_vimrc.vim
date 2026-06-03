@@ -1,0 +1,20 @@
+WORK_DIR=$(cd "$(dirname "$0")"; pwd)
+
+if test "x-$1" = "x---full" ; then
+    cfg="full"
+    shift
+elif test "x-$1" = "x---mini" ; then
+    cfg="mini"
+    shift
+elif test "x-$1" = "x---tiny" ; then
+    cfg="tiny"
+    shift
+else
+    cfg="full"
+fi
+
+if test "x-$ZFVIM" = "x-" ; then
+    ZFVIM=nvim
+fi
+"$ZFVIM" -u "$WORK_DIR/.zfvim_$cfg.vim" "$@"
+
