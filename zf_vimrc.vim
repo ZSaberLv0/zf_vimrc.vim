@@ -1175,15 +1175,17 @@ if 1 " common settings
         let &softtabstop = 0
         let s:tabstopOverride=0
     endfunction
-    function! s:tabstopInit()
-        if !exists('b:tabstop')
-            call s:tabstop(4)
-        endif
-    endfunction
-    augroup ZF_Setting_tabstopInit_augroup
-        autocmd!
-        autocmd BufEnter * call s:tabstopInit()
-    augroup END
+    if !g:zf_fakevim
+        function! s:tabstopInit()
+            if !exists('b:tabstop')
+                call s:tabstop(4)
+            endif
+        endfunction
+        augroup ZF_Setting_tabstopInit_augroup
+            autocmd!
+            autocmd BufEnter * call s:tabstopInit()
+        augroup END
+    endif
     if exists('##OptionSet')
         augroup ZF_Setting_tabstopSync_augroup
             autocmd!
