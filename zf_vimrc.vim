@@ -57,6 +57,17 @@ if 1 " global settings
         endif
         return substitute(substitute(path, '\\', '/', 'g'), '\%(\/\)\@<!\/\+$', '', '') " (?<!\/)\/+$
     endfunction
+    function! ZF_get(defaultValue, data, ...)
+        let t = a:data
+        let keys = a:000
+        for key in keys
+            let t = get(t, key, {})
+            if empty(t)
+                return a:defaultValue
+            endif
+        endfor
+        return t
+    endfunction
 
     let g:zf_vimrc_path = CygpathFix_absPath(expand('<sfile>'))
 
