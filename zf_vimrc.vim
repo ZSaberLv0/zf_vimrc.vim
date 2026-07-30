@@ -1227,7 +1227,11 @@ if 1 " common settings
     set nostartofline
     set sidescrolloff=5
     set selectmode=key
-    set mouse=
+    if !g:zf_fakevim
+        set mouse=
+    else
+        set mouse=a
+    endif
     set nomodeline
     " disable italic fonts
     if v:version > 704 && get(g:, 'ZF_Setting_disableItalic', 0)
