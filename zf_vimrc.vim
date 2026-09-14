@@ -1233,6 +1233,7 @@ if 1 " common settings
         set mouse=a
     endif
     set nomodeline
+    set nofixeol
     " disable italic fonts
     if v:version > 704 && get(g:, 'ZF_Setting_disableItalic', 0)
         function! ZF_Setting_disableItalic()
