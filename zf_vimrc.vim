@@ -2408,8 +2408,10 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
                 autocmd!
                 function! s:ZF_Plugin_matchup_low_perf()
                     if g:zf_low_performance
+                        let g:matchup_delim_stopline = 1500
                         let g:matchup_matchparen_stopline = 20
                     else
+                        let g:matchup_delim_stopline = 10000
                         let g:matchup_matchparen_stopline = 300
                     endif
                 endfunction
