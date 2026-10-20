@@ -286,6 +286,8 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
                 let s:ZF_ModuleGetApt = 'yes | yum install "%s"'
             elseif executable('brew')
                 let s:ZF_ModuleGetApt = 'yes | brew install "%s"'
+            elseif executable('port')
+                let s:ZF_ModuleGetApt = 'yes | port install "%s"'
             elseif executable('apt')
                 let s:ZF_ModuleGetApt = 'yes | apt install "%s"'
             elseif executable('sh') " other special
