@@ -264,7 +264,8 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         enew
         execute 'edit ' . substitute(tmpfile, ' ', '\\ ', 'g')
         let &more = moreSaved
-        let @/ = '.*\(zfvimrc!\|error\|fail\|unable\|exception\|not found\|ambiguous\|err!\).*'
+        " .*(zfvimrc!|(?<!scanning binaries for linking )error|fail|unable|exception|not found|ambiguous|err!).*
+        let @/ = '.*\(zfvimrc!\|\%(scanning binaries for linking \)\@<!error\|fail\|unable\|exception\|not found\|ambiguous\|err!\).*'
         call histadd('/', @/)
         call feedkeys('ggn', 'nt')
 
