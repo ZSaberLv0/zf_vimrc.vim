@@ -1868,10 +1868,10 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
 
             " ugly workaround to support `ggrep` in Mac
             function! s:fix_ggrep()
-                if exists('s:fix_ggrep_flag')
+                if exists('g:ZF_Plugin_easygrep_fix_ggrep')
                     return
                 endif
-                let s:fix_ggrep_flag = 1
+                let g:ZF_Plugin_easygrep_fix_ggrep = 1
                 if !executable('ggrep')
                     return
                 endif
