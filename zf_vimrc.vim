@@ -319,7 +319,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
     function! ZF_ModuleGetNpm()
         if !exists('s:ZF_ModuleGetNpm')
             if executable('npm')
-                let s:ZF_ModuleGetNpm = 'npm install -g "%s"'
+                let s:ZF_ModuleGetNpm = 'npm install -g -allow-git=all --allow-remote=all "%s"'
             else
                 let s:ZF_ModuleGetNpm = ''
             endif
