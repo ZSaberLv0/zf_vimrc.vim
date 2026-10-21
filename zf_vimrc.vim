@@ -408,10 +408,10 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         if !exists('s:ZF_ModuleDownloadFile')
             if executable('curl')
                 let s:ZF_ModuleDownloadFile = 'curl -o "%s" -L "%s"'
-                let s:ZF_ModuleDownloadFile_sizeGetter = 'curl -sI "%s"'
+                let s:ZF_ModuleDownloadFile_sizeGetter = 'curl -sIL "%s"'
             elseif executable('wget')
                 let s:ZF_ModuleDownloadFile = 'wget -O "%s" "%s"'
-                let s:ZF_ModuleDownloadFile_sizeGetter = 'curl -sI "%s"'
+                let s:ZF_ModuleDownloadFile_sizeGetter = 'wget --spider --server-response "%s"'
             else
                 let s:ZF_ModuleDownloadFile = ''
                 let s:ZF_ModuleDownloadFile_sizeGetter = ''
@@ -433,12 +433,16 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             let existSize = getfsize(to)
             if existSize >= 0
                 let remoteSize = -1
-                for line in split(ZF_system(printf(s:ZF_ModuleDownloadFile_sizeGetter, a:url)), '[\r\n]')
+                let lines = split(ZF_system(printf(s:ZF_ModuleDownloadFile_sizeGetter, a:url)), '[\r\n]')
+                let i = len(lines) - 1
+                while i >= 0
+                    let line = lines[i]
+                    let i = i - 1
                     if match(line, '\ccontent-length') >= 0
                         let remoteSize = str2nr(matchstr(line, '[0-9]\+'))
                         break
                     endif
-                endfor
+                endwhile
                 if remoteSize == existSize
                     return 1
                 endif
