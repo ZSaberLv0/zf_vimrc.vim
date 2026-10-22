@@ -228,6 +228,23 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             call add(g:zfmoduleInstallerList, {'name' : a:name, 'cmd' : a:cmd})
         endif
     endfunction
+    function! ZF_ModuleInstallerPermissionFix(path)
+        if !exists('g:ZF_ModuleInstallerPermissionFixUser')
+            let g:ZF_ModuleInstallerPermissionFixUser = ''
+            if executable('whoami') && executable('chown')
+                let cur = join(split(ZF_system('whoami')))
+                let orig = join(split(ZF_system('echo $SUDO_USER')))
+                if !empty(cur) && !empty(orig) && cur != orig
+                    let g:ZF_ModuleInstallerPermissionFixUser = orig
+                endif
+            endif
+        endif
+        if empty(g:ZF_ModuleInstallerPermissionFixUser)
+            return 0
+        endif
+        call ZF_system(printf('chown -R %s "%s"', g:ZF_ModuleInstallerPermissionFixUser, a:path))
+        return 1
+    endfunction
     function! s:ZF_ModuleInstallAction()
         if empty(g:zfmoduleInstallerList)
             echo '[ZFVimrc] no sub module to install'
@@ -298,7 +315,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             endif
         endif
         if empty('s:ZF_ModuleGetApt')
-            call ZF_ModuleInstallFail('unable to find package manager (apt-get/yum/brew)')
+            call ZF_ModuleInstallFail('unable to find package manager (apt-get/yum/brew/...)')
         endif
         return s:ZF_ModuleGetApt
     endfunction
@@ -451,7 +468,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
 
         let ret = ZF_system(printf(s:ZF_ModuleDownloadFile, substitute(tmp, '\\', '/', 'g'), a:url))
         if v:shell_error != 0
-            call ZF_ModuleInstallFail('unable to download (' . v:shell_error . '), url: ' . a:url)
+            call ZF_ModuleInstallFail(printf('unable to download (%s), url: %s, output: %s', v:shell_error, a:url, ret))
             return 0
         endif
 
@@ -476,6 +493,8 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
     call s:subModule('ZFInit')
 else
     function! ZF_ModuleInstaller(name, cmd)
+    endfunction
+    function! ZF_ModuleInstallerPermissionFix(path)
     endfunction
     function! s:subModule(step)
     endfunction
