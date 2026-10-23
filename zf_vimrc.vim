@@ -1872,6 +1872,7 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             " * `--exclude-from` with large exclude list
             ZFPlug 'ZSaberLv0/vim-easygrep'
             let g:EasyGrepCommand = 1
+            let g:EasyGrepPerlStyle = 1
             let g:EasyGrepRecursive = 1
             let g:EasyGrepHidden = 0
             let g:EasyGrepAllOptionsInExplorer = 1
@@ -1885,16 +1886,15 @@ if 1 && !get(g:, 'zf_no_plugin', 0)
             function! ZF_Plugin_easygrep_extraOpts(opts)
                 let ret = a:opts
                 let exclude = ZFIgnoreGet()
-                if match(ZF_system('grep --version'), 'GNU') >= 0
-                            \ && match(ZF_system('grep --version'), 'BSD') < 0
-                    let g:EasyGrepPerlStyle = 1
+                let v = ZF_system('grep --version')
+                if match(v, 'GNU') >= 0
+                            \ && match(v, 'BSD') < 0
                     if !empty(exclude['file'])
                         let s:easygrep_excludeFile = tempname()
                         call writefile(exclude['file'], s:easygrep_excludeFile)
                         let ret .= ' --exclude-from="' . substitute(s:easygrep_excludeFile, '\\', '/', 'g') . '"'
                     endif
                 else
-                    let g:EasyGrepPerlStyle = 0
                     let ret .= ' --exclude="' . join(exclude['file'], '" --exclude="') . '"'
                 endif
                 if !empty(exclude['dir'])
