@@ -14,10 +14,14 @@ if 1 " global settings
     set nocompatible
 
     " global functions
-    function! ZF_system(cmd)
+    function! ZF_system(cmd, ...)
         if exists('g:ZF_system_log')
             let startTime = reltime()
-            let ret = system(a:cmd)
+            if empty(get(a:, 1, ''))
+                let ret = system(a:cmd)
+            else
+                let ret = system(a:cmd, a:1)
+            endif
             let costTime = float2nr(reltimefloat(reltime(startTime, reltime())) * 1000)
             call add(g:ZF_system_log, {
                         \   'cmd' : a:cmd,
@@ -25,7 +29,11 @@ if 1 " global settings
                         \ })
             return ret
         else
-            return system(a:cmd)
+            if empty(get(a:, 1, ''))
+                return system(a:cmd)
+            else
+                return system(a:cmd, a:1)
+            endif
         endif
     endfunction
     function! ZF_rm(dir)
@@ -228,23 +236,6 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             call add(g:zfmoduleInstallerList, {'name' : a:name, 'cmd' : a:cmd})
         endif
     endfunction
-    function! ZF_ModuleInstallerPermissionFix(path)
-        if !exists('g:ZF_ModuleInstallerPermissionFixUser')
-            let g:ZF_ModuleInstallerPermissionFixUser = ''
-            if executable('whoami') && executable('chown')
-                let cur = join(split(ZF_system('whoami')))
-                let orig = join(split(ZF_system('echo $SUDO_USER')))
-                if !empty(cur) && !empty(orig) && cur != orig
-                    let g:ZF_ModuleInstallerPermissionFixUser = orig
-                endif
-            endif
-        endif
-        if empty(g:ZF_ModuleInstallerPermissionFixUser)
-            return 0
-        endif
-        call ZF_system(printf('chown -R %s "%s"', g:ZF_ModuleInstallerPermissionFixUser, a:path))
-        return 1
-    endfunction
     function! s:ZF_ModuleInstallAction()
         if empty(g:zfmoduleInstallerList)
             echo '[ZFVimrc] no sub module to install'
@@ -305,7 +296,11 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             elseif executable('brew')
                 let s:ZF_ModuleGetApt = 'yes | brew install "%s"'
             elseif executable('port')
-                let s:ZF_ModuleGetApt = 'yes | port install "%s"'
+                unlet s:ZF_ModuleGetApt
+                let s:ZF_ModuleGetApt = {
+                            \   'fmt' : 'yes | port install "%s"',
+                            \   'needPwd' : 1,
+                            \ }
             elseif executable('apt')
                 let s:ZF_ModuleGetApt = 'yes | apt install "%s"'
             elseif executable('sh') " other special
@@ -387,9 +382,9 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         endfor
         return ret
     endfunction
-    function! ZF_ModuleExecShell(cmd)
+    function! ZF_ModuleExecShell(cmd, ...)
         echo a:cmd
-        let msg = ZF_system(a:cmd)
+        let msg = ZF_system(a:cmd, get(a:, 1, ''))
         for item in split(msg, "\n")
             echo item
         endfor
@@ -399,7 +394,16 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         if empty(a:fmt)
             return
         endif
-        let tmp = 'let cmd = printf(a:fmt'
+
+        if type(a:fmt) == type('')
+            let fmt = a:fmt
+            let needPwd = 0
+        else
+            let fmt = a:fmt['fmt']
+            let needPwd = a:fmt['needPwd']
+        endif
+
+        let tmp = 'let cmd = printf(fmt'
         if a:0 == 1 && type(a:1) == type([])
             for i in range(len(a:1))
                 let tmp .= ', a:1[' . i . ']'
@@ -411,7 +415,21 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         endif
         let tmp .= ')'
         execute tmp
-        return ZF_ModuleExecShell(cmd)
+        let pwd = ''
+        if needPwd
+            if !empty(get(s:, 'ZF_ModulePwd', ''))
+                let pwd = s:ZF_ModulePwd
+            else
+                let pwd = inputsecret('input pwd for sudo install: ')
+                redraw!
+                let s:ZF_ModulePwd = pwd
+            endif
+        endif
+        if !empty(pwd)
+            return ZF_ModuleExecShell(printf('sudo -S sh -c "%s"', substitute(cmd, '"', '\\"', 'g')), pwd)
+        else
+            return ZF_ModuleExecShell(cmd)
+        endif
     endfunction
     function! ZF_ModulePackAdd(pm, packages)
         if empty(a:pm)
@@ -493,8 +511,6 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
     call s:subModule('ZFInit')
 else
     function! ZF_ModuleInstaller(name, cmd)
-    endfunction
-    function! ZF_ModuleInstallerPermissionFix(path)
     endfunction
     function! s:subModule(step)
     endfunction
