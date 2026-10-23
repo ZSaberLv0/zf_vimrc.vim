@@ -257,6 +257,20 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         messages
     endfunction
     function! s:ZF_ModuleInstall()
+        if empty(get(s:, 'ZF_ModulePwd', ''))
+            for t in [
+                        \   ZF_ModuleGetApt(),
+                        \   ZF_ModuleGetPip(),
+                        \   ZF_ModuleGetNpm(),
+                        \ ]
+                if type(t) == type({}) && get(t, 'needPwd', 0)
+                    let s:ZF_ModulePwd = inputsecret('input pwd for sudo install: ')
+                    redraw!
+                    break
+                endif
+            endfor
+        endif
+
         let moreSaved = &more
         set nomore
         let tmpfile = g:zf_vim_cache_path . '/ZFModuleInstall.log'
