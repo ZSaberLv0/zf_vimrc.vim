@@ -286,8 +286,8 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         enew
         execute 'edit ' . substitute(tmpfile, ' ', '\\ ', 'g')
         let &more = moreSaved
-        " .*(zfvimrc!|(?<!scanning binaries for linking )error|fail|unable|exception|not found|ambiguous|err!).*
-        let @/ = '.*\(zfvimrc!\|\%(scanning binaries for linking \)\@<!error\|fail\|unable\|exception\|not found\|ambiguous\|err!\).*'
+        " .*(zfvimrc!|(?<!scanning binaries for linking )error|fail|fatal|unable|exception|not found|ambiguous|err!).*
+        let @/ = '.*\(zfvimrc!\|\%(scanning binaries for linking \)\@<!error\|fail\|fatal\|unable\|exception\|not found\|ambiguous\|err!\).*'
         call histadd('/', @/)
         call feedkeys('ggn', 'nt')
 
@@ -498,6 +498,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
             endif
         endif
 
+        echo 'downloading... ' . a:url
         let ret = ZF_system(printf(s:ZF_ModuleDownloadFile, substitute(tmp, '\\', '/', 'g'), a:url))
         if v:shell_error != 0
             call ZF_ModuleInstallFail(printf('unable to download (%s), url: %s, output: %s', v:shell_error, a:url, ret))
