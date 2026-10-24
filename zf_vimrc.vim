@@ -302,7 +302,7 @@ if 1 && !get(g:, 'zf_no_submodule', 0) " sub modules
         if !exists('s:ZF_ModuleGetApt')
             let s:ZF_ModuleGetApt = ''
             if !empty(globpath(substitute($PATH, ';', ',', 'g'), 'apt-cyg'))
-                let s:ZF_ModuleGetApt = 'sh -c "yes | apt-cyg install \"%s\""'
+                let s:ZF_ModuleGetApt = 'sh -c "yes | apt-cyg install -u \"%s\""'
             elseif executable('apt-get')
                 let s:ZF_ModuleGetApt = 'yes | apt-get install "%s"'
             elseif executable('yum')
