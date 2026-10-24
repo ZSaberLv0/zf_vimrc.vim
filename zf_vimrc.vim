@@ -38,7 +38,7 @@ if 1 " global settings
     endfunction
     function! ZF_rm(dir)
         if g:zf_windows
-            silent! call ZF_system('rmdir /s/q "' . substitute(a:dir, '/', '\', 'g') . '"')
+            silent! call ZF_system('rmdir /f/s/q "' . substitute(a:dir, '/', '\', 'g') . '"')
         else
             silent! call ZF_system('rm -rf "' . substitute(a:dir, '\', '/', 'g') . '"')
         endif
